@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     // Start is called before the first frame update
 
@@ -24,7 +25,8 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision other) {
 
-        Destroy(this.gameObject);
+        this.GetComponent<NetworkObject>().Despawn(true);
+        //Destroy(this.gameObject);
         
     }
 }
