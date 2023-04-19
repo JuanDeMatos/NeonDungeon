@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     [Header("Player Attributes")]
     public float health;
@@ -16,25 +17,30 @@ public class Player : MonoBehaviour
     public bool dashing;
     public bool vulnerable;
     public Vector3 movement;
-    private CharacterController _controller;
+    [SerializeField] private CharacterController _controller;
 
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     public float dashSpeed;
     public float dashDuration;
     public Transform salidaBala;
     public GameObject prefabBala;
     public const float GRAVITY = -9.81f;
-    
-    // Start is called before the first frame update
-    void Start()
+
+
+    public override void OnNetworkSpawn()
     {
-        _controller = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
+        base.OnNetworkSpawn();
+        if (!IsOwner) { 
+            gameObject.GetComponent<PlayerInput>().enabled = false;
+            this.enabled = false;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (_controller.isGrounded && _controller.velocity.y < 0)
         {
             movement.y = 0f;
@@ -90,17 +96,39 @@ public class Player : MonoBehaviour
 
     void OnFire(InputValue value) {
 
+        /*
         GameObject clon = Instantiate(prefabBala,salidaBala.position,Quaternion.Euler(salidaBala.eulerAngles));
 
-        clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed,ForceMode.VelocityChange);
         clon.GetComponent<Bullet>().gravity = GRAVITY + range;
         clon.GetComponent<Bullet>().damage = this.damage;
         float size = damage / 8;
         size = size<1?size:1;
         clon.transform.localScale = new Vector3(size,size,size);
-        
-        Destroy(clon,10f);
 
+        clon.GetComponent<NetworkObject>().Spawn(true);
+        clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+
+        Destroy(clon,10f);
+        */
+        SpawnBullerServerRpc();
+
+    }
+
+    [ServerRpc]
+    void SpawnBullerServerRpc ()
+    {
+        GameObject clon = Instantiate(prefabBala, salidaBala.position, Quaternion.Euler(salidaBala.eulerAngles));
+
+        clon.GetComponent<Bullet>().gravity = GRAVITY + range;
+        clon.GetComponent<Bullet>().damage = this.damage;
+        float size = damage / 8;
+        size = size < 1 ? size : 1;
+        clon.transform.localScale = new Vector3(size, size, size);
+
+        clon.GetComponent<NetworkObject>().Spawn(true);
+        clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+
+        Destroy(clon, 10f);
     }
 
     public void StartDash() {
@@ -114,7 +142,6 @@ public class Player : MonoBehaviour
     }
 
     void OnDash(InputValue value) {
-        
         StartDash();
 
         //_animator.SetTrigger("Rueda");
