@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour
     public float bulletSpeed;
     public float range;
     public bool dashing;
+    public bool moving;
     public bool vulnerable;
     public Vector3 movement;
     [SerializeField] private CharacterController _controller;
@@ -48,6 +49,7 @@ public class Player : NetworkBehaviour
             movement.y = GRAVITY;
         }
 
+        
         _controller.Move(movementSpeed * movement * Time.deltaTime);
 
     }
@@ -62,10 +64,15 @@ public class Player : NetworkBehaviour
 
             if (v == Vector2.zero)
             {
-            movement = Vector3.zero;
+                moving = false;
+                movement = Vector3.zero;
             }
         }
 
+        if (v == Vector2.zero)
+        {
+            moving = false;
+        }
     }
     
     void OnAim(InputValue value) {
@@ -138,6 +145,10 @@ public class Player : NetworkBehaviour
 
     public void StopDash() {
         dashing = false;
+
+        if (!moving)
+            movement = Vector3.zero;
+
         movementSpeed /= dashSpeed;
     }
 
