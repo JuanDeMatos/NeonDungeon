@@ -1207,7 +1207,7 @@ GameObject:
   - component: {fileID: 7198774909148887491}
   m_Layer: 7
   m_Name: DetectionSpot
-  m_TagString: Untagged
+  m_TagString: PlayerDetection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6002,6 +6002,7 @@ MonoBehaviour:
   bulletSpeed: 15
   range: 0
   dashing: 0
+  moving: 0
   vulnerable: 1
   movement: {x: 0, y: 0, z: 0}
   _controller: {fileID: 9190089912885712090}

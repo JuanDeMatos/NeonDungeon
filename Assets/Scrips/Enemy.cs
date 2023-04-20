@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : NetworkBehaviour
 {
 
     [Header("Enemy Attributes")]
@@ -10,15 +11,18 @@ public class Enemy : MonoBehaviour
     public float health;
     public float damage;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        this.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnNetworkSpawn()
     {
-        
+        if (IsOwner)
+        {
+            this.enabled = true;
+        }
     }
+
+
 }

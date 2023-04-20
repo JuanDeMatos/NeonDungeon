@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using Unity.Netcode;
 
 public class Creeper : Enemy
 {
     //public Transform trail;
+    [SerializeField]
     private NavMeshAgent agent;
     public GameObject creepCollider;
     public TrailRenderer trail;
@@ -14,12 +16,15 @@ public class Creeper : Enemy
     public float moveRange;
     private float acum;
 
-    // Start is called before the first frame update
-    void Awake()
+    public override void OnNetworkSpawn()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
-        StartCoroutine(Move());
+        base.OnNetworkSpawn();
+        if (IsOwner)
+        {
+            agent = GetComponent<NavMeshAgent>();
+            agent.speed = speed;
+            StartCoroutine(Move());
+        }
     }
 
     // Update is called once per frame
@@ -30,7 +35,7 @@ public class Creeper : Enemy
         if (acum == 0)
         {
             GameObject copy = Instantiate(creepCollider,trail.transform.position,Quaternion.Euler(transform.eulerAngles));
-            Destroy(copy,trail.time);
+            Destroy(copy, trail.time);
         }
 
         if (!agent.hasPath)
@@ -38,13 +43,11 @@ public class Creeper : Enemy
             ChangeDirection();
         }
     }
-
     void ChangeDirection() {
         Vector3 position;
         do
         {
             Vector3 randomDirection = (Random.insideUnitSphere * moveRange);
-            Debug.Log(randomDirection);
             NavMeshHit hit;
             NavMesh.SamplePosition(randomDirection,out hit,moveRange,1);
             position = hit.position;
@@ -66,12 +69,19 @@ public class Creeper : Enemy
 
             if (health <= 0)
             {
-                Destroy(this.gameObject);
+                trail.transform.parent = null;
+                Invoke("DestroyTrail",trail.time);
+                GetComponent<NetworkObject>().Despawn(true);
             }
 
         } else if (other.gameObject.tag == "Obstacle") {
             ChangeDirection();
         }
+    }
+
+    void DestroyTrail()
+    {
+        trail.GetComponent<NetworkObject>().Despawn(true);
     }
 
     void OnCollisionStay(Collision other) {

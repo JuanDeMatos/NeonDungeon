@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using Unity.Netcode;
 
 public class Teleporter : Enemy
 {
+    [SerializeField]
     private NavMeshAgent agent;
     public GameObject bulletPrefab;
     public float bulletSpeed;
@@ -17,28 +19,34 @@ public class Teleporter : Enemy
     public bool detected;
 
     // Start is called before the first frame update
-    void Awake()
+    public override void OnNetworkSpawn()
     {
-        agent = GetComponent<NavMeshAgent>();
-        players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
-        detected = false;
-        StartCoroutine(Teleport());
-        //InvokeRepeating("Shoot",0,1);
+        base.OnNetworkSpawn();
+        if (IsOwner)
+        {
+            players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
+            detected = false;
+            StartCoroutine(Teleport());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        players.Sort((j1,j2) => (int) (Vector3.Distance(j1.transform.position,transform.position) - Vector3.Distance(j2.transform.position,transform.position)));
-        GameObject closerPlayer = players.First();
-
-        Vector3 direction = closerPlayer.transform.position - transform.position;
-
-        if (Physics.Raycast(transform.position,direction,1000,LayerMask.GetMask("Player")))
+        if (players != null && players.Count > 0)
         {
-            detected = true;
-            transform.LookAt(closerPlayer.transform);
-            transform.eulerAngles = new Vector3(0,transform.eulerAngles.y,0);
+            players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
+            players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
+            GameObject closerPlayer = players.First();
+
+            Vector3 direction = closerPlayer.transform.position - transform.position;
+
+            if (Physics.Raycast(transform.position, direction, 1000, LayerMask.GetMask("Player")))
+            {
+                detected = true;
+                transform.LookAt(closerPlayer.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            }
         }
     }
 
@@ -71,9 +79,11 @@ public class Teleporter : Enemy
             {
                 yield return new WaitForSeconds(0.3f);
                 GameObject copy = Instantiate(bulletPrefab,exit.position,Quaternion.Euler(transform.eulerAngles));
-                copy.GetComponent<Rigidbody>().AddForce(copy.transform.forward * bulletSpeed,ForceMode.VelocityChange);
                 copy.GetComponent<Bullet>().gravity = GRAVITY + range;
                 copy.GetComponent<Enemy>().damage = this.damage;
+
+                copy.GetComponent<NetworkObject>().Spawn(true);
+                copy.GetComponent<Rigidbody>().AddForce(copy.transform.forward * bulletSpeed,ForceMode.VelocityChange);
                 
                 Destroy(copy,10f);
             }

@@ -58,7 +58,6 @@ public class Player : NetworkBehaviour
     void OnMove(InputValue value) {
         
         Vector2 v = value.Get<Vector2>();
-        Debug.Log(v);
 
         if (!dashing)
         {
@@ -108,26 +107,12 @@ public class Player : NetworkBehaviour
 
     void OnFire(InputValue value) {
 
-        /*
-        GameObject clon = Instantiate(prefabBala,salidaBala.position,Quaternion.Euler(salidaBala.eulerAngles));
-
-        clon.GetComponent<Bullet>().gravity = GRAVITY + range;
-        clon.GetComponent<Bullet>().damage = this.damage;
-        float size = damage / 8;
-        size = size<1?size:1;
-        clon.transform.localScale = new Vector3(size,size,size);
-
-        clon.GetComponent<NetworkObject>().Spawn(true);
-        clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed, ForceMode.VelocityChange);
-
-        Destroy(clon,10f);
-        */
-        SpawnBullerServerRpc();
+        SpawnBulletServerRpc();
 
     }
 
     [ServerRpc]
-    void SpawnBullerServerRpc ()
+    void SpawnBulletServerRpc ()
     {
         GameObject clon = Instantiate(prefabBala, salidaBala.position, Quaternion.Euler(salidaBala.eulerAngles));
 
@@ -176,11 +161,16 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
             health -= enemy.damage;
+            
+            if (health <= 0)
+            {
+                this.GetComponent<NetworkObject>().Despawn(true);
+            }
+
         }
     }
 
     void OnCollisionStay(Collision other) {
-        Debug.Log("Collision Stay");
         if (other.gameObject.tag == "Enemy" && vulnerable)
         {
             vulnerable = false;
@@ -189,11 +179,15 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
             health -= enemy.damage;
+
+            if (health <= 0)
+            {
+                this.GetComponent<NetworkObject>().Despawn(true);
+            }
         }
     }
 
     void OnTriggerEnter(Collider other) {
-        Debug.Log("Trigger Enter");
         if (other.gameObject.tag == "Enemy" && vulnerable)
         {
             vulnerable = false;
@@ -202,11 +196,15 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
             health -= enemy.damage;
+
+            if (health <= 0)
+            {
+                this.GetComponent<NetworkObject>().Despawn(true);
+            }
         }
     }
 
     void OnTriggerStay(Collider other) {
-        Debug.Log("Trigger Stay");
         if (other.gameObject.tag == "Enemy" && vulnerable)
         {
             vulnerable = false;
@@ -215,6 +213,11 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
             health -= enemy.damage;
+
+            if (health <= 0)
+            {
+                this.GetComponent<NetworkObject>().Despawn(true);
+            }
         }
     }
 

@@ -145,8 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac9725f98bf9494fb9a952e54e02b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  damage: 0
+  health: 10
+  damage: 20
 --- !u!114 &-8311528647567770014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,9 +162,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 1
+  SyncRotAngleX: 0
   SyncRotAngleY: 1
-  SyncRotAngleZ: 1
+  SyncRotAngleZ: 0
   SyncScaleX: 1
   SyncScaleY: 1
   SyncScaleZ: 1
@@ -172,7 +172,7 @@ MonoBehaviour:
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
 --- !u!114 &-6283231023171317412
 MonoBehaviour:
   m_ObjectHideFlags: 0
