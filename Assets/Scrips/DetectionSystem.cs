@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class DetectionSystem : MonoBehaviour
+public class DetectionSystem : NetworkBehaviour
 {
     [Header("Propiedades")]
     private Transform observador;
@@ -22,10 +23,20 @@ public class DetectionSystem : MonoBehaviour
 
     void Awake()
     {
-        observador = GetComponent<Transform>();
-        localizado = false;
-        ganarAgroIniciado = false;
-        perderAgroIniciado = false;
+        this.enabled = false;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (IsOwner)
+        {
+            this.enabled = true;
+            observador = GetComponent<Transform>();
+            localizado = false;
+            ganarAgroIniciado = false;
+            perderAgroIniciado = false;
+        }
     }
 
     // Update is called once per frame

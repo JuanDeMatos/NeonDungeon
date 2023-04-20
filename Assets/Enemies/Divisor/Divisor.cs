@@ -3,38 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using Unity.Netcode;
 
 public class Divisor : Enemy
 {
+    [SerializeField]
     private DetectionSystem ds;
+    [SerializeField]
     private NavMeshAgent agent;
     public float speed;
     private List<GameObject> players;
     public GameObject sonEnemy;
 
-    // Start is called before the first frame update
-    void Awake()
+    public override void OnNetworkSpawn()
     {
-        agent = GetComponent<NavMeshAgent>();
-        ds = GetComponent<DetectionSystem>();
-
-        players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
-        players.Sort((j1,j2) => (int) (Vector3.Distance(j1.transform.position,transform.position) - Vector3.Distance(j2.transform.position,transform.position)));
-        GameObject closerPlayer = players.First();
-        ds.aDetectar = closerPlayer.transform;
+        base.OnNetworkSpawn();
+        if (IsOwner)
+        {
+            players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
+            players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
+            GameObject closerPlayer = players.First();
+            ds.aDetectar = closerPlayer.transform;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        players.Sort((j1,j2) => (int) (Vector3.Distance(j1.transform.position,transform.position) - Vector3.Distance(j2.transform.position,transform.position)));
-        GameObject closerPlayer = players.First();
-        ds.aDetectar = closerPlayer.transform;
-        
-        if (ds.localizado)
+        if (players != null && players.Count > 0)
         {
-            agent.speed = speed;
-            agent.SetDestination(ds.aDetectar.position);
+            players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
+            players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
+            GameObject closerPlayer = players.First();
+            ds.aDetectar = closerPlayer.transform;
+
+            if (ds.localizado)
+            {
+                agent.speed = speed;
+                agent.SetDestination(ds.aDetectar.position);
+            }
         }
     }
 
@@ -46,14 +53,22 @@ public class Divisor : Enemy
 
             if (health <= 0)
             {
-                Destroy(this.gameObject);
+                GetComponent<NetworkObject>().Despawn(true);
 
                 if (sonEnemy != null)
                 {
-                    Instantiate(sonEnemy,transform.position + new Vector3(0.5f,0,0.5f),Quaternion.Euler(0,0,0));
-                    Instantiate(sonEnemy,transform.position + new Vector3(-0.5f,0,0.5f),Quaternion.Euler(0,0,0));
-                    Instantiate(sonEnemy,transform.position + new Vector3(0.5f,0,-0.5f),Quaternion.Euler(0,0,0));
-                    Instantiate(sonEnemy,transform.position + new Vector3(-0.5f,0,-0.5f),Quaternion.Euler(0,0,0));
+                    GameObject clon;
+                    clon = Instantiate(sonEnemy,transform.position + new Vector3(0.5f,0,0.5f),Quaternion.Euler(0,0,0));
+                    clon.GetComponent<NetworkObject>().Spawn(true);
+
+                    clon = Instantiate(sonEnemy,transform.position + new Vector3(-0.5f,0,0.5f),Quaternion.Euler(0,0,0));
+                    clon.GetComponent<NetworkObject>().Spawn(true);
+
+                    clon = Instantiate(sonEnemy,transform.position + new Vector3(0.5f,0,-0.5f),Quaternion.Euler(0,0,0));
+                    clon.GetComponent<NetworkObject>().Spawn(true);
+
+                    clon = Instantiate(sonEnemy,transform.position + new Vector3(-0.5f,0,-0.5f),Quaternion.Euler(0,0,0));
+                    clon.GetComponent<NetworkObject>().Spawn(true);
                 }
 
             }
