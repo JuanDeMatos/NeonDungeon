@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour
     public float bulletSpeed;
     public float range;
     public bool dashing;
+    // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
     public bool moving;
     public bool vulnerable;
     public Vector3 movement;
@@ -55,8 +56,9 @@ public class Player : NetworkBehaviour
     }
 
     void OnMove(InputValue value) {
-
+        
         Vector2 v = value.Get<Vector2>();
+        Debug.Log(v);
 
         if (!dashing)
         {
@@ -65,7 +67,10 @@ public class Player : NetworkBehaviour
             if (v == Vector2.zero)
             {
                 moving = false;
-                movement = Vector3.zero;
+                movement = new Vector3(0,movement.y,0);
+            } else
+            {
+                moving = true;
             }
         }
 
