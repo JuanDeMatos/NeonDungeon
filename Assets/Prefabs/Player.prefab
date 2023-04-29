@@ -6011,6 +6011,7 @@ MonoBehaviour:
   dashDuration: 0.2
   salidaBala: {fileID: 4870208253595144799}
   prefabBala: {fileID: 8640155602805337270, guid: 5178fd3c8545b1b43a43e4bf20a0c38a, type: 3}
+  usesGravity: 0
 --- !u!208 &5658455920127792914
 NavMeshObstacle:
   m_ObjectHideFlags: 0
