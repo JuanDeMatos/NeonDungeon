@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
     public Transform salidaBala;
     public GameObject prefabBala;
     public const float GRAVITY = -9.81f;
+    public bool usesGravity;
 
 
     public override void OnNetworkSpawn()
@@ -38,9 +39,24 @@ public class Player : NetworkBehaviour
             this.enabled = false;
         } else
         {
-            GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().m_Follow = this.transform;
+            StartCoroutine(SearchCamera());
         }
 
+    }
+
+    IEnumerator SearchCamera()
+    {
+        GameObject camera = null;
+        do
+        {
+            
+            camera = GameObject.Find("CM vcam1");
+            if (camera != null)
+            {
+                camera.GetComponent<CinemachineVirtualCamera>().m_Follow = this.transform;
+            }
+            yield return new WaitForEndOfFrame();
+        } while (camera == null);
     }
 
     // Update is called once per frame
@@ -51,7 +67,8 @@ public class Player : NetworkBehaviour
         {
             movement.y = 0f;
         } else {
-            movement.y = GRAVITY;
+            if (usesGravity)
+                movement.y = GRAVITY;
         }
 
         
