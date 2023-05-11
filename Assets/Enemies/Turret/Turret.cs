@@ -38,6 +38,8 @@ public class Turret : Enemy
 
             Vector3 direction = closerPlayer.transform.position - transform.position;
 
+            Debug.DrawRay(transform.position, direction * 1000);
+
             if (Physics.Raycast(transform.position, direction, 1000, LayerMask.GetMask("Player")))
             {
                 detected = true;
@@ -72,8 +74,6 @@ public class Turret : Enemy
             }
 
         }
-
-
     }
 
     void OnCollisionStay(Collision other) {

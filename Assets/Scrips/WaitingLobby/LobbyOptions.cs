@@ -4,8 +4,10 @@ using UnityEngine;
 using System.Linq;
 using TMPro;
 using Cinemachine;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class LobbyOptions : MonoBehaviour
+public class LobbyOptions : NetworkBehaviour
 {
     [SerializeField] TextMeshProUGUI joinCodeText;
     // Start is called before the first frame update
@@ -14,6 +16,14 @@ public class LobbyOptions : MonoBehaviour
         Debug.Log("Scene loaded");
         joinCodeText.text += Shared.joinCode;
         Invoke("MovePlayer", 2);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+        }
     }
 
     void MovePlayer()

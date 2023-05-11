@@ -33,7 +33,7 @@ public class RelayScript : NetworkBehaviour
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(MAXPLAYERS);
 
             joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
@@ -47,7 +47,7 @@ public class RelayScript : NetworkBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-            NetworkManager.SceneManager.LoadScene("WaitingLobby", LoadSceneMode.Single);
+            NetworkManager.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
         }
         catch (RelayServiceException e)
         {
@@ -70,7 +70,6 @@ public class RelayScript : NetworkBehaviour
 
             NetworkManager.Singleton.StartClient();
 
-            //NetworkManager.SceneManager.LoadScene("WaitingLobby", LoadSceneMode.Single);
         }
         catch (RelayServiceException e)
         {

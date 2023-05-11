@@ -57,6 +57,7 @@ public class Player : NetworkBehaviour
             }
             yield return new WaitForEndOfFrame();
         } while (camera == null);
+
     }
 
     // Update is called once per frame
@@ -114,7 +115,8 @@ public class Player : NetworkBehaviour
 
     }
 
-    void OnAimMouse(InputValue value) {
+    void OnAimMouse(InputValue value)
+    {
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -122,7 +124,7 @@ public class Player : NetworkBehaviour
         Physics.Raycast(ray, out hit, 100);
 
         transform.LookAt(hit.point);
-        transform.eulerAngles = new Vector3(0,transform.eulerAngles.y + 20,0);
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20, 0);
 
     }
 

@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 87b3adaccc769d64fa58c9cdb758ea70, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &334286831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,6 +1393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1051542136}
   - component: {fileID: 1051542135}
+  - component: {fileID: 1051542137}
   m_Layer: 0
   m_Name: Relay
   m_TagString: Untagged
@@ -1430,6 +1431,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1051542137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051542134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1206511810
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1130276328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2318,7 +2335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunInBackground: 1
-  LogLevel: 0
+  LogLevel: 2
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1815218919}
@@ -2340,7 +2357,7 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
-      Prefab: {fileID: 7414355768845218558, guid: bd5016c1c80ebd24aa9b91d1cc7c72c0, type: 3}
+      Prefab: {fileID: 372080858451246601, guid: d4515bc1bdb97a747a9ea3943922340b, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
