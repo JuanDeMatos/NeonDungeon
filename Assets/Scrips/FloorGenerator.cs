@@ -93,18 +93,23 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(twoDoorsLShape, "2DoorLShape");
         ReplaceRoomList(threeDoors, "3Door");
         ReplaceRoomList(fourDoors, "4Door");
-        SpawnEnemies();
+
+        StartCoroutine(SpawnEnemies());
     }
 
-    void SpawnEnemies()
+    IEnumerator SpawnEnemies()
     {
         if (IsServer)
         {
-            FindObjectsOfType<EnemyPosition>().ToList().ForEach(ep => {
+            EnemyPosition[] enemyPositions = FindObjectsOfType<EnemyPosition>();
+
+            foreach (EnemyPosition ep in enemyPositions)
+            {
                 GameObject enemyPrefab = enemies.Find(e => e.name.Contains(ep.enemyType.ToString()));
                 GameObject copy = Instantiate(enemyPrefab, ep.transform.position, ep.transform.rotation);
                 copy.GetComponent<NetworkObject>().Spawn();
-            });
+                yield return new WaitForSeconds(0.1f);
+            }
         }
         else
         {
@@ -112,6 +117,7 @@ public class FloorGenerator : NetworkBehaviour
             {
                 Destroy(position);
             });
+            
         }
     }
 
