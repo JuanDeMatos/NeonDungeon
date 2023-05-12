@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 public class FloorGenerator : NetworkBehaviour
 {
     private NetworkVariable<int> seed = new NetworkVariable<int>(0);
-    public GameObject enemigo;
+    //public List<Transform> enemyPositions;
+    public List<GameObject> enemies;
     public List<GameObject> oneDoor;
     public List<GameObject> twoDoorsCorridor;
     public List<GameObject> twoDoorsLShape;
@@ -43,7 +44,7 @@ public class FloorGenerator : NetworkBehaviour
         
         if (IsServer && Input.GetKeyDown(KeyCode.K))
         {
-            GameObject copy = Instantiate(enemigo, new Vector3(0,1,0), Quaternion.identity);
+            GameObject copy = Instantiate(enemies[0], new Vector3(0,1,0), Quaternion.identity);
             copy.GetComponent<NetworkObject>().Spawn();
         }
 
@@ -92,26 +93,26 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(twoDoorsLShape, "2DoorLShape");
         ReplaceRoomList(threeDoors, "3Door");
         ReplaceRoomList(fourDoors, "4Door");
+        SpawnEnemies();
+    }
 
-        /*
-
+    void SpawnEnemies()
+    {
         if (IsServer)
         {
-            GameObject.FindGameObjectsWithTag("Enemy").ToList().ForEach(enemy =>
-            {
-                enemy.GetComponent<NetworkObject>().Spawn();
+            FindObjectsOfType<EnemyPosition>().ToList().ForEach(ep => {
+                GameObject enemyPrefab = enemies.Find(e => e.name.Contains(ep.enemyType.ToString()));
+                GameObject copy = Instantiate(enemyPrefab, ep.transform.position, ep.transform.rotation);
+                copy.GetComponent<NetworkObject>().Spawn();
             });
         }
         else
         {
-            GameObject.FindGameObjectsWithTag("Enemy").ToList().ForEach(enemy =>
+            GameObject.FindGameObjectsWithTag("EnemyPosition").ToList().ForEach(position =>
             {
-                if (enemy.GetComponent<Enemy>().IsOwner)
-                    Destroy(enemy);
+                Destroy(position);
             });
         }
-
-        */
     }
 
     void ReplaceRoomList(List<GameObject> rooms, string roomFolderName)

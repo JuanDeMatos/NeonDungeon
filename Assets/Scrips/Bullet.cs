@@ -25,7 +25,8 @@ public class Bullet : NetworkBehaviour
 
     void OnCollisionEnter(Collision other) {
 
-        this.GetComponent<NetworkObject>().Despawn(true);
+        if (this.GetComponent<NetworkObject>().IsSpawned)
+            this.GetComponent<NetworkObject>().Despawn(true);
         //Destroy(this.gameObject);
         
     }

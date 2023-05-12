@@ -7,7 +7,7 @@ using Cinemachine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-public class LobbyOptions : NetworkBehaviour
+public class LobbyOptions : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI joinCodeText;
     // Start is called before the first frame update
@@ -20,7 +20,7 @@ public class LobbyOptions : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
         }

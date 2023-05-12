@@ -117,14 +117,16 @@ public class Player : NetworkBehaviour
 
     void OnAimMouse(InputValue value)
     {
+        if (Camera.main != null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+            Physics.Raycast(ray, out hit, 100);
 
-        Physics.Raycast(ray, out hit, 100);
-
-        transform.LookAt(hit.point);
-        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20, 0);
+            transform.LookAt(hit.point);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20, 0);
+        }
 
     }
 

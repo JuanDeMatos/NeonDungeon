@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4632005692104382448, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}
+      propertyPath: enemyType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7437728487769152714, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -53,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7814816328211547760, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}
       propertyPath: m_Name
-      value: 2DoorCorridorPrefab
+      value: 000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}

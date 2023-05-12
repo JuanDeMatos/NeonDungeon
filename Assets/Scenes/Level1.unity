@@ -357,7 +357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -758,7 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3e503e015f0c45b641c0ad1a493cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemigo: {fileID: 7414355768845218558, guid: 05e6ddcc4dc050d4290426df84635459, type: 3}
+  enemies:
+  - {fileID: 7414355768845218558, guid: 05e6ddcc4dc050d4290426df84635459, type: 3}
+  - {fileID: 372080858451246601, guid: d4515bc1bdb97a747a9ea3943922340b, type: 3}
   oneDoor:
   - {fileID: 7727651193744480504}
   - {fileID: 7727651193462454436}
@@ -796,7 +798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3763776892
+  GlobalObjectIdHash: 786551060
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1

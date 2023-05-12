@@ -40,12 +40,19 @@ public class Turret : Enemy
 
             Debug.DrawRay(transform.position, direction * 1000);
 
-            if (Physics.Raycast(transform.position, direction, 1000, LayerMask.GetMask("Player")))
+           
+
+            RaycastHit hit;
+            Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Player", "Default"));
+
+            if (hit.collider.CompareTag("Player"))
             {
                 detected = true;
                 transform.LookAt(closerPlayer.transform);
                 transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             }
+
+            
         }
     }
     void Shoot() {

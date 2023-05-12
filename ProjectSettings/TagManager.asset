@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Obstacle
   - PlayerDetection
+  - Ground
+  - EnemyPosition
   layers:
   - Default
   - TransparentFX

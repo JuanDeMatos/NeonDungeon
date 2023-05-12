@@ -47,7 +47,7 @@ public class RelayScript : NetworkBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-            NetworkManager.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+            NetworkManager.SceneManager.LoadScene("WaitingLobby", LoadSceneMode.Single);
         }
         catch (RelayServiceException e)
         {

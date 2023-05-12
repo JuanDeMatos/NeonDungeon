@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
+    - target: {fileID: 5779216727793478696, guid: 7a698ff979aa94a45954783a0a1695da, type: 3}
+      propertyPath: enemyType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7264859247852652545, guid: 7a698ff979aa94a45954783a0a1695da, type: 3}
       propertyPath: m_Name
       value: 000
