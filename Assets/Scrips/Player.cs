@@ -4,35 +4,42 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
+using QFSW.QC;
 
 public class Player : NetworkBehaviour
 {
-    [Header("Player Attributes")]
-    public float health;
-    public float damage;
-    public float movementSpeed;
-
-    [Header("Bullet Properties")]
-    public float bulletSpeed;
-    public float range;
-    public bool dashing;
-    // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
-    public bool moving;
-    public bool vulnerable;
-    public Vector3 movement;
-    [SerializeField] private CharacterController _controller;
-
-    [SerializeField] private Animator _animator;
-    public float dashSpeed;
-    public float dashDuration;
-    public Transform salidaBala;
-    public GameObject prefabBala;
+    [Header("Physhics and Required Objects")]
     public const float GRAVITY = -9.81f;
     public bool usesGravity;
+    public Transform salidaBala;
+    public GameObject prefabBala;
+    [SerializeField] private CharacterController _controller;
+    [SerializeField] private Animator _animator;
 
+    // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
+    private bool moving;
+    public Vector3 movement;
 
+    [Header("Player Attributes")]
+    public float health;
+    public float movementSpeed;
+    public bool vulnerable;
+    public float invulnerableTime;
+    public bool dashing;
+    public float dashSpeed;
+    public float dashDuration;
+    public List<Item> itemList;
+
+    [Header("Bullet Properties")]
+    public float damage;
+    public float bulletSpeed;
+    public float range;
+    
     public override void OnNetworkSpawn()
     {
+        
+
         base.OnNetworkSpawn();
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
@@ -72,7 +79,6 @@ public class Player : NetworkBehaviour
                 movement.y = GRAVITY;
         }
 
-        
         _controller.Move(movementSpeed * movement * Time.deltaTime);
 
     }
@@ -177,11 +183,11 @@ public class Player : NetworkBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
-        Debug.Log("Collision Enter");
+
         if (other.gameObject.tag == "Enemy" && vulnerable)
         {
             vulnerable = false;
-            Invoke("EndInvulnerability",0.5f);
+            Invoke("EndInvulnerability",invulnerableTime);
 
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
@@ -246,8 +252,28 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void AddItem(Item item)
+    {
+        itemList.Add(item);
+        item.ApplyItem(this);
+    }
+
+    public void RemoveRandomItem()
+    {
+        if (itemList.Count > 0)
+        {
+            int randomPosition = Random.Range(0, itemList.Count);
+            Item item = itemList[randomPosition];
+            item.ClearItem(this);
+            itemList.RemoveAt(randomPosition);
+        }
+        
+    }
+
     void EndInvulnerability() {
         vulnerable = true;
     }
+
+    
 
 }
