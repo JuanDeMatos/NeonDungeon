@@ -35,11 +35,11 @@ public class Player : NetworkBehaviour
     public float damage;
     public float bulletSpeed;
     public float range;
+
+    private bool endInvulnerabilityStarted;
     
     public override void OnNetworkSpawn()
     {
-        
-
         base.OnNetworkSpawn();
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
@@ -62,7 +62,8 @@ public class Player : NetworkBehaviour
             {
                 camera.GetComponent<CinemachineVirtualCamera>().m_Follow = this.transform;
             }
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.3f);
+
         } while (camera == null);
 
     }
@@ -161,6 +162,7 @@ public class Player : NetworkBehaviour
 
     public void StartDash() {
         dashing = true;
+        vulnerable = false;
         movementSpeed *= dashSpeed;
     }
 
@@ -171,77 +173,42 @@ public class Player : NetworkBehaviour
             movement = Vector3.zero;
 
         movementSpeed /= dashSpeed;
+
+        if (!endInvulnerabilityStarted)
+            EndInvulnerability();
     }
 
     void OnDash(InputValue value) {
         StartDash();
-
-        //_animator.SetTrigger("Rueda");
-
         Invoke("StopDash",dashDuration);
-
     }
 
     void OnCollisionEnter(Collision other) {
+        EvaluateCollision(other.gameObject);
 
-        if (other.gameObject.tag == "Enemy" && vulnerable)
-        {
-            vulnerable = false;
-            Invoke("EndInvulnerability",invulnerableTime);
-
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            health -= enemy.damage;
-            
-            if (health <= 0)
-            {
-                this.GetComponent<NetworkObject>().Despawn(true);
-            }
-
-        }
     }
 
     void OnCollisionStay(Collision other) {
-        if (other.gameObject.tag == "Enemy" && vulnerable)
-        {
-            vulnerable = false;
-            Invoke("EndInvulnerability",0.5f);
-
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            health -= enemy.damage;
-
-            if (health <= 0)
-            {
-                this.GetComponent<NetworkObject>().Despawn(true);
-            }
-        }
+        EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Enemy" && vulnerable)
-        {
-            vulnerable = false;
-            Invoke("EndInvulnerability",0.5f);
-
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            health -= enemy.damage;
-
-            if (health <= 0)
-            {
-                this.GetComponent<NetworkObject>().Despawn(true);
-            }
-        }
+        EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerStay(Collider other) {
-        if (other.gameObject.tag == "Enemy" && vulnerable)
+        EvaluateCollision(other.gameObject);
+    }
+
+    void EvaluateCollision(GameObject other)
+    {
+        if (other.CompareTag("Enemy") && vulnerable)
         {
             vulnerable = false;
-            Invoke("EndInvulnerability",0.5f);
+            endInvulnerabilityStarted = true;
+            Invoke("EndInvulnerability", invulnerableTime);
 
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
 
@@ -272,6 +239,7 @@ public class Player : NetworkBehaviour
 
     void EndInvulnerability() {
         vulnerable = true;
+        endInvulnerabilityStarted = false;
     }
 
     

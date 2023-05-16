@@ -34,8 +34,7 @@ public class FloorGenerator : NetworkBehaviour
         Random.InitState(seed.Value);
 
         GenerateRooms();
-        StartCoroutine(InitializePlayers());
-
+        
     }
 
     // Update is called once per frame
@@ -58,7 +57,7 @@ public class FloorGenerator : NetworkBehaviour
             nPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
             yield return new WaitForSeconds(0.1f);
         } while (nPlayers < 2);
-
+        StartCoroutine(InitializePlayers());
     }
 
     IEnumerator InitializePlayers()
@@ -68,17 +67,6 @@ public class FloorGenerator : NetworkBehaviour
         player.GetComponent<Player>().usesGravity = false;
         player.transform.position = Vector3.zero;
         player.GetComponent<Player>().movement = Vector3.zero;
-
-        GameObject camera = null;
-        do
-        {
-            camera = GameObject.Find("CM vcam1");
-            if (camera != null)
-            {
-                camera.GetComponent<CinemachineVirtualCamera>().m_Follow = player.transform;
-            }
-            yield return new WaitForEndOfFrame();
-        } while (camera == null);
 
         yield return new WaitForSeconds(1);
         player.GetComponent<Player>().usesGravity = true;
