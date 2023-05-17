@@ -28,7 +28,8 @@ public class FloorGenerator : NetworkBehaviour
 
         Debug.Log(Shared.joinCode);
 
-        StartCoroutine(WaitForPlayers());
+        if (IsServer)
+            StartCoroutine(WaitForPlayers());
 
         Debug.Log("Seed: " + seed.Value);
         Random.InitState(seed.Value);
@@ -56,7 +57,7 @@ public class FloorGenerator : NetworkBehaviour
         {
             nPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
             yield return new WaitForSeconds(0.1f);
-        } while (nPlayers < 2);
+        } while (nPlayers < NetworkManager.ConnectedClientsList.Count);
         StartCoroutine(InitializePlayers());
     }
 
@@ -82,9 +83,10 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(threeDoors, "3Door");
         ReplaceRoomList(fourDoors, "4Door");
 
-        StartCoroutine(SpawnEnemies());
+        //StartCoroutine(SpawnEnemies());
     }
 
+    /*
     IEnumerator SpawnEnemies()
     {
         if (IsServer)
@@ -108,6 +110,8 @@ public class FloorGenerator : NetworkBehaviour
             
         }
     }
+
+    */
 
     void ReplaceRoomList(List<GameObject> rooms, string roomFolderName)
     {

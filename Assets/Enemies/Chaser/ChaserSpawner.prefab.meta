@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: 05e6ddcc4dc050d4290426df84635459
+guid: 40f48d90880fb5c4687db9662dc51973
 labels:
 - Enemy
+- Spawner
 PrefabImporter:
   externalObjects: {}
   userData: 

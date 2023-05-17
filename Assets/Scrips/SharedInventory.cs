@@ -18,7 +18,6 @@ public class SharedInventory : NetworkBehaviour
     {
         DontDestroyOnLoad(this);
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-        GetComponent<NetworkObject>().Spawn();
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -27,27 +26,27 @@ public class SharedInventory : NetworkBehaviour
             Destroy(this.gameObject);
     }
 
-    public void AddKey()
+    public void AddKeys(int amount)
     {
-        keys.Value++;
-        OnKeysModified(keys.Value);
+        keys.Value += amount;
+        if (OnKeysModified != null) OnKeysModified(keys.Value);
     }
 
-    public void UseKey()
+    public void UseKeys(int amount)
     {
-        keys.Value--;
-        OnKeysModified(keys.Value);
+        keys.Value -= amount;
+        if (OnKeysModified != null) OnKeysModified(keys.Value);
     }
 
-    public void AddCoins(int n)
+    public void AddCoins(int amount)
     {
-        coins.Value+= n;
-        OnCoinsModified(keys.Value);
+        coins.Value += amount;
+        if (OnCoinsModified != null) OnCoinsModified(keys.Value);
     }
 
-    public void UseCoins(int n)
+    public void UseCoins(int amount)
     {
-        keys.Value-= n;
-        OnCoinsModified(keys.Value);
+        keys.Value -= amount;
+        if (OnCoinsModified != null) OnCoinsModified(keys.Value);
     }
 }

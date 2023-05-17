@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: 05e6ddcc4dc050d4290426df84635459
-labels:
-- Enemy
-PrefabImporter:
+guid: 494bee15b0b8fed49b2a542765897e57
+folderAsset: yes
+DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
