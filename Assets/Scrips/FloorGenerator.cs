@@ -28,14 +28,14 @@ public class FloorGenerator : NetworkBehaviour
 
         Debug.Log(Shared.joinCode);
 
-        StartCoroutine(WaitForPlayers());
+        if (IsServer)
+            StartCoroutine(WaitForPlayers());
 
         Debug.Log("Seed: " + seed.Value);
         Random.InitState(seed.Value);
 
         GenerateRooms();
-        StartCoroutine(InitializePlayers());
-
+        
     }
 
     // Update is called once per frame
@@ -57,8 +57,8 @@ public class FloorGenerator : NetworkBehaviour
         {
             nPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
             yield return new WaitForSeconds(0.1f);
-        } while (nPlayers < 2);
-
+        } while (nPlayers < NetworkManager.ConnectedClientsList.Count);
+        StartCoroutine(InitializePlayers());
     }
 
     IEnumerator InitializePlayers()
@@ -69,17 +69,6 @@ public class FloorGenerator : NetworkBehaviour
         player.transform.position = Vector3.zero;
         player.GetComponent<Player>().movement = Vector3.zero;
 
-        GameObject camera = null;
-        do
-        {
-            camera = GameObject.Find("CM vcam1");
-            if (camera != null)
-            {
-                camera.GetComponent<CinemachineVirtualCamera>().m_Follow = player.transform;
-            }
-            yield return new WaitForEndOfFrame();
-        } while (camera == null);
-
         yield return new WaitForSeconds(1);
         player.GetComponent<Player>().usesGravity = true;
     }
@@ -87,16 +76,29 @@ public class FloorGenerator : NetworkBehaviour
     void GenerateRooms()
     {
 
-        Debug.Log("Entra");
+        Debug.Log("Entra Generate Rooms");
         ReplaceRoomList(oneDoor, "1Door");
         ReplaceRoomList(twoDoorsCorridor, "2DoorCorridor");
         ReplaceRoomList(twoDoorsLShape, "2DoorLShape");
         ReplaceRoomList(threeDoors, "3Door");
         ReplaceRoomList(fourDoors, "4Door");
 
-        StartCoroutine(SpawnEnemies());
+        //StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnObjects());
     }
 
+    IEnumerator SpawnObjects()
+    {
+        List<ObjectSpawner> spawners = FindObjectsOfType<ObjectSpawner>().ToList();
+
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            spawners[i].Spawn();
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    /*
     IEnumerator SpawnEnemies()
     {
         if (IsServer)
@@ -121,16 +123,17 @@ public class FloorGenerator : NetworkBehaviour
         }
     }
 
+    */
+
     void ReplaceRoomList(List<GameObject> rooms, string roomFolderName)
     {
         for (int i = 0; i < rooms.Count; i++)
         {
             Transform placeholderRoom = rooms[i].transform;
-            List<string> roomIdentifierList = Directory.GetFiles("./Assets/Resources/Rooms/" + roomFolderName).ToList();
-            roomIdentifierList.RemoveAll(item => item.Contains(".meta") || item.Contains("Prefab"));
-            string roomIdentifier = Path.GetFileName(roomIdentifierList[Random.Range(0, roomIdentifierList.Count)]).Split(".")[0];
-            string ruta = "Rooms/" + roomFolderName + "/" + roomIdentifier;
-            GameObject randomRoom = Resources.Load<GameObject>(ruta);
+            string ruta = "Rooms/" + roomFolderName;
+            List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
+            loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
+            GameObject randomRoom = loadedRooms[Random.Range(0, loadedRooms.Count)];
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0,placeholderRoom.eulerAngles.y,placeholderRoom.eulerAngles.z));
             Destroy(rooms[i]);
             rooms[i] = randomRoom;

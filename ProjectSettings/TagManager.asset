@@ -10,6 +10,7 @@ TagManager:
   - PlayerDetection
   - Ground
   - EnemyPosition
+  - Consumable
   layers:
   - Default
   - TransparentFX

@@ -27,7 +27,6 @@ public class Bullet : NetworkBehaviour
 
         if (this.GetComponent<NetworkObject>().IsSpawned)
             this.GetComponent<NetworkObject>().Despawn(true);
-        //Destroy(this.gameObject);
         
     }
 }
