@@ -7,31 +7,41 @@ public class HUD : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textKeys;
     [SerializeField] TextMeshProUGUI textCoins;
+    private SharedInventory sharedInventory;
 
     // Start is called before the first frame update
     void Start()
     {
-        SharedInventory sharedInventory = FindObjectOfType<SharedInventory>();
+        sharedInventory = FindObjectOfType<SharedInventory>();
         textKeys.SetText("Keys: " + sharedInventory.keys.Value);
         textCoins.SetText("Coins: " + sharedInventory.coins.Value);
 
-        sharedInventory.OnKeysModified += (int n) =>
-        {
-            SharedInventory sharedInventory = FindObjectOfType<SharedInventory>();
-            Debug.Log("Event " + n);
-            textKeys.SetText("Keys: " + n);
-        };
-        sharedInventory.OnCoinsModified += (int n) =>
-        {
-            SharedInventory sharedInventory = FindObjectOfType<SharedInventory>();
-            Debug.Log("Event " + n);
-            textCoins.SetText("Coins: " + n);
-        };
+        //sharedInventory.OnKeysModified += SharedInventory_OnKeysModified;
+
+        //sharedInventory.OnCoinsModified += SharedInventory_OnCoinsModified;
+
+        StartCoroutine(UpdateConsumables());
+    }
+    /*
+    private void SharedInventory_OnCoinsModified(int n)
+    {
+        Debug.Log("Coins " + n);
+        textCoins.SetText("Coins: " + n);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SharedInventory_OnKeysModified(int n)
     {
-        
+        Debug.Log("Keys " + n);
+        textKeys.SetText("Keys: " + n);
+    }
+    */
+    IEnumerator UpdateConsumables()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            textKeys.SetText("Keys: " + sharedInventory.keys.Value);
+            textCoins.SetText("Coins: " + sharedInventory.coins.Value);
+        } 
     }
 }

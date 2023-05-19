@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 437900522134231691, guid: e617296b2e742574b99343a669f3928c, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4863154730406158637, guid: e617296b2e742574b99343a669f3928c, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 951099334
@@ -62,6 +66,10 @@ PrefabInstance:
     - target: {fileID: 7814816328211547760, guid: e617296b2e742574b99343a669f3928c, type: 3}
       propertyPath: m_Name
       value: 001
+      objectReference: {fileID: 0}
+    - target: {fileID: 9156465557906558892, guid: e617296b2e742574b99343a669f3928c, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e617296b2e742574b99343a669f3928c, type: 3}
@@ -124,6 +132,10 @@ PrefabInstance:
     - target: {fileID: 372080858451246601, guid: 6c2342889514557418ec566adea1cb7a, type: 3}
       propertyPath: m_Name
       value: TurretSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 372080858451246601, guid: 6c2342889514557418ec566adea1cb7a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 372080858451246602, guid: 6c2342889514557418ec566adea1cb7a, type: 3}
       propertyPath: GlobalObjectIdHash

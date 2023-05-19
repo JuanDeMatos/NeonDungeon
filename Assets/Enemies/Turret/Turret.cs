@@ -30,18 +30,18 @@ public class Turret : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (players != null && players.Count > 0)
+        if (players == null || players.Count <= 0)
+            return;
+
+        players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
+        players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
+        GameObject closerPlayer = players.First();
+
+        Vector3 direction = closerPlayer.transform.position - transform.position;
+
+        if (!detected)
         {
-            players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
-            players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
-            GameObject closerPlayer = players.First();
-
-            Vector3 direction = closerPlayer.transform.position - transform.position;
-
             Debug.DrawRay(transform.position, direction * 1000);
-
-           
-
             RaycastHit hit;
             Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Player", "Default"));
 
@@ -51,25 +51,33 @@ public class Turret : Enemy
                 transform.LookAt(closerPlayer.transform);
                 transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             }
-
-            
         }
-    }
-    void Shoot() {
-        if (detected)
+        else
         {
-            GameObject copy = Instantiate(bulletPrefab,exit.position,Quaternion.Euler(transform.eulerAngles));
-            copy.GetComponent<Bullet>().gravity = GRAVITY + range;
-            copy.GetComponent<Enemy>().damage = this.damage;
-
-            copy.GetComponent<NetworkObject>().Spawn(true);
-            copy.GetComponent<Rigidbody>().AddForce(copy.transform.forward * bulletSpeed, ForceMode.VelocityChange);
-
-            Destroy(copy,10f);
+            transform.LookAt(closerPlayer.transform);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
+
     }
 
-    void OnCollisionEnter(Collision other) {
+    void Shoot()
+    {
+        if (!detected)
+            return;
+
+        GameObject copy = Instantiate(bulletPrefab, exit.position, Quaternion.Euler(transform.eulerAngles));
+        copy.GetComponent<Bullet>().gravity = GRAVITY + range;
+        copy.GetComponent<Enemy>().damage = this.damage;
+
+        copy.GetComponent<NetworkObject>().Spawn(true);
+        copy.GetComponent<Rigidbody>().AddForce(copy.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+
+        Destroy(copy, 10f);
+
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
 
         if (other.gameObject.tag == "Bullet")
         {
@@ -83,8 +91,9 @@ public class Turret : Enemy
         }
     }
 
-    void OnCollisionStay(Collision other) {
-        
+    void OnCollisionStay(Collision other)
+    {
+
     }
 
 }

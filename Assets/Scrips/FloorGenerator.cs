@@ -76,7 +76,7 @@ public class FloorGenerator : NetworkBehaviour
     void GenerateRooms()
     {
 
-        Debug.Log("Entra");
+        Debug.Log("Entra Generate Rooms");
         ReplaceRoomList(oneDoor, "1Door");
         ReplaceRoomList(twoDoorsCorridor, "2DoorCorridor");
         ReplaceRoomList(twoDoorsLShape, "2DoorLShape");
@@ -84,6 +84,18 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(fourDoors, "4Door");
 
         //StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnObjects());
+    }
+
+    IEnumerator SpawnObjects()
+    {
+        List<ObjectSpawner> spawners = FindObjectsOfType<ObjectSpawner>().ToList();
+
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            spawners[i].Spawn();
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     /*
@@ -118,11 +130,10 @@ public class FloorGenerator : NetworkBehaviour
         for (int i = 0; i < rooms.Count; i++)
         {
             Transform placeholderRoom = rooms[i].transform;
-            List<string> roomIdentifierList = Directory.GetFiles("./Assets/Resources/Rooms/" + roomFolderName).ToList();
-            roomIdentifierList.RemoveAll(item => item.Contains(".meta") || item.Contains("Prefab"));
-            string roomIdentifier = Path.GetFileName(roomIdentifierList[Random.Range(0, roomIdentifierList.Count)]).Split(".")[0];
-            string ruta = "Rooms/" + roomFolderName + "/" + roomIdentifier;
-            GameObject randomRoom = Resources.Load<GameObject>(ruta);
+            string ruta = "Rooms/" + roomFolderName;
+            List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
+            loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
+            GameObject randomRoom = loadedRooms[Random.Range(0, loadedRooms.Count)];
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0,placeholderRoom.eulerAngles.y,placeholderRoom.eulerAngles.z));
             Destroy(rooms[i]);
             rooms[i] = randomRoom;

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 372080858451246593}
   - component: {fileID: 372080858451246606}
   - component: {fileID: 372080858451246607}
-  - component: {fileID: 4451148061216622747}
+  - component: {fileID: -4246203527751193838}
   m_Layer: 0
   m_Name: TurretSpawner
   m_TagString: Enemy
@@ -148,7 +148,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!114 &4451148061216622747
+--- !u!114 &-4246203527751193838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 372080858451246601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40102bedb931e0b4ab8087df94ede8b5, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ca2491578967c479ac30aa6eaa0c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 372080858451246602, guid: d4515bc1bdb97a747a9ea3943922340b, type: 3}

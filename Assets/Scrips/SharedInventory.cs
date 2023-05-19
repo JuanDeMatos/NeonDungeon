@@ -28,25 +28,25 @@ public class SharedInventory : NetworkBehaviour
 
     public void AddKeys(int amount)
     {
-        keys.Value += amount;
-        if (OnKeysModified != null) OnKeysModified(keys.Value);
+        if (IsServer) { keys.Value += amount; }
+        if (OnKeysModified != null) { OnKeysModified(keys.Value); }
     }
 
     public void UseKeys(int amount)
     {
-        keys.Value -= amount;
+        if (IsServer) { keys.Value -= amount; }
         if (OnKeysModified != null) OnKeysModified(keys.Value);
     }
 
     public void AddCoins(int amount)
     {
-        coins.Value += amount;
-        if (OnCoinsModified != null) OnCoinsModified(keys.Value);
+        if (IsServer) { coins.Value += amount; }
+        if (OnCoinsModified != null) { OnCoinsModified(coins.Value); }
     }
 
     public void UseCoins(int amount)
     {
-        keys.Value -= amount;
-        if (OnCoinsModified != null) OnCoinsModified(keys.Value);
+        if (IsServer) { coins.Value -= amount; }
+        if (OnCoinsModified != null) { OnCoinsModified(coins.Value); }
     }
 }

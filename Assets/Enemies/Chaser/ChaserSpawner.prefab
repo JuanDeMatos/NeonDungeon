@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7414355768845218532}
   - component: {fileID: 7414355768845218555}
   - component: {fileID: 7414355768845218554}
-  - component: {fileID: 1897683559614200660}
+  - component: {fileID: 8311612970561599047}
   m_Layer: 0
   m_Name: ChaserSpawner
   m_TagString: Enemy
@@ -116,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &1897683559614200660
+--- !u!114 &8311612970561599047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7414355768845218558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40102bedb931e0b4ab8087df94ede8b5, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ca2491578967c479ac30aa6eaa0c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabReference: {fileID: -2240249711994548359, guid: 05e6ddcc4dc050d4290426df84635459, type: 3}

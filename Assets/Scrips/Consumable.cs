@@ -10,12 +10,19 @@ public class Consumable : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsServer)
-            return;
-
+        
         if (!other.CompareTag("Player"))
             return;
 
+        AddConsumable();
+
+        if (IsServer)
+            Despawn();
+        
+    }
+    
+    void AddConsumable()
+    {
         switch (type)
         {
             case (ConsumableType.Key):
@@ -27,10 +34,14 @@ public class Consumable : NetworkBehaviour
             default:
                 return;
         }
+    }
 
+    void Despawn()
+    {
         GetComponent<NetworkObject>().Despawn(true);
     }
 
+    
 }
 
 public enum ConsumableType
