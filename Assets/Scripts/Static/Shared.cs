@@ -6,5 +6,6 @@ using UnityEngine;
 public static class Shared
 {
     public static string joinCode;
+    public static string username;
 
 }
