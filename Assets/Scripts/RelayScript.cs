@@ -15,6 +15,7 @@ public class RelayScript : NetworkBehaviour
     public int MAXPLAYERS;
     public string playerID;
     public string joinCode;
+    public MainMenuOptions mainMenuOptions;
 
     async void Start()
     {
@@ -31,6 +32,7 @@ public class RelayScript : NetworkBehaviour
 
     public async void CreateRelay()
     {
+        mainMenuOptions.DisableButtons();
         try
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(MAXPLAYERS);
@@ -53,10 +55,12 @@ public class RelayScript : NetworkBehaviour
         {
             Debug.Log(e);
         }
+        mainMenuOptions.EnableButtons();
     }
 
     public async void JoinRelay(string joinCode)
     {
+        mainMenuOptions.DisableButtons();
         try
         {
             Debug.Log("Joining Relay with code: " + joinCode);
@@ -75,6 +79,7 @@ public class RelayScript : NetworkBehaviour
         {
             Debug.Log(e);
         }
+        mainMenuOptions.EnableButtons();
     }
 
     
