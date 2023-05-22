@@ -71,7 +71,6 @@ public class Player : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (_controller.isGrounded && _controller.velocity.y < 0)
         {
             movement.y = 0f;
@@ -129,7 +128,7 @@ public class Player : NetworkBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            Physics.Raycast(ray, out hit, 100);
+            Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Floor"));
 
             transform.LookAt(hit.point);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20, 0);

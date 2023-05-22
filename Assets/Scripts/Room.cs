@@ -1,45 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    [SerializeField] private GameObject roof;
+    [SerializeField] private GameObject doors;
+    [SerializeField] private GameObject doorTriggers;
     public List<GameObject> enemies;
-    public List<GameObject> positions;
+    public bool ended;
 
-    // Start is called before the first frame update
-    void Awake()
+    public void StartRoom()
     {
-        if (NetworkManager.Singleton.IsServer)
+        roof.SetActive(false);
+        if (Shared.gameMode == GameMode.Singleplayer)
         {
-            Invoke("SpawnEnemies", 10);
-        } else
-        {
-
-           positions.ForEach(p => Destroy(p));
-
+            doors.SetActive(true);
         }
-        
+        doorTriggers.SetActive(false);
+        StartCoroutine(SpawnObjects());
     }
 
-    void SpawnEnemies()
+    public void EndRoom()
     {
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            
-            GameObject e = enemies[i];
-            Transform p = positions[i].transform;
-            GameObject copy = Instantiate(e, p.position, p.rotation);
-            Destroy(p.gameObject);
-            copy.GetComponent<NetworkObject>().Spawn();
-        }
-
+        doors.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator SpawnObjects()
     {
-        
+
+        List<ObjectSpawner> spawners = GetComponentsInChildren<ObjectSpawner>().ToList();
+
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            spawners[i].Spawn();
+            yield return new WaitForSeconds(0.1f);
+        }
+        enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        StartCoroutine(CheckEnemies());
+    }
+
+    IEnumerator CheckEnemies()
+    {
+        do
+        {
+            enemies.RemoveAll(e => e == null);
+
+            if (enemies.Count == 0)
+                ended = true;
+            else
+                yield return new WaitForSeconds(0.1f);
+
+        } while (!ended);
+
+        EndRoom();
     }
 }

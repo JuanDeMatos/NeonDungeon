@@ -22,9 +22,12 @@ public class ObjectSpawner : MonoBehaviour
     */
     public void Spawn()
     {
+
         if (NetworkManager.Singleton && NetworkManager.Singleton.IsServer)
         {
-            SpawnNetworkObject();
+            NetworkObject instantiatedNetworkObject = Instantiate(prefabReference, transform.position, transform.rotation, null);
+            instantiatedNetworkObject.Spawn(destroyWithScene: true);
+            Destroy(gameObject);
         }
         else
         {
@@ -32,11 +35,5 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
-    void SpawnNetworkObject()
-    {
-        var instantiatedNetworkObject = Instantiate(prefabReference, transform.position, transform.rotation, null);
-        instantiatedNetworkObject.Spawn(destroyWithScene: true);
-        Destroy(gameObject);
-    }
 }
 

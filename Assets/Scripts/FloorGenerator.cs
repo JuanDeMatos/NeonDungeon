@@ -26,28 +26,29 @@ public class FloorGenerator : NetworkBehaviour
             seed.Value = (int)System.DateTime.Now.Ticks;
         }
 
-        Debug.Log(Shared.joinCode);
-
+        /*
         if (IsServer)
             StartCoroutine(WaitForPlayers());
-
+        */
         Debug.Log("Seed: " + seed.Value);
         Random.InitState(seed.Value);
 
         GenerateRooms();
-        
+        //StartCoroutine(InitializePlayers());
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
         if (IsServer && Input.GetKeyDown(KeyCode.K))
         {
             GameObject copy = Instantiate(enemies[0], new Vector3(0,1,0), Quaternion.identity);
             copy.GetComponent<NetworkObject>().Spawn();
         }
-
+        */
     }
 
     IEnumerator WaitForPlayers()
@@ -69,7 +70,7 @@ public class FloorGenerator : NetworkBehaviour
         player.transform.position = Vector3.zero;
         player.GetComponent<Player>().movement = Vector3.zero;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         player.GetComponent<Player>().usesGravity = true;
     }
 
@@ -84,7 +85,7 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(fourDoors, "4Door");
 
         //StartCoroutine(SpawnEnemies());
-        StartCoroutine(SpawnObjects());
+        //StartCoroutine(SpawnObjects());
     }
 
     IEnumerator SpawnObjects()

@@ -7,5 +7,10 @@ public static class Shared
 {
     public static string joinCode;
     public static string username;
+    public static GameMode gameMode;
+}
 
+public enum GameMode
+{
+    Singleplayer,Coop
 }

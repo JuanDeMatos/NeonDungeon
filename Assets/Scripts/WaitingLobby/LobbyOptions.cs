@@ -13,9 +13,15 @@ public class LobbyOptions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Scene loaded");
-        joinCodeText.text += Shared.joinCode;
-        Invoke("MovePlayer", 2);
+        if (Shared.gameMode == GameMode.Coop)
+        {
+            joinCodeText.text += Shared.joinCode;
+            Invoke("MovePlayer", 0.5f);
+        }
+        else
+        {
+            joinCodeText.transform.parent.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
