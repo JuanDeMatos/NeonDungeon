@@ -9,8 +9,8 @@ TagManager:
   - Obstacle
   - PlayerDetection
   - Ground
-  - EnemyPosition
   - Consumable
+  - ObjectSpawner
   layers:
   - Default
   - TransparentFX
@@ -18,7 +18,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Suelo
+  - Floor
   - Player
   - Bullet
   - 
