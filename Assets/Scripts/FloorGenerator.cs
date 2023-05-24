@@ -16,6 +16,7 @@ public class FloorGenerator : NetworkBehaviour
     public List<GameObject> twoDoorsLShape;
     public List<GameObject> threeDoors;
     public List<GameObject> fourDoors;
+    public List<GameObject> bossRoomCandidates;
 
     // Start is called before the first frame update
     void Start()
@@ -59,19 +60,33 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(fourDoors, "4Door");
 
         SetItemRooms(oneDoor);
+        SelectBossRoom();
+    }
+
+    private void SelectBossRoom()
+    {
+        Transform placeholderRoom = bossRoomCandidates[Random.Range(0, bossRoomCandidates.Count)].transform;
+        string path = "Rooms/BossRooms";
+        List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
+        loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
+        GameObject randomRoom = loadedRooms[Random.Range(0, loadedRooms.Count)];
+        Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0, placeholderRoom.eulerAngles.y, placeholderRoom.eulerAngles.z));
+        Destroy(placeholderRoom.gameObject);
     }
 
     void SetItemRooms(List<GameObject> rooms)
     {
         for (int i = 0; i < seed.CountPlayers(); i++)
         {
-            string ruta = "Rooms/ItemRooms";
-            List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
+            string path = "Rooms/ItemRooms";
+            List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
             int random = Random.Range(0, rooms.Count);
             Debug.Log("Random placeholder: " + random);
             Transform placeholderRoom = rooms[random].transform;
+
+            bossRoomCandidates.Remove(placeholderRoom.gameObject);
 
             random = Random.Range(0, loadedRooms.Count);
             Debug.Log("Random loaded: " + random);
@@ -88,8 +103,8 @@ public class FloorGenerator : NetworkBehaviour
         for (int i = 0; i < rooms.Count; i++)
         {
             Transform placeholderRoom = rooms[i].transform;
-            string ruta = "Rooms/" + roomFolderName;
-            List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
+            string path = "Rooms/" + roomFolderName;
+            List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
             int random = Random.Range(0, loadedRooms.Count);
@@ -97,6 +112,10 @@ public class FloorGenerator : NetworkBehaviour
             GameObject randomRoom = loadedRooms[random];
 
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0,placeholderRoom.eulerAngles.y,placeholderRoom.eulerAngles.z));
+
+            if (rooms[i].GetComponent<RoomPlaceholder>().isBossRoomCandidate)
+                bossRoomCandidates.Add(randomRoom);
+
             Destroy(rooms[i]);
             rooms[i] = randomRoom;
         }

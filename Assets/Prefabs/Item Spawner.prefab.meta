@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: c7c2a8ca1cac5794ca7eed3e3609a471
+labels:
+- Spawner
 PrefabImporter:
   externalObjects: {}
   userData: 

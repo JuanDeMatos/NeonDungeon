@@ -11,6 +11,9 @@ TagManager:
   - Ground
   - Consumable
   - ObjectSpawner
+  - 1Door
+  - 2DoorCorridor
+  - 4Door
   layers:
   - Default
   - TransparentFX

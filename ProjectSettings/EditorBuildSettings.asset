@@ -15,7 +15,10 @@ EditorBuildSettings:
     path: Assets/Scenes/WaitingLobby.unity
     guid: eb3c1df13cff8af40af5ae2cf23b36df
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/Level 1.unity
     guid: a160c3e298214a6409ac2904403af9f1
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 37ab9f7391dcb844d89f71f65be06d23
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8a4759ad355e83840a0f313cbe571c2b, type: 2}
