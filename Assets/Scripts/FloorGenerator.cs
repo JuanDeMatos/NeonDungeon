@@ -9,8 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class FloorGenerator : NetworkBehaviour
 {
-    private NetworkVariable<int> seed = new NetworkVariable<int>(0);
-    //public List<Transform> enemyPositions;
+    private Seed seed;
     public List<GameObject> enemies;
     public List<GameObject> oneDoor;
     public List<GameObject> twoDoorsCorridor;
@@ -21,34 +20,9 @@ public class FloorGenerator : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (IsServer)
-        {
-            seed.Value = (int)System.DateTime.Now.Ticks;
-        }
-
-        /*
-        if (IsServer)
-            StartCoroutine(WaitForPlayers());
-        */
-        Debug.Log("Seed: " + seed.Value);
-        Random.InitState(seed.Value);
-
+        seed = FindObjectOfType<Seed>();
         GenerateRooms();
-        //StartCoroutine(InitializePlayers());
 
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        if (IsServer && Input.GetKeyDown(KeyCode.K))
-        {
-            GameObject copy = Instantiate(enemies[0], new Vector3(0,1,0), Quaternion.identity);
-            copy.GetComponent<NetworkObject>().Spawn();
-        }
-        */
     }
 
     IEnumerator WaitForPlayers()
@@ -76,7 +50,7 @@ public class FloorGenerator : NetworkBehaviour
 
     void GenerateRooms()
     {
-
+        
         Debug.Log("Entra Generate Rooms");
         ReplaceRoomList(oneDoor, "1Door");
         ReplaceRoomList(twoDoorsCorridor, "2DoorCorridor");
@@ -84,47 +58,30 @@ public class FloorGenerator : NetworkBehaviour
         ReplaceRoomList(threeDoors, "3Door");
         ReplaceRoomList(fourDoors, "4Door");
 
-        //StartCoroutine(SpawnEnemies());
-        //StartCoroutine(SpawnObjects());
+        SetItemRooms(oneDoor);
     }
 
-    IEnumerator SpawnObjects()
+    void SetItemRooms(List<GameObject> rooms)
     {
-        List<ObjectSpawner> spawners = FindObjectsOfType<ObjectSpawner>().ToList();
-
-        for (int i = 0; i < spawners.Count; i++)
+        for (int i = 0; i < seed.CountPlayers(); i++)
         {
-            spawners[i].Spawn();
-            yield return new WaitForSeconds(0.2f);
+            string ruta = "Rooms/ItemRooms";
+            List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
+            loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
+
+            int random = Random.Range(0, rooms.Count);
+            Debug.Log("Random placeholder: " + random);
+            Transform placeholderRoom = rooms[random].transform;
+
+            random = Random.Range(0, loadedRooms.Count);
+            Debug.Log("Random loaded: " + random);
+            GameObject randomRoom = loadedRooms[random];
+
+            randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0, placeholderRoom.eulerAngles.y, placeholderRoom.eulerAngles.z));
+            Destroy(placeholderRoom.gameObject);
+            rooms.Remove(placeholderRoom.gameObject);
         }
     }
-
-    /*
-    IEnumerator SpawnEnemies()
-    {
-        if (IsServer)
-        {
-            EnemyPosition[] enemyPositions = FindObjectsOfType<EnemyPosition>();
-
-            foreach (EnemyPosition ep in enemyPositions)
-            {
-                GameObject enemyPrefab = enemies.Find(e => e.name.Contains(ep.enemyType.ToString()));
-                GameObject copy = Instantiate(enemyPrefab, ep.transform.position, ep.transform.rotation);
-                copy.GetComponent<NetworkObject>().Spawn();
-                yield return new WaitForSeconds(0.1f);
-            }
-        }
-        else
-        {
-            GameObject.FindGameObjectsWithTag("EnemyPosition").ToList().ForEach(position =>
-            {
-                Destroy(position);
-            });
-            
-        }
-    }
-
-    */
 
     void ReplaceRoomList(List<GameObject> rooms, string roomFolderName)
     {
@@ -134,7 +91,11 @@ public class FloorGenerator : NetworkBehaviour
             string ruta = "Rooms/" + roomFolderName;
             List<GameObject> loadedRooms = Resources.LoadAll(ruta, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
-            GameObject randomRoom = loadedRooms[Random.Range(0, loadedRooms.Count)];
+
+            int random = Random.Range(0, loadedRooms.Count);
+            Debug.Log("Random sala: " + random);
+            GameObject randomRoom = loadedRooms[random];
+
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0,placeholderRoom.eulerAngles.y,placeholderRoom.eulerAngles.z));
             Destroy(rooms[i]);
             rooms[i] = randomRoom;

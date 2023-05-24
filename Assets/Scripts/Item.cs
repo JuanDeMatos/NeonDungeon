@@ -88,7 +88,10 @@ public class Item : NetworkBehaviour, IEquatable<Item>
             GameObject playerGameObject = other.gameObject;
             Player player = playerGameObject.GetComponent<Player>();
             player.AddItem(this);
-            Destroy(this.gameObject);
+
+            if (IsServer)
+                GetComponent<NetworkObject>().Despawn();
+            //Destroy(this.gameObject);
         }
     }
 
