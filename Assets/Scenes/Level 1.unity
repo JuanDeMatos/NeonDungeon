@@ -1524,9 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3e503e015f0c45b641c0ad1a493cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 7414355768845218558, guid: 05e6ddcc4dc050d4290426df84635459, type: 3}
-  - {fileID: 372080858451246601, guid: d4515bc1bdb97a747a9ea3943922340b, type: 3}
+  floorLevel: 1
   oneDoor:
   - {fileID: 472443142}
   - {fileID: 230780625}

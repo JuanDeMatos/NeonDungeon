@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class FloorGenerator : NetworkBehaviour
 {
     private Seed seed;
-    public List<GameObject> enemies;
+    public int floorLevel;
     public List<GameObject> oneDoor;
     public List<GameObject> twoDoorsCorridor;
     public List<GameObject> twoDoorsLShape;
@@ -24,6 +24,29 @@ public class FloorGenerator : NetworkBehaviour
         seed = FindObjectOfType<Seed>();
         GenerateRooms();
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+            Debug.Log(NetworkManager.Singleton.IsServer);
+
+        
+        if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
+        {
+            switch (floorLevel)
+            {
+                case 1:
+                    NetworkManager.Singleton.SceneManager.LoadScene("Level 2", LoadSceneMode.Single);
+                    break;
+                case 2:
+                    NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
+                    break;
+                case 3:
+                    NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
+                    break;
+            }
+        }
     }
 
     IEnumerator WaitForPlayers()
@@ -76,7 +99,7 @@ public class FloorGenerator : NetworkBehaviour
 
     void SetItemRooms(List<GameObject> rooms)
     {
-        for (int i = 0; i < seed.CountPlayers(); i++)
+        for (int i = 0; i < seed.CountPlayers() * floorLevel; i++)
         {
             string path = "Rooms/ItemRooms";
             List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
