@@ -155,6 +155,7 @@ public class Player : NetworkBehaviour
 
         clon.GetComponent<NetworkObject>().Spawn(true);
         clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+        clon.GetComponent<Rigidbody>().AddForce(GetComponent<CharacterController>().velocity / 3f, ForceMode.Impulse);
 
         Destroy(clon, 10f);
     }

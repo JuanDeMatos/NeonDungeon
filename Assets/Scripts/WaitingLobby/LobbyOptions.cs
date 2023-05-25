@@ -29,7 +29,7 @@ public class LobbyOptions : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
 
-            NetworkManager.Singleton.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("Level 1", LoadSceneMode.Single);
 
         }
     }

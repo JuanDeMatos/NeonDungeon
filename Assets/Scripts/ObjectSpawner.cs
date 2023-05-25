@@ -22,7 +22,11 @@ public class ObjectSpawner : MonoBehaviour
     */
     public void Spawn()
     {
+        NetworkManager.Singleton.RemoveNetworkPrefab(prefabReference.gameObject);
+        NetworkManager.Singleton.AddNetworkPrefab(prefabReference.gameObject);
 
+        Debug.Log(prefabReference.gameObject.name);
+        
         if (NetworkManager.Singleton && NetworkManager.Singleton.IsServer)
         {
             NetworkObject instantiatedNetworkObject = Instantiate(prefabReference, transform.position, transform.rotation, null);

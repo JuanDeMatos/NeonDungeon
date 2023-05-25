@@ -1,0 +1,12 @@
+newmtl default1
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd CYBER SKULL_1_BaseColor.png
+map_Ks CYBER SKULL_1_Roughness.png
+bump CYBER SKULL_1_Displacement.png
+map_bump CYBER SKULL_1_Normal.png

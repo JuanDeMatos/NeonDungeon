@@ -49,4 +49,12 @@ public class SharedInventory : NetworkBehaviour
         if (IsServer) { coins.Value -= amount; }
         if (OnCoinsModified != null) { OnCoinsModified(coins.Value); }
     }
+    public int GetKeysAmount()
+    {
+        return coins.Value;
+    }
+    public int GetCoinsAmount()
+    {
+        return coins.Value;
+    }
 }

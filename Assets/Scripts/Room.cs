@@ -20,12 +20,14 @@ public class Room : MonoBehaviour
             doors.SetActive(true);
         }
         doorTriggers.SetActive(false);
+        Shared.inCombat = true;
         StartCoroutine(SpawnObjects());
     }
 
     public void EndRoom()
     {
         doors.SetActive(false);
+        Shared.inCombat = false;
     }
 
     IEnumerator SpawnObjects()

@@ -180,14 +180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722f54a9ee8a2954fbf8732a92a2e85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 2
   damage: 2
   bulletPrefab: {fileID: 8640155602805337270, guid: 3cbe10f6a1fd3e54caf3b3c08476b745, type: 3}
   bulletSpeed: 10
   range: 9.81
   exit: {fileID: 372080858385118629}
   detected: 0
-  prefab: {fileID: 7414355768845218558, guid: bd5016c1c80ebd24aa9b91d1cc7c72c0, type: 3}
 --- !u!114 &372080858451246602
 MonoBehaviour:
   m_ObjectHideFlags: 0

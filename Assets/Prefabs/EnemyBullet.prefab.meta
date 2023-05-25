@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 3cbe10f6a1fd3e54caf3b3c08476b745
+labels:
+- Bullet
 PrefabImporter:
   externalObjects: {}
   userData: 
