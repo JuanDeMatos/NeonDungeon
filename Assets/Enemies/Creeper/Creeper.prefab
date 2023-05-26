@@ -157,10 +157,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   damage: 2
+  agent: {fileID: 901697574841972237}
   creepCollider: {fileID: 4835914619510016534, guid: 57c9d8129da4e9b49bdf630960babd43, type: 3}
   trail: {fileID: 5479030210192076175}
   speed: 8
-  moveRange: 10
+  moveRange: 20
 --- !u!114 &1176025232784347735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,8 +226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3483277729617360240}
   - component: {fileID: 5479030210192076175}
-  - component: {fileID: 3970410185179840117}
-  - component: {fileID: 2847122183272050372}
   m_Layer: 0
   m_Name: Trail
   m_TagString: Enemy
@@ -270,7 +269,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 86d7e1db1612e984fbf1521b66152f84, type: 2}
+  - {fileID: 2100000, guid: 3867ceb20a07fe94e8be0fb68d4daaa6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -291,7 +290,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 4
+  m_Time: 2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -342,51 +341,9 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 1
-    textureMode: 3
+    textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &3970410185179840117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142074285213064288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &2847122183272050372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142074285213064288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 0
-  Interpolate: 1

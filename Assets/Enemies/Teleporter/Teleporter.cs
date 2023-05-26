@@ -62,16 +62,19 @@ public class Teleporter : Enemy
     IEnumerator Teleport() {
         while (true) {
             yield return new WaitForSeconds(2);
-            Vector3 position;
+            Vector3 position = transform.position;
+            NavMeshPath path = new NavMeshPath();
             do
             {
                 Vector3 randomDirection = Random.insideUnitSphere * teleportRange;
+                Vector3 randomPosition = transform.position + randomDirection;
                 NavMeshHit hit;
-                NavMesh.SamplePosition(randomDirection,out hit,teleportRange,1);
-                position = hit.position;
-                
-
-            } while (!agent.SetDestination(position));
+                if (NavMesh.SamplePosition(randomPosition, out hit, 10, 1))
+                {
+                    position = hit.position;
+                    agent.CalculatePath(position, path);
+                }
+            } while (path.status != NavMeshPathStatus.PathComplete);
 
             agent.Warp(position);
 

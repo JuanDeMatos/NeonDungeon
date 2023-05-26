@@ -239,7 +239,7 @@ MonoBehaviour:
     value: 0
   range:
     isMultiplier: 0
-    value: 0
+    value: 20
 --- !u!65 &5694376421709121045
 BoxCollider:
   m_ObjectHideFlags: 0
