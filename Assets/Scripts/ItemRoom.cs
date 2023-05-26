@@ -32,10 +32,20 @@ public class ItemRoom : MonoBehaviour
 
         for (int i = 0; i < spawners.Count; i++)
         {
-            int random = Random.Range(0, seed.availableItems.Count);
-            spawners[i].prefabReference = seed.availableItems[random].GetComponent<NetworkObject>();
+
+            if (seed.availableItems.Count > 0)
+            {
+                int random = Shared.criticalRandomGenerator.Next(0, seed.availableItems.Count);
+                Debug.Log("Random Item: " + random);
+                spawners[i].prefabReference = seed.availableItems[random].GetComponent<NetworkObject>();
+                seed.availableItems.RemoveAt(random);
+            } else
+            {
+                spawners[i].prefabReference = seed.lastItem.GetComponent<NetworkObject>();
+            }
+                
             spawners[i].Spawn();
-            seed.availableItems.RemoveAt(random);
+            
             yield return new WaitForSeconds(0.1f);
         }
     }

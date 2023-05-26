@@ -23,7 +23,6 @@ public class FloorGenerator : NetworkBehaviour
     {
         seed = FindObjectOfType<Seed>();
         GenerateRooms();
-
     }
 
     private void Update()
@@ -34,6 +33,7 @@ public class FloorGenerator : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
+            GameObject.FindGameObjectsWithTag("Player").ToList().ForEach(p => p.transform.position = Vector3.zero);
             switch (floorLevel)
             {
                 case 1:
@@ -87,14 +87,15 @@ public class FloorGenerator : NetworkBehaviour
     }
 
     private void SelectBossRoom()
-    {
-        Transform placeholderRoom = bossRoomCandidates[Random.Range(0, bossRoomCandidates.Count)].transform;
+    {   
+        Transform placeholderRoom = bossRoomCandidates[Shared.criticalRandomGenerator.Next(0, bossRoomCandidates.Count)].transform;
         string path = "Rooms/BossRooms";
         List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
         loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
-        GameObject randomRoom = loadedRooms[Random.Range(0, loadedRooms.Count)];
+        GameObject randomRoom = loadedRooms[Shared.criticalRandomGenerator.Next(0, loadedRooms.Count)];
         Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0, placeholderRoom.eulerAngles.y, placeholderRoom.eulerAngles.z));
         Destroy(placeholderRoom.gameObject);
+         
     }
 
     void SetItemRooms(List<GameObject> rooms)
@@ -105,13 +106,13 @@ public class FloorGenerator : NetworkBehaviour
             List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
-            int random = Random.Range(0, rooms.Count);
+            int random = Shared.criticalRandomGenerator.Next(0, rooms.Count);
             Debug.Log("Random placeholder: " + random);
             Transform placeholderRoom = rooms[random].transform;
 
             bossRoomCandidates.Remove(placeholderRoom.gameObject);
 
-            random = Random.Range(0, loadedRooms.Count);
+            random = Shared.criticalRandomGenerator.Next(0, loadedRooms.Count);
             Debug.Log("Random loaded: " + random);
             GameObject randomRoom = loadedRooms[random];
 
@@ -130,7 +131,7 @@ public class FloorGenerator : NetworkBehaviour
             List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
-            int random = Random.Range(0, loadedRooms.Count);
+            int random = Shared.criticalRandomGenerator.Next(0, loadedRooms.Count);
             Debug.Log("Random sala: " + random);
             GameObject randomRoom = loadedRooms[random];
 

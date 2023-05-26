@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4353564081507119797, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+      propertyPath: m_TagString
+      value: BossRoomMesh
+      objectReference: {fileID: 0}
     - target: {fileID: 8612003965898715525, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: m_RootOrder
       value: 0

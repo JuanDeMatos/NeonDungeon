@@ -6,6 +6,7 @@ using UnityEngine;
 public static class Shared
 {
     public static string joinCode;
+    public static System.Random criticalRandomGenerator;
     public static string username;
     public static GameMode gameMode;
     public static bool inCombat;

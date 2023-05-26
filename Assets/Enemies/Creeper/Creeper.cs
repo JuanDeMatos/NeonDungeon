@@ -55,7 +55,7 @@ public class Creeper : Enemy
             Vector3 randomPosition = transform.position + randomDirection;
             NavMeshHit hit;
 
-            if (NavMesh.SamplePosition(randomPosition,out hit,1,1))
+            if (NavMesh.SamplePosition(randomPosition,out hit,10,1))
                 agent.CalculatePath(hit.position, path);
 
         } while (path.status != NavMeshPathStatus.PathComplete);
@@ -65,7 +65,7 @@ public class Creeper : Enemy
 
     IEnumerator Move() {
         while (true) {
-            yield return new WaitForSeconds(Random.Range(2f,4f));
+            yield return new WaitForSeconds(Random.Range(2f, 4f));
             ChangeDirection();
         }
     }

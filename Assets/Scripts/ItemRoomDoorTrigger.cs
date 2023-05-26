@@ -9,7 +9,10 @@ public class ItemRoomDoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || Shared.inCombat)
+        if (!other.CompareTag("Player"))
+            return;
+
+        if (Shared.inCombat && Shared.gameMode == GameMode.Singleplayer)
             return;
 
         SharedInventory sharedInventory = FindObjectOfType<SharedInventory>();
