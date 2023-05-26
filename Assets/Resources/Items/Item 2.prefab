@@ -229,8 +229,8 @@ MonoBehaviour:
     isMultiplier: 0
     value: 0
   dashDuration:
-    isMultiplier: 0
-    value: 0
+    isMultiplier: 1
+    value: 2
   damage:
     isMultiplier: 0
     value: 0

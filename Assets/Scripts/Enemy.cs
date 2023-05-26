@@ -21,9 +21,9 @@ public class Enemy : NetworkBehaviour
         if (IsOwner)
         {
             this.enabled = true;
-            int nPlayers = FindObjectOfType<Seed>().CountPlayers();
-            health *= nPlayers;
-            damage *= nPlayers;
+            //int nPlayers = FindObjectOfType<Seed>().CountPlayers();
+            //health *= nPlayers;
+            //damage *= nPlayers;
         }
     }
 

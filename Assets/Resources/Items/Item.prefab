@@ -233,7 +233,7 @@ MonoBehaviour:
     value: 0
   damage:
     isMultiplier: 0
-    value: 0
+    value: 1000
   bulletSpeed:
     isMultiplier: 0
     value: 0

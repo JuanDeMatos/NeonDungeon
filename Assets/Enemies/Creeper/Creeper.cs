@@ -25,33 +25,42 @@ public class Creeper : Enemy
             agent.speed = speed;
             StartCoroutine(Move());
         }
+        StartCoroutine(SpawnCreep());
+    }
+
+    IEnumerator SpawnCreep()
+    {
+        while (true)
+        {
+            GameObject copy = Instantiate(creepCollider, trail.transform.position, Quaternion.Euler(transform.eulerAngles));
+            copy.GetComponent<Enemy>().damage = this.damage;
+            Destroy(copy, trail.time);
+            yield return new WaitForSeconds(0.2f);
+        } 
     }
 
     // Update is called once per frame
     void Update()
-    {
-        acum = (acum + 1) % 40;
-
-        if (acum == 0)
-        {
-            GameObject copy = Instantiate(creepCollider,trail.transform.position,Quaternion.Euler(transform.eulerAngles));
-            Destroy(copy, trail.time);
-        }
-
+    { 
         if (!agent.hasPath)
         {
             ChangeDirection();
         }
     }
     void ChangeDirection() {
-        Vector3 position;
+        NavMeshPath path = new NavMeshPath();
         do
         {
             Vector3 randomDirection = (Random.insideUnitSphere * moveRange);
+            Vector3 randomPosition = transform.position + randomDirection;
             NavMeshHit hit;
-            NavMesh.SamplePosition(randomDirection,out hit,moveRange,1);
-            position = hit.position;
-        } while (!agent.SetDestination(position));
+
+            if (NavMesh.SamplePosition(randomPosition,out hit,1,1))
+                agent.CalculatePath(hit.position, path);
+
+        } while (path.status != NavMeshPathStatus.PathComplete);
+
+        agent.SetPath(path);
     }
 
     IEnumerator Move() {
@@ -78,12 +87,12 @@ public class Creeper : Enemy
             ChangeDirection();
         }
     }
-
+    
     void DestroyTrail()
     {
-        trail.GetComponent<NetworkObject>().Despawn(true);
+        Destroy(trail);
     }
-
+    
     void OnCollisionStay(Collision other) {
         
     }

@@ -48,13 +48,13 @@ public class Room : MonoBehaviour
     {
         do
         {
-            enemies.RemoveAll(e => e == null);
+            enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
             if (enemies.Count == 0)
                 ended = true;
             else
                 yield return new WaitForSeconds(0.1f);
-
+            
         } while (!ended);
 
         EndRoom();

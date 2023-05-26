@@ -202,7 +202,7 @@ public class Player : NetworkBehaviour
 
     void EvaluateCollision(GameObject other)
     {
-        if (other.CompareTag("Enemy") && vulnerable)
+        if ( (other.CompareTag("Enemy") || other.CompareTag("EnemyProjectile")) && vulnerable)
         {
             vulnerable = false;
             endInvulnerabilityStarted = true;
@@ -211,6 +211,7 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
+            Debug.Log(health);
 
             if (health <= 0)
             {
