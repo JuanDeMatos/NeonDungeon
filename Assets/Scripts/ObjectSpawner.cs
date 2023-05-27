@@ -20,7 +20,7 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
     */
-    public void Spawn()
+    public virtual void Spawn()
     {
         NetworkManager.Singleton.RemoveNetworkPrefab(prefabReference.gameObject);
         NetworkManager.Singleton.AddNetworkPrefab(prefabReference.gameObject);

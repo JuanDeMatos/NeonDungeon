@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5694376421709121051}
   - component: {fileID: 5694376421709121045}
-  - component: {fileID: 4876932505346826876}
+  - component: {fileID: 5497644486872814335}
   m_Layer: 0
   m_Name: Item Spawner
   m_TagString: Untagged
@@ -214,7 +214,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.6, z: 1.5}
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &4876932505346826876
+--- !u!114 &5497644486872814335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,7 +223,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5694376421709121048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1ca2491578967c479ac30aa6eaa0c8d, type: 3}
+  m_Script: {fileID: 11500000, guid: a8bf37c77af161843a1e59aaa4c0e108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabReference: {fileID: 0}
