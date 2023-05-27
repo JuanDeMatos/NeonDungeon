@@ -57,8 +57,6 @@ public class Divisor : Enemy
 
                 if (sonEnemy != null)
                 {
-                    NetworkManager.RemoveNetworkPrefab(sonEnemy);
-                    NetworkManager.AddNetworkPrefab(sonEnemy);
                     GameObject clon;
                     clon = Instantiate(sonEnemy,transform.position + new Vector3(0.5f,0,0.5f),Quaternion.Euler(0,0,0));
                     clon.GetComponent<NetworkObject>().Spawn(true);

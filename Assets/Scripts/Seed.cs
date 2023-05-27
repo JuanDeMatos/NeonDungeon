@@ -8,8 +8,10 @@ public class Seed : NetworkBehaviour
 {
     public NetworkVariable<int> seed = new NetworkVariable<int>(0);
     public NetworkVariable<int> nPlayers = new NetworkVariable<int>(1);
-    public List<GameObject> availableItems;
-    public GameObject lastItem;
+    public List<GameObject> treasureItems;
+    public List<GameObject> shopItems;
+    public List<GameObject> permanentTreasureItems;
+    public List<GameObject> permanentShopItems;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +22,10 @@ public class Seed : NetworkBehaviour
             seed.Value = (int) System.DateTime.Now.Ticks;
             //seed.Value = 5000;
 
-        availableItems = Resources.LoadAll("Items", typeof(GameObject)).Cast<GameObject>().ToList();
-        availableItems.RemoveAll(i => i.name == "LastItem");
-        lastItem = Resources.Load<GameObject>("Items/LastItem");
+        treasureItems = Resources.LoadAll("Items/TreasureItems", typeof(GameObject)).Cast<GameObject>().ToList();
+        shopItems = Resources.LoadAll("Items/ShopItems", typeof(GameObject)).Cast<GameObject>().ToList();
+        permanentTreasureItems = Resources.LoadAll("Items/PermanentTreasureItems", typeof(GameObject)).Cast<GameObject>().ToList();
+        permanentShopItems = Resources.LoadAll("Items/PermanentShopItems", typeof(GameObject)).Cast<GameObject>().ToList();
 
         Shared.criticalRandomGenerator = new System.Random(GetSeed());
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
