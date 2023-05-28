@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1176025232784347735}
   - component: {fileID: -2094428777070550183}
   - component: {fileID: -5536834513651852422}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Creeper
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -157,7 +157,6 @@ MonoBehaviour:
   health: 1
   damage: 2
   agent: {fileID: 901697574841972237}
-  enemyModel: {fileID: 0}
   creepCollider: {fileID: 4835914619510016534, guid: 57c9d8129da4e9b49bdf630960babd43, type: 3}
   trail: {fileID: 752651465723903663, guid: 5ec5ce93d93003843a63956d2bd7aa4a, type: 3}
   speed: 8

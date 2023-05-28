@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7414355768845218533}
   - component: {fileID: 7414355768845218532}
   - component: {fileID: 1106390791007914936}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DivisorSpawner
   m_TagString: ObjectSpawner
   m_Icon: {fileID: 0}

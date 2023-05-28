@@ -22,6 +22,7 @@ public class Player : NetworkBehaviour
     public Vector3 movement;
 
     [Header("Player Attributes")]
+    public float maxHealth;
     public float health;
     public float movementSpeed;
     public bool vulnerable;
@@ -242,6 +243,14 @@ public class Player : NetworkBehaviour
     void EndInvulnerability() {
         vulnerable = true;
         endInvulnerabilityStarted = false;
+    }
+
+    public void Heal(int amount)
+    {
+        if (health + amount > maxHealth)
+            health = maxHealth;
+        else
+            health += amount;
     }
 
     

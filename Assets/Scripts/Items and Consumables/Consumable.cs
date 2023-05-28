@@ -8,17 +8,15 @@ public class Consumable : NetworkBehaviour
     public ConsumableType type;
     public int amount;
 
-    private void OnTriggerEnter(Collider other)
+    public void GetConsumable(Player player)
     {
-        
-        if (!other.CompareTag("Player"))
-            return;
-
-        AddConsumable();
+        if (type == ConsumableType.Heart)
+            player.Heal(amount);
+        else
+            AddConsumable();
 
         if (IsServer)
             Despawn();
-        
     }
     
     void AddConsumable()
@@ -46,5 +44,5 @@ public class Consumable : NetworkBehaviour
 
 public enum ConsumableType
 {
-    Key,Coin
+    Key,Coin,Heart
 }

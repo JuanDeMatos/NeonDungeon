@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: -1661853598083178526}
   - component: {fileID: 8607776515205839173}
   - component: {fileID: 4317105391605247001}
-  m_Layer: 0
+  - component: {fileID: 6154264941406900021}
+  m_Layer: 12
   m_Name: Coin
   m_TagString: Consumable
   m_Icon: {fileID: 0}
@@ -115,6 +116,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 8607776515205839173}
+--- !u!114 &6154264941406900021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832470328979838807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a81d4db9dd3f0489e84aff93e90c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2820330956010233028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 17ec779774b5fad41a5f18f84baaf164, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 17ec779774b5fad41a5f18f84baaf164, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17ec779774b5fad41a5f18f84baaf164, type: 3}

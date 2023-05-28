@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3832470328979838804}
   - component: {fileID: 3832470328979838810}
   - component: {fileID: -8188014387990593235}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: KeySpawner
   m_TagString: Consumable
   m_Icon: {fileID: 0}
@@ -111,9 +111,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7029948723529949830, guid: f0025de6e9954e44caebc88d47259819, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f0025de6e9954e44caebc88d47259819, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0025de6e9954e44caebc88d47259819, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8821623529969584324, guid: f0025de6e9954e44caebc88d47259819, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0025de6e9954e44caebc88d47259819, type: 3}

@@ -16,13 +16,9 @@ public class ItemRoomDoorTrigger : MonoBehaviour
             return;
 
         SharedInventory sharedInventory = FindObjectOfType<SharedInventory>();
-        /*
-        if (sharedInventory.GetKeysAmount() <= 0)
-            return;
-        */
-        sharedInventory.UseKeys(1);
-
-        room.StartRoom();
+        
+        if (sharedInventory.UseKeys(1))
+            room.StartRoom();
 
     }
 }

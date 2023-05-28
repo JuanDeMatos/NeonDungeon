@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9156590221187602560}
   - component: {fileID: 5743017678444368696}
   - component: {fileID: 336532922428680890}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: RoomMesh
   m_TagString: RoomMesh
   m_Icon: {fileID: 0}
@@ -308,6 +308,10 @@ PrefabInstance:
     - target: {fileID: 2987510931489752667, guid: 64b3345fea5770f45a4dbe869e8da80f, type: 3}
       propertyPath: m_Name
       value: RoomFloor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987510931489752667, guid: 64b3345fea5770f45a4dbe869e8da80f, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4155143728595001882, guid: 64b3345fea5770f45a4dbe869e8da80f, type: 3}
       propertyPath: m_RootOrder

@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 15
+  halfPricePercentage: 5
   priceText: {fileID: 1263936089424822769}
 --- !u!1 &5200323899287185667 stripped
 GameObject:

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 372080858385118629}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BulletExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 372080858451246602}
   - component: {fileID: 372080858451246603}
   - component: {fileID: 372080858451246600}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Turret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
