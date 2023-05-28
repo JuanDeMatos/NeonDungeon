@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2652581044815386478}
   - component: {fileID: 6566656840500113261}
   - component: {fileID: 8109998967366517619}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CreepCollider
   m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
