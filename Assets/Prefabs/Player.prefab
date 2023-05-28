@@ -6011,7 +6011,7 @@ MonoBehaviour:
   dashDuration: 0.2
   itemList: []
   damage: 1
-  bulletSpeed: 15
+  bulletSpeed: 20
   range: 0
 --- !u!208 &5658455920127792914
 NavMeshObstacle:
