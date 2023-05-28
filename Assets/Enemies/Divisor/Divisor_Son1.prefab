@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -6867366370157016218}
   - component: {fileID: -3314917170483104414}
   - component: {fileID: 6662155714193328864}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Divisor_Son1
   m_TagString: Enemy
   m_Icon: {fileID: 0}

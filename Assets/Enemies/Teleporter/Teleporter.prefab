@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -1587255556901591031}
   - component: {fileID: 756660292346238912}
   - component: {fileID: -4617579049579414044}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Teleporter
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4170420189252750062}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BulletExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

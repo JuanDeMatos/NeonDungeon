@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class ShopItem : NetworkBehaviour
+public class ShopConsumable : NetworkBehaviour
 {
     public int price;
+    public float halfPricePercentage;
     [SerializeField] TextMeshPro priceText;
 
     public override void OnNetworkSpawn()
     {
-        if (Random.Range(0, 10f) <= 5)
+
+        if (Random.Range(0, 100f) <= halfPricePercentage)
             price /= 2;
 
         priceText.SetText(price + "");
@@ -22,12 +24,10 @@ public class ShopItem : NetworkBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        FindObjectOfType<SharedInventory>().UseCoins(price);
+        if (!FindObjectOfType<SharedInventory>().UseCoins(price))
+            return;
 
-        other.GetComponent<Player>().AddItem(GetComponent<Item>());
+        GetComponent<Consumable>().GetConsumable(other.GetComponent<Player>());
 
-        if (IsServer)
-            GetComponent<NetworkObject>().Despawn();
     }
-
 }

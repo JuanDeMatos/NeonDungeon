@@ -22,6 +22,7 @@ public class Player : NetworkBehaviour
     public Vector3 movement;
 
     [Header("Player Attributes")]
+    public float maxHealth;
     public float health;
     public float movementSpeed;
     public bool vulnerable;
@@ -147,14 +148,16 @@ public class Player : NetworkBehaviour
     {
         GameObject clon = Instantiate(prefabBala, salidaBala.position, Quaternion.Euler(salidaBala.eulerAngles));
 
-        clon.GetComponent<Bullet>().gravity = GRAVITY + range;
+        clon.GetComponent<Bullet>().gravity = GRAVITY;// + range;
         clon.GetComponent<Bullet>().damage = this.damage;
         float size = damage / 8;
+        Debug.Log(size);
         size = size < 1 ? size : 1;
-        clon.transform.localScale = new Vector3(size, size, size);
+        clon.transform.localScale = Vector3.one * size;
 
         clon.GetComponent<NetworkObject>().Spawn(true);
         clon.GetComponent<Rigidbody>().AddForce(clon.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+        clon.GetComponent<Rigidbody>().AddForce(Vector3.up * range, ForceMode.VelocityChange);
 
         Destroy(clon, 10f);
     }
@@ -240,6 +243,14 @@ public class Player : NetworkBehaviour
     void EndInvulnerability() {
         vulnerable = true;
         endInvulnerabilityStarted = false;
+    }
+
+    public void Heal(int amount)
+    {
+        if (health + amount > maxHealth)
+            health = maxHealth;
+        else
+            health += amount;
     }
 
     

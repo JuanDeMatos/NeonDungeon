@@ -207,9 +207,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4491089266458833869}
     m_Modifications:
+    - target: {fileID: 122781132524739754, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178579570445918710, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 6178999885727265321, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
       propertyPath: m_Name
       value: CYBER SKULL
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178999885727265321, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6812792866184865939, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
       propertyPath: m_RootOrder
@@ -270,6 +282,10 @@ PrefabInstance:
     - target: {fileID: 6812792866184865939, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757818481154146837, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3186985f2e8eab44a65e3cb9165a0e3, type: 3}

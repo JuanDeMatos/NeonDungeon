@@ -14,7 +14,6 @@ public class Creeper : Enemy
     public TrailRenderer trail;
     public float speed;
     public float moveRange;
-    private float acum;
 
     public override void OnNetworkSpawn()
     {
@@ -23,31 +22,38 @@ public class Creeper : Enemy
         {
             agent = GetComponent<NavMeshAgent>();
             agent.speed = speed;
+            GameObject trailCopy = Instantiate(trail.gameObject, transform);
+            trailCopy.GetComponent<NetworkObject>().Spawn();
+            trailCopy.transform.parent = transform;
             StartCoroutine(Move());
         }
         StartCoroutine(SpawnCreep());
+    }
+
+    void Update()
+    {
+        if (!agent.hasPath)
+        {
+            ChangeDirection();
+        }
     }
 
     IEnumerator SpawnCreep()
     {
         while (true)
         {
-            GameObject copy = Instantiate(creepCollider, trail.transform.position, Quaternion.Euler(transform.eulerAngles));
+            GameObject copy = Instantiate(creepCollider, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), 
+                Quaternion.Euler(transform.eulerAngles));
             copy.GetComponent<Enemy>().damage = this.damage;
             Destroy(copy, trail.time);
-            yield return new WaitForSeconds(0.2f);
-        } 
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 
     // Update is called once per frame
-    void Update()
-    { 
-        if (!agent.hasPath)
-        {
-            ChangeDirection();
-        }
-    }
+
     void ChangeDirection() {
+
         NavMeshPath path = new NavMeshPath();
         do
         {
@@ -78,9 +84,9 @@ public class Creeper : Enemy
 
             if (health <= 0)
             {
-                trail.transform.parent = null;
-                Invoke("DestroyTrail",trail.time);
                 GetComponent<NetworkObject>().Despawn(true);
+                Invoke("DestroyTrail",trail.time);
+                
             }
 
         } else if (other.gameObject.tag == "Obstacle") {
@@ -90,7 +96,7 @@ public class Creeper : Enemy
     
     void DestroyTrail()
     {
-        Destroy(trail);
+        trail.GetComponent<NetworkObject>().Despawn();
     }
     
     void OnCollisionStay(Collision other) {
