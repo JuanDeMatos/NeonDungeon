@@ -28,11 +28,16 @@ public class Player : NetworkBehaviour
     public bool vulnerable;
     public float invulnerableTime;
     public bool dashing;
+    public int dashCharges;
+    public float dashChargesAcumulator;
     public float dashSpeed;
-    public float dashDuration;
+    public float dashRange;
     public List<Item> itemList;
 
     [Header("Bullet Properties")]
+    public bool shooting;
+    private float shootAcumulator = 0;
+    public float shootSpeed;
     public float damage;
     public float bulletSpeed;
     public float range;
@@ -82,6 +87,35 @@ public class Player : NetworkBehaviour
 
         _controller.Move(movementSpeed * movement * Time.deltaTime);
 
+        Shoot();
+
+        if (!dashing && dashChargesAcumulator < dashCharges)
+            dashChargesAcumulator += Time.deltaTime;
+    }
+
+    void Shoot()
+    {
+        if (shootAcumulator != 0 && !shooting)
+        {
+            shootAcumulator += Time.deltaTime;
+            if (shootAcumulator >= shootSpeed)
+                shootAcumulator = 0;
+        }
+
+
+        if (shooting)
+        {
+            if (shootAcumulator == 0)
+                SpawnBulletServerRpc();
+
+            shootAcumulator += Time.deltaTime;
+
+            if (shootAcumulator >= shootSpeed / 10)
+            {
+                shootAcumulator = 0;
+                SpawnBulletServerRpc();
+            }
+        }
     }
 
     void OnMove(InputValue value) {
@@ -114,10 +148,17 @@ public class Player : NetworkBehaviour
 
         if (v != Vector2.zero)
         {
+            /*
             float rotacion = Mathf.Rad2Deg * Mathf.Asin(v.y) - 90;
             rotacion = v.x>0?-rotacion:rotacion;
 
             transform.eulerAngles = new Vector3(0,rotacion,0);
+            */
+
+            transform.LookAt(transform.position + (new Vector3(v.x, 0, v.y) * 10));
+            Debug.DrawLine(transform.position, transform.position + (new Vector3(v.x, 0, v.y) * 10));
+            transform.rotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0,20,0));
+
         }
 
     }
@@ -138,8 +179,8 @@ public class Player : NetworkBehaviour
     }
 
     void OnFire(InputValue value) {
-
-        SpawnBulletServerRpc();
+        
+        shooting = value.Get<float>()==1;
 
     }
 
@@ -150,9 +191,8 @@ public class Player : NetworkBehaviour
 
         clon.GetComponent<Bullet>().gravity = GRAVITY;// + range;
         clon.GetComponent<Bullet>().damage = this.damage;
-        float size = damage / 8;
-        Debug.Log(size);
-        size = size < 1 ? size : 1;
+        float size = (damage + 9) / 100;
+        size = size < 0.1f ? 0.1f : size;
         clon.transform.localScale = Vector3.one * size;
 
         clon.GetComponent<NetworkObject>().Spawn(true);
@@ -181,8 +221,13 @@ public class Player : NetworkBehaviour
     }
 
     void OnDash(InputValue value) {
+
+        if (dashing || dashChargesAcumulator < 1)
+            return;
+
+        dashChargesAcumulator--;
         StartDash();
-        Invoke("StopDash",dashDuration);
+        Invoke("StopDash", dashRange / dashSpeed);
     }
 
     void OnCollisionEnter(Collision other) {
