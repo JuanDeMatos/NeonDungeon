@@ -27,7 +27,9 @@ public class RelayScript : NetworkBehaviour
             Debug.Log("Loged In: " + playerID);
         };
 
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        if (!AuthenticationService.Instance.IsSignedIn)
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
     }
 
     public async void CreateRelay()

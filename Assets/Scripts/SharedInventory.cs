@@ -16,7 +16,6 @@ public class SharedInventory : NetworkBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
     }
 

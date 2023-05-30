@@ -16,8 +16,6 @@ public class Seed : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
-
         if (NetworkManager.Singleton.IsServer)
             seed.Value = (int) System.DateTime.Now.Ticks;
             //seed.Value = 5000;

@@ -29,10 +29,6 @@ public class FloorGenerator : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-            Debug.Log(NetworkManager.Singleton.IsServer);
-
-        
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
             GameObject.FindGameObjectsWithTag("Player").ToList().ForEach(p => p.transform.position = Vector3.zero);
@@ -77,7 +73,6 @@ public class FloorGenerator : NetworkBehaviour
     void GenerateRooms()
     {
         
-        Debug.Log("Entra Generate Rooms");
         ReplaceRoomList(oneDoor, "1Door");
         especialRoomCandidates = new List<GameObject>(oneDoor);
         ReplaceRoomList(twoDoorsCorridor, "2DoorCorridor");
@@ -134,14 +129,12 @@ public class FloorGenerator : NetworkBehaviour
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
             int random = Shared.criticalRandomGenerator.Next(0, especialRoomCandidates.Count);
-            Debug.Log("Random placeholder: " + random);
             Transform placeholderRoom = especialRoomCandidates[random].transform;
 
             especialRoomCandidates.Remove(placeholderRoom.gameObject);
             bossRoomCandidates.Remove(placeholderRoom.gameObject);
 
             random = Shared.criticalRandomGenerator.Next(0, loadedRooms.Count);
-            Debug.Log("Random loaded: " + random);
             GameObject randomRoom = loadedRooms[random];
 
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0, placeholderRoom.eulerAngles.y, placeholderRoom.eulerAngles.z));

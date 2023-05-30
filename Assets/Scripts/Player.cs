@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using QFSW.QC;
+using UnityEngine.SceneManagement;
 
 public class Player : NetworkBehaviour
 {
@@ -43,10 +44,14 @@ public class Player : NetworkBehaviour
     public float range;
 
     private bool endInvulnerabilityStarted;
+
+    public delegate void PlayerDeathHandler();
+    public event PlayerDeathHandler OnPlayerDeath;
     
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
             this.enabled = false;
@@ -54,7 +59,11 @@ public class Player : NetworkBehaviour
         {
             StartCoroutine(SearchCamera());
         }
+    }
 
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        usesGravity = true;
     }
 
     IEnumerator SearchCamera()
@@ -231,24 +240,29 @@ public class Player : NetworkBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
 
     }
 
     void OnCollisionStay(Collision other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerEnter(Collider other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerStay(Collider other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void EvaluateCollision(GameObject other)
     {
+        Debug.Log(other.gameObject.name);
         if ( (other.CompareTag("Enemy") || other.CompareTag("EnemyProjectile")) && vulnerable)
         {
             vulnerable = false;
@@ -258,13 +272,22 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
-            Debug.Log(health);
+            //Debug.Log(health);
 
             if (health <= 0)
             {
-                this.GetComponent<NetworkObject>().Despawn(true);
+                Debug.Log("Entra: " + IsServer + ";" + IsOwner + ";" + IsOwnedByServer);
+                OnPlayerDeath();
+                DeathServerRpc();
             }
         }
+    }
+
+    [ServerRpc]
+    void DeathServerRpc()
+    {
+        Debug.Log("Death");
+        this.GetComponent<NetworkObject>().Despawn(true);
     }
 
     public void AddItem(Item item)
@@ -298,6 +321,27 @@ public class Player : NetworkBehaviour
             health += amount;
     }
 
-    
+    public void SetAllStats(Player player)
+    {
+        maxHealth = player.maxHealth;
+        health = player.health;
+        movementSpeed = player.movementSpeed;
+        invulnerableTime = player.invulnerableTime;
+        dashCharges = player.dashCharges;
+        dashSpeed = player.dashSpeed;
+        dashRange = player.dashRange;
+        itemList = new List<Item>(player.itemList);
 
+        shootSpeed = player.shootSpeed;
+        damage = player.damage;
+        bulletSpeed = player.bulletSpeed;
+        range = player.range;
+     }
+
+    public Player Clone()
+    {
+        Player clone = new Player();
+        clone.SetAllStats(this);
+        return clone;
+    }
 }
