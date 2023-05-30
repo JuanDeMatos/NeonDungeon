@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using Unity.AI.Navigation;
 
 public class FloorGenerator : NetworkBehaviour
 {
@@ -87,6 +88,13 @@ public class FloorGenerator : NetworkBehaviour
         SetItemRooms();
         SelectShopRoom();
         SelectBossRoom();
+        Invoke("BuildNavMesh", 0.5f);
+        
+    }
+
+    void BuildNavMesh()
+    {
+        GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     private void SelectBossRoom()
