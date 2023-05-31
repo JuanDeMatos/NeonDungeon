@@ -9,10 +9,11 @@ using QFSW.QC;
 using UnityEngine.SceneManagement;
 using Unity.Collections;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+using TMPro;
 
 public class Player : NetworkBehaviour
 {
-    public NetworkVariable<FixedString64Bytes> playerID;
+    public NetworkVariable<FixedString64Bytes> username;
     public CinemachineVirtualCamera mainCamera;
 
     [Header("Physhics and Required Objects")]
@@ -22,6 +23,9 @@ public class Player : NetworkBehaviour
     public GameObject prefabBala;
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Animator _animator;
+    [SerializeField] private TextMeshPro usernameLabel;
+    [SerializeField] private SkinnedMeshRenderer meshRenderer;
+    public Color[] colors;
 
     // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
     private bool moving;
@@ -56,26 +60,69 @@ public class Player : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();   
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
             this.enabled = false;
         } else
         {
-            SetPlayerIdServerRpc(Shared.playerID);
-            Debug.Log(playerID);
+            Debug.Log(Shared.username);
+            SetPlayerIdServerRpc(Shared.username);
             StartCoroutine(SearchCamera());
         }
-        this.Invoke(() => usesGravity = true, 0.1f);
+
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+        NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
+    }
+
+    private void Singleton_OnClientConnectedCallback(ulong obj)
+    {
+        ApplyPlayerPropertiesClientRpc();
     }
 
     [ServerRpc]
-    void SetPlayerIdServerRpc(string playerID)
+    void SetPlayerIdServerRpc(string username)
     {
-        this.playerID.Value = playerID;
+        this.username.Value = username;
+    }
+
+
+    [ClientRpc]
+    void ApplyPlayerPropertiesClientRpc()
+    {
+        StartApplyPlayerProperties();
+    }
+
+    public void StartApplyPlayerProperties()
+    {
+        StopCoroutine(ApplyPlayerProperties());
+        StartCoroutine(ApplyPlayerProperties());
+    }
+
+    IEnumerator ApplyPlayerProperties()
+    {
+        while (true)
+        {
+            if (IsOwner)
+            {
+                usernameLabel.gameObject.SetActive(false);
+            }
+
+            usernameLabel.SetText(username.Value.ToString());
+            usernameLabel.color = colors[OwnerClientId];
+            meshRenderer.material.color = colors[OwnerClientId];
+            usernameLabel.transform.rotation = Quaternion.Euler(60, 0, 0);
+            yield return new WaitForEndOfFrame();
+        }
+
     }
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        usesGravity = true;
+    }
+
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         usesGravity = true;
     }

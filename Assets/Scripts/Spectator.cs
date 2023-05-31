@@ -52,7 +52,10 @@ public class Spectator : MonoBehaviour
             GameObject objective = alivePlayers.Find(go => go.activeSelf);
             if (objective != null)
                 mainCamera.Follow = objective.transform;
+                playerSpectating.SetText("Player: " + objective.GetComponent<Player>().OwnerClientId +
+                    " " + objective.GetComponent<Player>().username.Value);
         }, 1f);
+        
     }
 
     public void NextPlayer()
@@ -65,7 +68,8 @@ public class Spectator : MonoBehaviour
         Transform playerFollowing = alivePlayers[lookingAtPlayer].transform;
 
         mainCamera.Follow = playerFollowing;
-        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId);
+        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId + 
+            " " + playerFollowing.GetComponent<Player>().username.Value);
     }
 
     public void PreviousPlayer()
@@ -78,6 +82,7 @@ public class Spectator : MonoBehaviour
         Transform playerFollowing = alivePlayers[lookingAtPlayer].transform;
 
         mainCamera.Follow = playerFollowing;
-        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId);
+        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId + 
+            " " + playerFollowing.GetComponent<Player>().username.Value);
     }
 }

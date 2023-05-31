@@ -70,34 +70,37 @@ public class PlayerDeathScript : NetworkBehaviour
         players.ForEach((go) =>
         {
             if (!go.activeSelf)
+            {
                 go.GetComponent<Player>().health = go.GetComponent<Player>().maxHealth / 3;
+                go.SetActive(true);
+                go.GetComponent<Player>().StartApplyPlayerProperties();
+            }
+                
 
-            go.SetActive(true);
         });
         
         mainCamera.Follow = localPlayer.transform;
+
     }
 
     [ServerRpc]
-    void DeactivatePlayerServerRpc(ulong playerID)
+    void DeactivatePlayerServerRpc(ulong ownerClientId)
     {
-        Debug.Log("ServerRpc: " + playerID);
-        DeactivatePlayerClientRpc(playerID);
+        Debug.Log("ServerRpc: " + ownerClientId);
+        DeactivatePlayerClientRpc(ownerClientId);
     }
 
     [ClientRpc]
-    void DeactivatePlayerClientRpc(ulong playerID)
+    void DeactivatePlayerClientRpc(ulong ownerClientId)
     {
-        Debug.Log("ClientRpc: " + playerID);
+        Debug.Log("ClientRpc: " + ownerClientId);
         
         for (int i = 0; i < players.Count; i++)
         {
             Player player = players[i].GetComponent<Player>();
-            Debug.Log("Player ID: " + player.OwnerClientId + "/" + player.playerID.Value);
-            Debug.Log(player.OwnerClientId == playerID);
         }
 
-        GameObject deathPlayer = players.Find(go => go.GetComponent<Player>().OwnerClientId == playerID);
+        GameObject deathPlayer = players.Find(go => go.GetComponent<Player>().OwnerClientId == ownerClientId);
 
         deathPlayer.SetActive(false);  
     }
