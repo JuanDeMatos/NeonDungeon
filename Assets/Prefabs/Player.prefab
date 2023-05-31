@@ -5883,6 +5883,7 @@ GameObject:
   - component: {fileID: 9190089912885712091}
   - component: {fileID: 9190089912885712088}
   - component: {fileID: 9190089912885712089}
+  - component: {fileID: 8041002064636261118}
   - component: {fileID: 5658455920127792914}
   - component: {fileID: 6695514274927444853}
   - component: {fileID: 9030714810266427665}
@@ -5996,6 +5997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1746dfeb4516c40a6cb0e68ce76cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 
   usesGravity: 0
   salidaBala: {fileID: 4870208253595144799}
   prefabBala: {fileID: 8640155602805337270, guid: 5178fd3c8545b1b43a43e4bf20a0c38a, type: 3}
@@ -6018,6 +6020,25 @@ MonoBehaviour:
   damage: 1
   bulletSpeed: 15
   range: 0
+--- !u!114 &8041002064636261118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413307640696032876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5111042db84cb7e418f09db24f698fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
+  alivePlayers: []
+  lookingAtPlayer: 0
+  localPlayer: {fileID: 0}
+  deadPlayer: {fileID: 0}
+  mainCamera: {fileID: 0}
+  dead: 0
 --- !u!208 &5658455920127792914
 NavMeshObstacle:
   m_ObjectHideFlags: 0

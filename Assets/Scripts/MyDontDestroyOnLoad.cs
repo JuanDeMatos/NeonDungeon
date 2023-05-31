@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DontDestroyOnLoad : MonoBehaviour
+public class MyDontDestroyOnLoad : MonoBehaviour
 {
     private void Start()
     {

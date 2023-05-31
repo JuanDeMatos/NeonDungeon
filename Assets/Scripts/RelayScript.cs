@@ -25,6 +25,7 @@ public class RelayScript : NetworkBehaviour
         {
             playerID = AuthenticationService.Instance.PlayerId;
             Debug.Log("Loged In: " + playerID);
+            Shared.playerID = playerID;
         };
 
         if (!AuthenticationService.Instance.IsSignedIn)
