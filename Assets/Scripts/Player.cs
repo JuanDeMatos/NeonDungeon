@@ -8,6 +8,7 @@ using System.Linq;
 using QFSW.QC;
 using UnityEngine.SceneManagement;
 using Unity.Collections;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 
 public class Player : NetworkBehaviour
 {
@@ -65,6 +66,7 @@ public class Player : NetworkBehaviour
             Debug.Log(playerID);
             StartCoroutine(SearchCamera());
         }
+        this.Invoke(() => usesGravity = true, 0.1f);
     }
 
     [ServerRpc]
@@ -290,7 +292,9 @@ public class Player : NetworkBehaviour
             {
                 if (IsOwner)
                 {
+                    mainCamera.Follow = null;
                     OnPlayerDeath();
+                    GetComponent<ClientNetworkTransform>().Teleport(Vector3.zero, Quaternion.identity, Vector3.one);
                     Debug.Log("Jugador muere");
                 }
             }

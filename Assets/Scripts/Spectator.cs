@@ -4,12 +4,15 @@ using UnityEngine;
 using System.Linq;
 using Cinemachine;
 using System;
+using TMPro;
 
 public class Spectator : MonoBehaviour
 {
     public int lookingAtPlayer;
     public List<GameObject> alivePlayers;
     public CinemachineVirtualCamera mainCamera;
+    public GameObject spectatorCanvas;
+    public TextMeshProUGUI playerSpectating;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,7 @@ public class Spectator : MonoBehaviour
         alivePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
         mainCamera = FindObjectOfType<CinemachineVirtualCamera>();
         enabled = false;
+        this.Invoke(() => spectatorCanvas.SetActive(false), 0.001f);
     }
 
     // Update is called once per frame
@@ -26,34 +30,54 @@ public class Spectator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Debug.Log("Next");
-            lookingAtPlayer++;
-            if (lookingAtPlayer >= alivePlayers.Count)
-                lookingAtPlayer = 0;
-
-            mainCamera.Follow = alivePlayers[lookingAtPlayer].transform;
+            NextPlayer();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Debug.Log("Previous");
-            lookingAtPlayer--;
-            if (lookingAtPlayer < 0)
-                lookingAtPlayer = alivePlayers.Count - 1;
-
-            mainCamera.Follow = alivePlayers[lookingAtPlayer].transform;
+            PreviousPlayer();
         }
     }
 
-    public void SpectateAlive()
+    public void Disable()
     {
+        spectatorCanvas.SetActive(false);
+        enabled = false;
+    }
 
+    public void SpectateAlivePlayer()
+    {
+        spectatorCanvas.SetActive(true);
         this.Invoke(() => {
             GameObject objective = alivePlayers.Find(go => go.activeSelf);
             if (objective != null)
                 mainCamera.Follow = objective.transform;
         }, 1f);
+    }
 
-        
+    public void NextPlayer()
+    {
+        Debug.Log("Next");
+        lookingAtPlayer++;
+        if (lookingAtPlayer >= alivePlayers.Count)
+            lookingAtPlayer = 0;
+
+        Transform playerFollowing = alivePlayers[lookingAtPlayer].transform;
+
+        mainCamera.Follow = playerFollowing;
+        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId);
+    }
+
+    public void PreviousPlayer()
+    {
+        Debug.Log("Previous");
+        lookingAtPlayer--;
+        if (lookingAtPlayer < 0)
+            lookingAtPlayer = alivePlayers.Count - 1;
+
+        Transform playerFollowing = alivePlayers[lookingAtPlayer].transform;
+
+        mainCamera.Follow = playerFollowing;
+        playerSpectating.SetText("Player: " + playerFollowing.GetComponent<Player>().OwnerClientId);
     }
 }

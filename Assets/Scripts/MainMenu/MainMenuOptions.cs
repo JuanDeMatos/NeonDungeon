@@ -11,14 +11,15 @@ public class MainMenuOptions : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputJoinCode;
     [SerializeField] RelayScript relayScript;
-    private List<Button> buttons;
+    public List<Button> buttons;
     public GameObject networkManagerSingleplayer;
     public GameObject networkManagerCoop;
 
-    private void Start()
+    private void Start() 
     {
+        Debug.Log("Start");
         buttons = Resources.FindObjectsOfTypeAll<Button>().ToList();
-
+        this.Invoke(() => buttons.RemoveAll(b => b == null),0.5f);
     }
 
     public void StartSinglePlayer()

@@ -8,15 +8,26 @@ public class MyDontDestroyOnLoad : MonoBehaviour
 {
     private void Start()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this.gameObject);
 
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
 
-    private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        if (arg0.name == "MainMenu")
+        {
+            SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (sceneName == "MainMenu")
         {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
             Destroy(this.gameObject);
         }
     }

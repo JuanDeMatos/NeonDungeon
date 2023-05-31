@@ -14,20 +14,17 @@ public class PlayerDeathScript : NetworkBehaviour
     public bool dead;
     public Spectator spectator;
 
-    // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
 
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted1;
-
-
         if (!IsOwner)
         {
             enabled = false;
 
         } else
         {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_Respawn;
         }
 
     }
@@ -42,45 +39,54 @@ public class PlayerDeathScript : NetworkBehaviour
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted1;
             spectator = FindObjectOfType<Spectator>();
         }
-
     }
 
     public void LocalPlayer_OnPlayerDeath()
     {
         if (Shared.gameMode == GameMode.Coop)
         {
-            
             dead = true;
 
             if (enabled)
                 spectator.enabled = true;
 
-            DeactivatePlayerClientRpc(localPlayer.playerID.Value.ToString());
-            spectator.SpectateAlive();
-        }
-        else
-        {
-            NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            if (IsServer)
+                DeactivatePlayerClientRpc(localPlayer.OwnerClientId);
+            else
+                DeactivatePlayerServerRpc(localPlayer.OwnerClientId);
+
+            spectator.SpectateAlivePlayer();
         }
     }
 
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void SceneManager_Respawn(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        mainCamera = GetComponent<Player>().mainCamera;
-        if (!dead)
+        if (sceneName == "WaitingLobby")
             return;
 
-        dead = false;
-        spectator.enabled = false;
+        mainCamera = GetComponent<Player>().mainCamera;
+        spectator.Disable();
 
-        localPlayer.gameObject.SetActive(true);
-        localPlayer.GetComponent<Player>().health = 200;
+        players.ForEach((go) =>
+        {
+            if (!go.activeSelf)
+                go.GetComponent<Player>().health = go.GetComponent<Player>().maxHealth / 3;
+
+            go.SetActive(true);
+        });
+        
         mainCamera.Follow = localPlayer.transform;
+    }
 
+    [ServerRpc]
+    void DeactivatePlayerServerRpc(ulong playerID)
+    {
+        Debug.Log("ServerRpc: " + playerID);
+        DeactivatePlayerClientRpc(playerID);
     }
 
     [ClientRpc]
-    void DeactivatePlayerClientRpc(string playerID)
+    void DeactivatePlayerClientRpc(ulong playerID)
     {
         Debug.Log("ClientRpc: " + playerID);
         
@@ -88,13 +94,12 @@ public class PlayerDeathScript : NetworkBehaviour
         {
             Player player = players[i].GetComponent<Player>();
             Debug.Log("Player ID: " + player.OwnerClientId + "/" + player.playerID.Value);
-            Debug.Log(player.playerID.Value == playerID);
+            Debug.Log(player.OwnerClientId == playerID);
         }
 
-        GameObject deathPlayer = players.Find(go => go.GetComponent<Player>().playerID.Value == playerID);
+        GameObject deathPlayer = players.Find(go => go.GetComponent<Player>().OwnerClientId == playerID);
 
-        deathPlayer?.SetActive(false);
-        
+        deathPlayer.SetActive(false);  
     }
     
 }

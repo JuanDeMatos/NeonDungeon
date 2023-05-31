@@ -31,7 +31,7 @@ public class FloorGenerator : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
-            GameObject.FindGameObjectsWithTag("Player").ToList().ForEach(p => p.transform.position = Vector3.zero);
+            GameObject.FindGameObjectsWithTag("Player").ToList();
             switch (floorLevel)
             {
                 case 1:
@@ -45,29 +45,6 @@ public class FloorGenerator : NetworkBehaviour
                     break;
             }
         }
-    }
-
-    IEnumerator WaitForPlayers()
-    {
-        int nPlayers = 0;
-        do
-        {
-            nPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
-            yield return new WaitForSeconds(0.1f);
-        } while (nPlayers < NetworkManager.ConnectedClientsList.Count);
-        StartCoroutine(InitializePlayers());
-    }
-
-    IEnumerator InitializePlayers()
-    {   
-        GameObject player = GameObject.FindGameObjectsWithTag("Player").ToList().Find(go => go.GetComponent<Player>().IsOwner);
-
-        player.GetComponent<Player>().usesGravity = false;
-        player.transform.position = Vector3.zero;
-        player.GetComponent<Player>().movement = Vector3.zero;
-
-        yield return new WaitForSeconds(0.2f);
-        player.GetComponent<Player>().usesGravity = true;
     }
 
     void GenerateRooms()
@@ -122,7 +99,7 @@ public class FloorGenerator : NetworkBehaviour
 
     void SetItemRooms()
     {
-        for (int i = 0; i < /*seed.CountPlayers()*/4 * floorLevel; i++)
+        for (int i = 0; i < seed.CountPlayers() * floorLevel; i++)
         {
             string path = "Rooms/ItemRooms";
             List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
