@@ -51,8 +51,8 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                     ""id"": ""2d3eaae3-504c-4017-9c6f-6e7fae1dd512"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Dash"",

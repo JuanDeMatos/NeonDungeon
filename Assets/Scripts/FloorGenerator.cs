@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using Unity.AI.Navigation;
 
 public class FloorGenerator : NetworkBehaviour
 {
@@ -28,13 +29,9 @@ public class FloorGenerator : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-            Debug.Log(NetworkManager.Singleton.IsServer);
-
-        
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
-            GameObject.FindGameObjectsWithTag("Player").ToList().ForEach(p => p.transform.position = Vector3.zero);
+            GameObject.FindGameObjectsWithTag("Player").ToList();
             switch (floorLevel)
             {
                 case 1:
@@ -50,33 +47,9 @@ public class FloorGenerator : NetworkBehaviour
         }
     }
 
-    IEnumerator WaitForPlayers()
-    {
-        int nPlayers = 0;
-        do
-        {
-            nPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
-            yield return new WaitForSeconds(0.1f);
-        } while (nPlayers < NetworkManager.ConnectedClientsList.Count);
-        StartCoroutine(InitializePlayers());
-    }
-
-    IEnumerator InitializePlayers()
-    {   
-        GameObject player = GameObject.FindGameObjectsWithTag("Player").ToList().Find(go => go.GetComponent<Player>().IsOwner);
-
-        player.GetComponent<Player>().usesGravity = false;
-        player.transform.position = Vector3.zero;
-        player.GetComponent<Player>().movement = Vector3.zero;
-
-        yield return new WaitForSeconds(0.2f);
-        player.GetComponent<Player>().usesGravity = true;
-    }
-
     void GenerateRooms()
     {
         
-        Debug.Log("Entra Generate Rooms");
         ReplaceRoomList(oneDoor, "1Door");
         especialRoomCandidates = new List<GameObject>(oneDoor);
         ReplaceRoomList(twoDoorsCorridor, "2DoorCorridor");
@@ -87,6 +60,13 @@ public class FloorGenerator : NetworkBehaviour
         SetItemRooms();
         SelectShopRoom();
         SelectBossRoom();
+        Invoke("BuildNavMesh", 0.5f);
+        
+    }
+
+    void BuildNavMesh()
+    {
+        GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     private void SelectBossRoom()
@@ -119,21 +99,19 @@ public class FloorGenerator : NetworkBehaviour
 
     void SetItemRooms()
     {
-        for (int i = 0; i < /*seed.CountPlayers()*/4 * floorLevel; i++)
+        for (int i = 0; i < seed.CountPlayers() * floorLevel; i++)
         {
             string path = "Rooms/ItemRooms";
             List<GameObject> loadedRooms = Resources.LoadAll(path, typeof(GameObject)).Cast<GameObject>().ToList();
             loadedRooms.RemoveAll(item => item.name.Contains("Prefab"));
 
             int random = Shared.criticalRandomGenerator.Next(0, especialRoomCandidates.Count);
-            Debug.Log("Random placeholder: " + random);
             Transform placeholderRoom = especialRoomCandidates[random].transform;
 
             especialRoomCandidates.Remove(placeholderRoom.gameObject);
             bossRoomCandidates.Remove(placeholderRoom.gameObject);
 
             random = Shared.criticalRandomGenerator.Next(0, loadedRooms.Count);
-            Debug.Log("Random loaded: " + random);
             GameObject randomRoom = loadedRooms[random];
 
             randomRoom = Instantiate(randomRoom, placeholderRoom.position, Quaternion.Euler(0, placeholderRoom.eulerAngles.y, placeholderRoom.eulerAngles.z));

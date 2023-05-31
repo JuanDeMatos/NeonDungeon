@@ -6,9 +6,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using QFSW.QC;
+using UnityEngine.SceneManagement;
+using Unity.Collections;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 
 public class Player : NetworkBehaviour
 {
+    public NetworkVariable<FixedString64Bytes> playerID;
+    public CinemachineVirtualCamera mainCamera;
+
     [Header("Physhics and Required Objects")]
     public const float GRAVITY = -9.81f;
     public bool usesGravity;
@@ -28,28 +34,50 @@ public class Player : NetworkBehaviour
     public bool vulnerable;
     public float invulnerableTime;
     public bool dashing;
+    public int dashCharges;
+    public float dashChargesAcumulator;
     public float dashSpeed;
-    public float dashDuration;
+    public float dashRange;
     public List<Item> itemList;
 
     [Header("Bullet Properties")]
+    public bool shooting;
+    private float shootAcumulator = 0;
+    public float shootSpeed;
     public float damage;
     public float bulletSpeed;
     public float range;
 
     private bool endInvulnerabilityStarted;
+
+    public delegate void PlayerDeathHandler();
+    public event PlayerDeathHandler OnPlayerDeath;
     
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        base.OnNetworkSpawn();   
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
             this.enabled = false;
         } else
         {
+            SetPlayerIdServerRpc(Shared.playerID);
+            Debug.Log(playerID);
             StartCoroutine(SearchCamera());
         }
+        this.Invoke(() => usesGravity = true, 0.1f);
+    }
 
+    [ServerRpc]
+    void SetPlayerIdServerRpc(string playerID)
+    {
+        this.playerID.Value = playerID;
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        usesGravity = true;
     }
 
     IEnumerator SearchCamera()
@@ -61,7 +89,8 @@ public class Player : NetworkBehaviour
             camera = GameObject.Find("CM vcam1");
             if (camera != null)
             {
-                camera.GetComponent<CinemachineVirtualCamera>().m_Follow = this.transform;
+                mainCamera = camera.GetComponent<CinemachineVirtualCamera>();
+                mainCamera.m_Follow = this.transform;
             }
             yield return new WaitForSeconds(0.3f);
 
@@ -82,6 +111,35 @@ public class Player : NetworkBehaviour
 
         _controller.Move(movementSpeed * movement * Time.deltaTime);
 
+        Shoot();
+
+        if (!dashing && dashChargesAcumulator < dashCharges)
+            dashChargesAcumulator += Time.deltaTime;
+    }
+
+    void Shoot()
+    {
+        if (shootAcumulator != 0 && !shooting)
+        {
+            shootAcumulator += Time.deltaTime;
+            if (shootAcumulator >= shootSpeed)
+                shootAcumulator = 0;
+        }
+
+
+        if (shooting)
+        {
+            if (shootAcumulator == 0)
+                SpawnBulletServerRpc();
+
+            shootAcumulator += Time.deltaTime;
+
+            if (shootAcumulator >= shootSpeed / 10)
+            {
+                shootAcumulator = 0;
+                SpawnBulletServerRpc();
+            }
+        }
     }
 
     void OnMove(InputValue value) {
@@ -114,10 +172,17 @@ public class Player : NetworkBehaviour
 
         if (v != Vector2.zero)
         {
+            /*
             float rotacion = Mathf.Rad2Deg * Mathf.Asin(v.y) - 90;
             rotacion = v.x>0?-rotacion:rotacion;
 
             transform.eulerAngles = new Vector3(0,rotacion,0);
+            */
+
+            transform.LookAt(transform.position + (new Vector3(v.x, 0, v.y) * 10));
+            Debug.DrawLine(transform.position, transform.position + (new Vector3(v.x, 0, v.y) * 10));
+            transform.rotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0,20,0));
+
         }
 
     }
@@ -138,8 +203,8 @@ public class Player : NetworkBehaviour
     }
 
     void OnFire(InputValue value) {
-
-        SpawnBulletServerRpc();
+        
+        shooting = value.Get<float>()==1;
 
     }
 
@@ -150,9 +215,8 @@ public class Player : NetworkBehaviour
 
         clon.GetComponent<Bullet>().gravity = GRAVITY;// + range;
         clon.GetComponent<Bullet>().damage = this.damage;
-        float size = damage / 8;
-        Debug.Log(size);
-        size = size < 1 ? size : 1;
+        float size = (damage + 9) / 100;
+        size = size < 0.1f ? 0.1f : size;
         clon.transform.localScale = Vector3.one * size;
 
         clon.GetComponent<NetworkObject>().Spawn(true);
@@ -181,25 +245,34 @@ public class Player : NetworkBehaviour
     }
 
     void OnDash(InputValue value) {
+
+        if (dashing || dashChargesAcumulator < 1)
+            return;
+
+        dashChargesAcumulator--;
         StartDash();
-        Invoke("StopDash",dashDuration);
+        Invoke("StopDash", dashRange / dashSpeed);
     }
 
     void OnCollisionEnter(Collision other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
 
     }
 
     void OnCollisionStay(Collision other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerEnter(Collider other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void OnTriggerStay(Collider other) {
-        EvaluateCollision(other.gameObject);
+        if (IsOwner)
+            EvaluateCollision(other.gameObject);
     }
 
     void EvaluateCollision(GameObject other)
@@ -213,11 +286,17 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
-            Debug.Log(health);
+            //Debug.Log(health);
 
             if (health <= 0)
             {
-                this.GetComponent<NetworkObject>().Despawn(true);
+                if (IsOwner)
+                {
+                    mainCamera.Follow = null;
+                    OnPlayerDeath();
+                    GetComponent<ClientNetworkTransform>().Teleport(Vector3.zero, Quaternion.identity, Vector3.one);
+                    Debug.Log("Jugador muere");
+                }
             }
         }
     }
@@ -252,7 +331,5 @@ public class Player : NetworkBehaviour
         else
             health += amount;
     }
-
-    
 
 }

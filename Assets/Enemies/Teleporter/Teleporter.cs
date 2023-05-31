@@ -107,7 +107,7 @@ public class Teleporter : Enemy
     }
 
     void OnCollisionStay(Collision other) {
-        
+        Debug.Log("Turret collision");
     }
 
 }

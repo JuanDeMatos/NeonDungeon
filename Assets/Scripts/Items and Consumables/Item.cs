@@ -12,55 +12,94 @@ public class Item : NetworkBehaviour, IEquatable<Item>
 
     [Header("Stat Modifiers")]
     [Header("Player Attributes")]
+    public int dashCharges;
     public Stat health;
     public Stat movementSpeed;
     public Stat invulnerableTime;
     public Stat dashSpeed;
-    public Stat dashDuration;
+    public Stat dashRange;
 
     [Header("Bullet Properties")]
+    public Stat shootSpeed;
     public Stat damage;
     public Stat bulletSpeed;
     public Stat range;
 
     public void ApplyItem(Player player)
     {
-        ApplyStat(ref player.health, health);
-        ApplyStat(ref player.movementSpeed, movementSpeed);
-        ApplyStat(ref player.invulnerableTime, invulnerableTime);
-        ApplyStat(ref player.dashSpeed, dashSpeed);
-        ApplyStat(ref player.dashDuration, dashDuration);
-        ApplyStat(ref player.damage, damage);
-        ApplyStat(ref player.bulletSpeed, bulletSpeed);
-        ApplyStat(ref player.range, range);
+        if (player.dashCharges + dashCharges > 0)
+            player.dashCharges += dashCharges;
+        else
+            player.dashCharges = 1;
+
+        ApplyStat(ref player.health, health,500,1);
+        ApplyStat(ref player.movementSpeed, movementSpeed,30,5);
+        ApplyStat(ref player.invulnerableTime, invulnerableTime,5,0.5f);
+        ApplyStat(ref player.dashSpeed, dashSpeed,20,3);
+        ApplyStat(ref player.dashRange, dashRange,3,1);
+        if (Shared.gameMode == GameMode.Coop)
+            ApplyStat(ref player.shootSpeed, shootSpeed, 100, 0.5f);
+        else
+            ApplyStat(ref player.shootSpeed, shootSpeed, 100, 0.1f);
+        ApplyStat(ref player.damage, damage,99999,1);
+        ApplyStat(ref player.bulletSpeed, bulletSpeed,50,5);
+        ApplyStat(ref player.range, range,0,30);
 
     }
     public void ClearItem(Player player)
     {
-        ClearStat(ref player.health, health);
-        ClearStat(ref player.movementSpeed, movementSpeed);
-        ClearStat(ref player.invulnerableTime, invulnerableTime);
-        ClearStat(ref player.dashSpeed, dashSpeed);
-        ClearStat(ref player.dashDuration, dashDuration);
-        ClearStat(ref player.damage, damage);
-        ClearStat(ref player.bulletSpeed, bulletSpeed);
-        ClearStat(ref player.range, range);
+        if (player.dashCharges - dashCharges > 0)
+            player.dashCharges -= dashCharges;
+        else
+            player.dashCharges = 1;
+
+        ClearStat(ref player.health, health,500,1);
+        ClearStat(ref player.movementSpeed, movementSpeed,30,5);
+        ClearStat(ref player.invulnerableTime, invulnerableTime,5,0.5f);
+        ClearStat(ref player.dashSpeed, dashSpeed, 20,3);
+        ClearStat(ref player.dashRange, dashRange,3,1);
+        if (Shared.gameMode == GameMode.Coop)
+            ClearStat(ref player.shootSpeed, shootSpeed, 100, 0.5f);
+        else
+            ClearStat(ref player.shootSpeed, shootSpeed, 100, 0.1f);
+        ClearStat(ref player.damage, damage,99999,1);
+        ClearStat(ref player.bulletSpeed, bulletSpeed,50,5);
+        ClearStat(ref player.range, range,0,30);
     }
 
-    private void ApplyStat(ref float playerStat, Stat itemStat)
+    private void ApplyStat(ref float playerStat, Stat itemStat, float maxLimit, float minLimit)
     {
+        float value = playerStat;
+
         if (itemStat.isMultiplier)
-            playerStat *= itemStat.value == 0 ? 1 : itemStat.value;
+            value *= itemStat.value == 0 ? 1 : itemStat.value;
         else
-            playerStat += itemStat.value;
+            value += itemStat.value;
+
+        if (value > maxLimit && value >= minLimit)
+            playerStat = maxLimit;
+        else if (value < minLimit)
+            playerStat = minLimit;
+        else
+            playerStat = value;
+            
     }
 
-    private void ClearStat(ref float playerStat, Stat itemStat)
+    private void ClearStat(ref float playerStat, Stat itemStat, float maxLimit, float minLimit)
     {
+        float value = playerStat;
+
         if (itemStat.isMultiplier)
-            playerStat /= itemStat.value == 0 ? 1 : itemStat.value;
+            value /= itemStat.value == 0 ? 1 : itemStat.value;
         else
-            playerStat -= itemStat.value;
+            value -= itemStat.value;
+
+        if (value > maxLimit && value >= minLimit)
+            playerStat = maxLimit;
+        else if (value < minLimit)
+            playerStat = minLimit;
+        else
+            playerStat = value;
     }
 
 

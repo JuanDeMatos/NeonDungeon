@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &634548405184184126
+--- !u!1 &3733950314005010328
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,55 +8,69 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 634548405184184121}
-  - component: {fileID: 634548405184184123}
-  - component: {fileID: 634548405184184120}
-  - component: {fileID: 4532831945939699882}
+  - component: {fileID: 3733950314005010330}
+  - component: {fileID: 3733950314005010329}
+  - component: {fileID: 3733950314005010331}
+  - component: {fileID: 3733950314005010332}
   m_Layer: 0
-  m_Name: SharedInventory
+  m_Name: PlayerDeathHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &634548405184184121
+--- !u!4 &3733950314005010330
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634548405184184126}
+  m_GameObject: {fileID: 3733950314005010328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.671921, y: 6.8049774, z: 6.712189}
+  m_LocalPosition: {x: -14.75266, y: -338.48557, z: 313.5163}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &634548405184184123
+--- !u!114 &3733950314005010329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634548405184184126}
+  m_GameObject: {fileID: 3733950314005010328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0ee29c5c4e41b478ab26c13f8b7a55, type: 3}
+  m_Script: {fileID: 11500000, guid: 5111042db84cb7e418f09db24f698fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keys:
-    m_InternalValue: 0
-  coins:
-    m_InternalValue: 0
---- !u!114 &634548405184184120
+  playerPrefab: {fileID: 8413307640696032876, guid: 039c3105531ee5b4d8d7993701f047c2, type: 3}
+  alivePlayers: []
+  lookingAtPlayer: 0
+  localPlayer: {fileID: 0}
+  mainCamera: {fileID: 0}
+  dead: 0
+--- !u!114 &3733950314005010331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634548405184184126}
+  m_GameObject: {fileID: 3733950314005010328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f08ee958a88c44985bb30f8fcb2469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3733950314005010332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3733950314005010328}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
@@ -66,15 +80,3 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4532831945939699882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634548405184184126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f08ee958a88c44985bb30f8fcb2469, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

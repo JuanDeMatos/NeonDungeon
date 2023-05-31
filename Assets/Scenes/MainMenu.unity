@@ -3349,6 +3349,7 @@ GameObject:
   - component: {fileID: 1059323085}
   - component: {fileID: 1059323084}
   - component: {fileID: 1059323083}
+  - component: {fileID: 1059323086}
   m_Layer: 0
   m_Name: NetworkManagerSingleplayer
   m_TagString: Untagged
@@ -3428,6 +3429,11 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 3733950314005010328, guid: 3dab62a7ccbc5b7469450c1c977512a6, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 7414355768845218558, guid: 4b1f07da927e6d0428e362fb88f84a6b, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
@@ -3467,6 +3473,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1059323086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059323082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f08ee958a88c44985bb30f8fcb2469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149016107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4403,7 +4421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ProtocolType: 1
-  m_MaxPacketQueueSize: 256
+  m_MaxPacketQueueSize: 1024
   m_MaxPayloadSize: 12288
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
@@ -4462,6 +4480,11 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 3733950314005010328, guid: 3dab62a7ccbc5b7469450c1c977512a6, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 7414355768845218558, guid: 4b1f07da927e6d0428e362fb88f84a6b, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
@@ -4471,7 +4494,7 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
-    TickRate: 300
+    TickRate: 1000
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
@@ -5635,6 +5658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputJoinCode: {fileID: 377922546}
   relayScript: {fileID: 164838538}
+  buttons: []
   networkManagerSingleplayer: {fileID: 1059323082}
   networkManagerCoop: {fileID: 1643430820}
 --- !u!4 &1949354044

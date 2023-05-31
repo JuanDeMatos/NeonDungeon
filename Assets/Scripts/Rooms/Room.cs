@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class Room : MonoBehaviour
             Shared.inCombat = true;
             doors.SetActive(true);
         }
-        doorTriggers.SetActive(false);  
+        doorTriggers.SetActive(false);
         StartCoroutine(SpawnObjects());
     }
 

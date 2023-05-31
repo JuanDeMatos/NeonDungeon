@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2928310851961707450}
   - component: {fileID: 2928310851961707444}
   - component: {fileID: 2928310851961707445}
+  - component: {fileID: 4882061382841680552}
   m_Layer: 0
   m_Name: Seed
   m_TagString: Untagged
@@ -45,6 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f8eae1d7c0a7341a7744f1e6d4b13e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed:
+    m_InternalValue: 0
+  nPlayers:
+    m_InternalValue: 1
+  treasureItems: []
+  shopItems: []
+  permanentTreasureItems: []
+  permanentShopItems: []
 --- !u!114 &2928310851961707445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +70,15 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &4882061382841680552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928310851961707451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f08ee958a88c44985bb30f8fcb2469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
