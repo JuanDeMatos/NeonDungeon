@@ -7,13 +7,25 @@ using Unity.Netcode;
 
 public class Boss : Enemy
 {
-    public GameObject bulletPrefab;
-    public float bulletSpeed;
-    public float range;
-    public Transform exit;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform[] exit;
+    [SerializeField] private Transform[] bulletPivot;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Rigidbody rb;
+
     private List<GameObject> players;
-    private const float GRAVITY = -9.81f;
-    public bool detected;
+    private GameObject closestPlayer;
+    private float timeAcumulator;
+    private float nextAttackTimer = 3f;
+
+    [Range(0.1f,0.5f)]
+    public float shootSpeed;
+    public float bulletSpeed;
+    public float chargeImpulse;
+    public float chaseSpeed;
+
+    public delegate void DeathHandler();
+    public event DeathHandler OnDeathHandler;
 
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
@@ -22,8 +34,9 @@ public class Boss : Enemy
         if (IsOwner)
         {
             players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
-            detected = false;
-            InvokeRepeating("Shoot", 0, 1);
+            this.Invoke(() => {
+                rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+            },1f);
         }
     }
 
@@ -35,45 +48,95 @@ public class Boss : Enemy
 
         players = GameObject.FindGameObjectsWithTag("PlayerDetection").ToList();
         players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
-        GameObject closerPlayer = players.First();
+        closestPlayer = players.First();
+        
+        
 
-        Vector3 direction = closerPlayer.transform.position - transform.position;
+        timeAcumulator += Time.deltaTime;
 
-        if (!detected)
+        if (timeAcumulator >= nextAttackTimer)
         {
-            Debug.DrawRay(transform.position, direction * 1000);
-            RaycastHit hit;
-            Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Player", "Default"));
-
-            if (hit.collider.CompareTag("Player"))
-            {
-                detected = true;
-                transform.LookAt(closerPlayer.transform);
-                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            }
-        }
-        else
-        {
-            transform.LookAt(closerPlayer.transform);
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            timeAcumulator = 0;
+            nextAttackTimer = Random.Range(5f, 15f);
+            NextAttack();
         }
 
     }
 
-    void Shoot()
+    void NextAttack()
     {
-        if (!detected)
-            return;
+        agent.isStopped = true;
+        StopAllCoroutines();
+        switch (Random.Range(0,3))
+        {
+            case 0:
+                StartCoroutine(RotateBulletExits());
+                StartCoroutine(Shoot());
+                break;
+            case 1:
+                StartCoroutine(Charge());
+                break;
+            case 2:
+                StartCoroutine(ChaseCloserPlayer());
+                break;
+;        }
+    }
 
-        GameObject copy = Instantiate(bulletPrefab, exit.position, Quaternion.Euler(transform.eulerAngles));
-        copy.GetComponent<Bullet>().gravity = GRAVITY + range;
-        copy.GetComponent<Enemy>().damage = this.damage;
+    IEnumerator RotateBulletExits()
+    {
+        while (true)
+        {
+            foreach (Transform t in bulletPivot)
+            {
+                t.Rotate(90 * Time.deltaTime * Vector3.up);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        
+    }
 
-        copy.GetComponent<NetworkObject>().Spawn(true);
-        copy.GetComponent<Rigidbody>().AddForce(copy.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+    IEnumerator Shoot()
+    {
+        while (true)
+        {
+            for (int i = 0; i < exit.Length; i++)
+            {
+                GameObject copy = Instantiate(bulletPrefab, exit[i].position, Quaternion.Euler(transform.eulerAngles));
+                copy.GetComponent<Bullet>().gravity = 0;
+                copy.GetComponent<Enemy>().damage = this.damage;
 
-        Destroy(copy, 10f);
+                copy.GetComponent<NetworkObject>().Spawn(true);
+                copy.GetComponent<Rigidbody>().AddForce(exit[i].transform.forward * bulletSpeed, ForceMode.VelocityChange);
 
+                Destroy(copy, 10f);
+                yield return new WaitForEndOfFrame();
+            }
+            
+            yield return new WaitForSeconds(shootSpeed);
+        }
+    }
+
+    IEnumerator Charge()
+    {
+        while (true)
+        {
+            rb.AddForce( Vector3.Normalize(closestPlayer.transform.position - transform.position) * chargeImpulse, ForceMode.Impulse);
+
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+
+
+    IEnumerator ChaseCloserPlayer()
+    {
+        while (true)
+        {
+            agent.isStopped = false;
+            agent.speed = chaseSpeed;
+            agent.SetDestination(closestPlayer.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     void OnCollisionEnter(Collision other)
@@ -85,6 +148,7 @@ public class Boss : Enemy
 
             if (health <= 0)
             {
+                OnDeathHandler();
                 this.GetComponent<NetworkObject>().Despawn(true);
             }
 

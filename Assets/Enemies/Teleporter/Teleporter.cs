@@ -41,7 +41,7 @@ public class Teleporter : Enemy
 
             Vector3 direction = closerPlayer.transform.position - transform.position;
 
-            if (Physics.Raycast(transform.position, direction, 1000, LayerMask.GetMask("Player")))
+            if (Physics.Raycast(transform.position, direction, 1000))
             {
                 detected = true;
                 transform.LookAt(closerPlayer.transform);

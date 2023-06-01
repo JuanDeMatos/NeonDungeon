@@ -12,6 +12,7 @@ public class Spectator : MonoBehaviour
     public List<GameObject> alivePlayers;
     public CinemachineVirtualCamera mainCamera;
     public GameObject spectatorCanvas;
+    public GameObject HUDCanvas;
     public TextMeshProUGUI playerSpectating;
 
     // Start is called before the first frame update
@@ -41,12 +42,14 @@ public class Spectator : MonoBehaviour
 
     public void Disable()
     {
+        HUDCanvas.SetActive(true);
         spectatorCanvas.SetActive(false);
         enabled = false;
     }
 
     public void SpectateAlivePlayer()
     {
+        HUDCanvas.SetActive(false);
         spectatorCanvas.SetActive(true);
         this.Invoke(() => {
             GameObject objective = alivePlayers.Find(go => go.activeSelf);

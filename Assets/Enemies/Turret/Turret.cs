@@ -43,7 +43,7 @@ public class Turret : Enemy
         {
             Debug.DrawRay(transform.position, direction * 1000);
             RaycastHit hit;
-            Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Player", "Default"));
+            Physics.Raycast(transform.position, direction, out hit, 1000);
 
             if (hit.collider.CompareTag("Player"))
             {
