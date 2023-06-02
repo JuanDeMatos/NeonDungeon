@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 3800481643989180320}
   - component: {fileID: 5887337266702748074}
   - component: {fileID: 8322097596999597600}
+  - component: {fileID: 3515468197170654675}
   m_Layer: 0
   m_Name: WaitingPlayersArea
   m_TagString: Untagged
@@ -267,11 +268,26 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541688743651713771}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 8.109516, y: 7.413213, z: 4.4638405}
   m_Center: {x: 0.032948732, y: -0.0004984219, z: -2.1319208}
+--- !u!114 &3515468197170654675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541688743651713771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caee2fe597d7fd249ae8ce10a8be43da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 8563540712928027917}
+  numberPlayersReady:
+    m_InternalValue: 0
 --- !u!1 &6750736463427801113
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3166255112784383782
 Transform:
   m_ObjectHideFlags: 0
@@ -411,6 +427,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 123104299697211570, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+      propertyPath: room
+      value: 
+      objectReference: {fileID: 2309084160548644989}
     - target: {fileID: 336532922428680890, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -503,11 +523,47 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 323555491329042115, guid: 2f0977f6a1b3f71438c0825079982818, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2903662562312263197, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+--- !u!1 &786582136780433916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4844455203435178932, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+  m_PrefabInstance: {fileID: 5318881031590036040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3825910447394613623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8991484304900336447, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+  m_PrefabInstance: {fileID: 5318881031590036040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2309084160548644989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3825910447394613623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bcbfaf6ed109349850cd1e6fe0a576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roof: {fileID: 8954139224979422714}
+  doors: {fileID: 6750736463427801113}
+  doorTriggers: {fileID: 786582136780433916}
+  enemies: []
+  ended: 0
+  allPlayersReadyDoors: {fileID: 7536726078066633160}
+  playersText: {fileID: 958004693498635289}
+  waiting: {fileID: 3515468197170654675}
 --- !u!4 &4491089266458833869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8612003965898715525, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+  m_PrefabInstance: {fileID: 5318881031590036040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8954139224979422714 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3860438312203780018, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
   m_PrefabInstance: {fileID: 5318881031590036040}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6161898377222311906

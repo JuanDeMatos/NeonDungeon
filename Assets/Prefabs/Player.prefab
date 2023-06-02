@@ -6255,7 +6255,7 @@ MonoBehaviour:
         byte0060: 0
         byte0061: 0
   mainCamera: {fileID: 0}
-  usesGravity: 1
+  usesGravity: 0
   salidaBala: {fileID: 4870208253595144799}
   prefabBala: {fileID: 8640155602805337270, guid: 5178fd3c8545b1b43a43e4bf20a0c38a, type: 3}
   _controller: {fileID: 9190089912885712090}

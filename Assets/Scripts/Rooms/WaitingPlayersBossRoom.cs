@@ -11,10 +11,27 @@ public class WaitingPlayersBossRoom : MonoBehaviour
     public delegate void AllPlayersReady();
     public event AllPlayersReady OnAllPlayersReady;
 
+    private Seed seed;
+
+    private void Start()
+    {
+        if (Shared.gameMode != GameMode.Coop)
+            this.gameObject.SetActive(false);
+    }
+
     void Update()
     {
-        if (numberPlayersReady.Value == FindObjectOfType<Seed>().CountPlayers())
-            OnAllPlayersReady();
+        text.transform.eulerAngles = new Vector3(60, 0, 0);
+        if (seed == null)
+            seed = FindObjectOfType<Seed>();
+        else
+        {
+            text.SetText(numberPlayersReady.Value + " / " + seed.CountPlayers());
+            if (numberPlayersReady.Value == seed.CountPlayers())
+                OnAllPlayersReady();
+        }
+
+        
     }
 
     private void OnTriggerEnter(Collider other)
