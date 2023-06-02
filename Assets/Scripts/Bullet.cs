@@ -19,14 +19,28 @@ public class Bullet : NetworkBehaviour
     void FixedUpdate()
     {
         GetComponent<Rigidbody>().AddForce(Vector3.up * gravity, ForceMode.Acceleration);
-
-        //Debug.Log(GetComponent<Rigidbody>().velocity);
     }
 
     void OnCollisionEnter(Collision other) {
 
+        if (other.gameObject.CompareTag("Player"))
+            if (!other.gameObject.GetComponent<Player>().vulnerable)
+                return;
+
         if (this.GetComponent<NetworkObject>().IsSpawned)
             this.GetComponent<NetworkObject>().Despawn(true);
         
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("Player"))
+            if (!other.GetComponent<Player>().vulnerable)
+                return;
+
+        if (this.GetComponent<NetworkObject>().IsSpawned)
+            this.GetComponent<NetworkObject>().Despawn(true);
+
     }
 }

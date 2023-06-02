@@ -50,7 +50,7 @@ public class DetectionSystem : NetworkBehaviour
 
         if (distanciaEntre <= distanciaDeDeteccion
             && Vector3.Angle(aDetectar.position - observador.position, observador.forward) <= (anguloDeDeteccion / 2)
-            && Physics.Raycast(observador.position, aDetectar.position - observador.position, distanciaDeDeteccion, (int)Mathf.Pow(2, aDetectar.gameObject.layer)))
+            && Physics.Raycast(observador.position, aDetectar.position - observador.position, distanciaDeDeteccion))
         {
             if (perderAgroIniciado)
             {
