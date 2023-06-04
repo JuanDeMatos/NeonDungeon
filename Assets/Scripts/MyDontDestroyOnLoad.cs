@@ -24,7 +24,6 @@ public class MyDontDestroyOnLoad : MonoBehaviour
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        Debug.Log(arg0.name);
         if (arg0.name == "MainMenu")
         {
             Debug.Log("Entra Main Menu");
@@ -35,7 +34,6 @@ public class MyDontDestroyOnLoad : MonoBehaviour
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        Debug.Log(sceneName);
         if (sceneName == "MainMenu")
         {
             Destroy(this.gameObject);

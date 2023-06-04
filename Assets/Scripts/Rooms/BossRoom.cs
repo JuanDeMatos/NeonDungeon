@@ -11,13 +11,11 @@ public class BossRoom : Room
 {
     [SerializeField] private BossRoomTrigger coopDoorTriggers;
     [SerializeField] private List<ItemSpawner> itemSpots;
-
-    private Seed seed;
+    [SerializeField] private WaitForPlayers waitForNextLevel;
 
     // Start is called before the first frame update
     void Start()
     {
-        seed = FindObjectOfType<Seed>();
         if (Shared.gameMode == GameMode.Coop)
         {
             doorTriggers.SetActive(false);
@@ -25,6 +23,26 @@ public class BossRoom : Room
         else
         {
             coopDoorTriggers.gameObject.SetActive(false);
+        }
+
+        if (NetworkManager.Singleton.IsServer)
+            waitForNextLevel.OnAllPlayersReady += LoadNextLevel;
+    }
+
+    void LoadNextLevel()
+    {
+
+        switch (FindObjectOfType<FloorGenerator>().floorLevel)
+        {
+            case 1:
+                NetworkManager.Singleton.SceneManager.LoadScene("Level 2", LoadSceneMode.Single);
+                break;
+            case 2:
+                NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
+                break;
+            case 3:
+                NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
+                break;
         }
     }
 
@@ -47,6 +65,8 @@ public class BossRoom : Room
     }
     protected override IEnumerator CheckEnemies()
     {
+        yield return new WaitForSeconds(2f);
+
         do
         {
             enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
@@ -65,42 +85,13 @@ public class BossRoom : Room
     {
         base.EndRoom();
         SpawnItems();
-        StartCoroutine(LoadNextLevel());
-
-    }
-
-    IEnumerator LoadNextLevel()
-    {
-        Debug.Log("LoadNextLevel");
-        GameObject.FindGameObjectsWithTag("Player").ToList()
-                    .ConvertAll<Player>(p => p.GetComponent<Player>())
-                    .Find(p => p.IsLocalPlayer)?.StartSpectating();
-
-        if (!NetworkManager.Singleton.IsServer)
-            yield break;
-
-        yield return new WaitForSeconds(1f);
-
-        
-        switch (FindObjectOfType<FloorGenerator>().floorLevel)
-        {
-            case 1:
-                NetworkManager.Singleton.SceneManager.LoadScene("Level 2", LoadSceneMode.Single);
-                break;
-            case 2:
-                NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
-                break;
-            case 3:
-                NetworkManager.Singleton.SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
-                break;
-        }
-
+        waitForNextLevel.gameObject.SetActive(true);
     }
 
     private void SpawnItems()
     {
 
-        for (int i = 0; i < FindObjectOfType<LooseState>().alivePlayers; i++)
+        for (int i = 0; i < LooseState.alivePlayers; i++)
         {
             itemSpots[i].Spawn();
 

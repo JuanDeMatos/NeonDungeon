@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using Unity.Netcode;
 
 public class HUD : MonoBehaviour
 {
@@ -29,12 +30,17 @@ public class HUD : MonoBehaviour
     [SerializeField] Color fullChargedColor;
     [SerializeField] Color emptyChargeColor;
     [SerializeField] TextMeshProUGUI textDashes;
-    [SerializeField] Animator animatorDashes;
     [SerializeField] Image dashChargingImage;
 
     [Header("Health Bar")]
     [SerializeField] Slider healthBar;
     [SerializeField] TextMeshProUGUI textHealth;
+
+    [Header("Waiting")]
+    [SerializeField] GameObject waitingPanel;
+    [SerializeField] TextMeshProUGUI waitingText;
+    [SerializeField] TextMeshProUGUI waitingTextPlayersReady;
+    [SerializeField] Image waitingImage;
 
 
     // Start is called before the first frame update
@@ -42,6 +48,12 @@ public class HUD : MonoBehaviour
     {
         sharedInventory = FindObjectOfType<SharedInventory>();
         localPlayer = FindObjectsOfType<Player>().ToList().Find(p => p.IsLocalPlayer);
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += HideWaitingPanel;
+    }
+
+    private void HideWaitingPanel(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        waitingPanel.SetActive(false);
     }
 
     private void Update()
@@ -104,6 +116,28 @@ public class HUD : MonoBehaviour
         }
 
         return formatted;
+    }
+
+    public void SetWaitingPanel(Sprite sprite,int playersReady, string text, bool showPlayersReady = true)
+    {
+        waitingImage.sprite = sprite;
+        waitingText.SetText(text);
+
+        if (showPlayersReady)
+        {
+            waitingTextPlayersReady.SetText($"{playersReady} / {LooseState.alivePlayers}");
+        }
+        else
+        {
+            waitingTextPlayersReady.SetText("");
+        }
+
+        waitingPanel.SetActive(true);
+    }
+
+    public void HideWaitingPanel()
+    {
+        waitingPanel.SetActive(false);
     }
 
 }

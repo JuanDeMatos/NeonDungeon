@@ -5,27 +5,18 @@ using TMPro;
 using Unity.Netcode;
 public class BossRoomTrigger : RoomDoorTriggers
 {   
-    [SerializeField] private TextMeshPro playersReadyText;
-    //public NetworkVariable<int> numberPlayersReady;
-    public int numberPlayersReady = 0;
+    [SerializeField] private WaitForPlayers waitForPlayers;
 
-    private LooseState looseState;
-
-    void Update()
+    private void Start()
     {
-        playersReadyText.transform.eulerAngles = new Vector3(60, 0, 0);
-        if (looseState == null)
-            looseState = FindObjectOfType<LooseState>();
-        else
-        {
-            playersReadyText.SetText(numberPlayersReady + " / " + looseState.alivePlayers);
+        this.Invoke(() => active = true, 1f);
+        waitForPlayers.OnAllPlayersReady += WaitForPlayers_OnAllPlayersReady;
+    }
 
-            if (numberPlayersReady == looseState.alivePlayers)
-            {
-                room.StartRoom();
-                this.gameObject.SetActive(false);
-            } 
-        }
+    private void WaitForPlayers_OnAllPlayersReady()
+    {
+        room.StartRoom();
+        this.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,34 +28,8 @@ public class BossRoomTrigger : RoomDoorTriggers
         if (!other.CompareTag("Player"))
             return;
 
-        Debug.Log(other.gameObject.name);
+        Debug.Log("Entra quitar techo");
 
         room.roof.SetActive(false);
-        AddPlayerServerRpc();
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!active)
-            return;
-
-        if (!other.CompareTag("Player"))
-            return;
-
-        RemovePlayerServerRpc();
-
-    }
-
-    [ServerRpc]
-    void AddPlayerServerRpc()
-    {
-        numberPlayersReady++;
-    }
-
-    [ServerRpc]
-    void RemovePlayerServerRpc()
-    {
-        numberPlayersReady--;
     }
 }

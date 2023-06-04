@@ -49,14 +49,17 @@ public class Spectator : MonoBehaviour
 
     public void SpectateAlivePlayer()
     {
+        this.enabled = true;
         HUDCanvas.SetActive(false);
         spectatorCanvas.SetActive(true);
         this.Invoke(() => {
             GameObject objective = alivePlayers.Find(go => go.activeSelf);
             if (objective != null)
+            {
                 mainCamera.Follow = objective.transform;
                 playerSpectating.SetText("Player: " + objective.GetComponent<Player>().OwnerClientId +
                     " " + objective.GetComponent<Player>().username.Value);
+            }   
         }, 1f);
         
     }

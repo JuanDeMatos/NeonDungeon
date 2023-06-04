@@ -25,6 +25,10 @@ public class Enemy : NetworkBehaviour
             health *= nPlayers;
             damage *= nPlayers;
         }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
 }

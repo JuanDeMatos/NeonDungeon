@@ -8,7 +8,7 @@ using System.Linq;
 public class LooseState : MonoBehaviour
 {
     public List<GameObject> players;
-    public int alivePlayers = 1;
+    public static int alivePlayers = 1;
     public Player localPlayer;
 
     public delegate void ShutdownHandler();
@@ -16,6 +16,7 @@ public class LooseState : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(WaitingLobby());
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
     }
 
@@ -23,17 +24,31 @@ public class LooseState : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Q) && Input.GetKeyDown(KeyCode.Escape))
             Shutdown();
+
+
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
+
         if (sceneName == "Level 1")
         {
+            StopAllCoroutines();
             players = GameObject.FindGameObjectsWithTag("Player").ToList();
             localPlayer = players.ConvertAll(p => p.GetComponent<Player>()).Find(p => p.IsLocalPlayer);
             localPlayer.OnPlayerDeath += LocalPlayer_OnPlayerDeath;
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
             StartCoroutine(CheckAlivePlayers());
+        }
+    }
+
+    IEnumerator WaitingLobby()
+    {
+        while (true)
+        {
+            players = GameObject.FindGameObjectsWithTag("Player").ToList();
+            StartCoroutine(CheckAlivePlayers());
+            yield return new WaitForSeconds(0.3f);
         }
     }
 

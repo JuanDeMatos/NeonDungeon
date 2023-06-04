@@ -128,6 +128,8 @@ public class Player : NetworkBehaviour
             mainCamera.Follow = transform;
         else
             StartCoroutine(SearchCamera());
+
+        MoveToZero();
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -141,6 +143,8 @@ public class Player : NetworkBehaviour
             mainCamera.Follow = transform;
         else
             StartCoroutine(SearchCamera());
+
+        MoveToZero();
     }
 
     IEnumerator SearchCamera()

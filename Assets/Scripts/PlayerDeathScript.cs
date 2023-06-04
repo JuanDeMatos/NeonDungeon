@@ -65,12 +65,8 @@ public class PlayerDeathScript : NetworkBehaviour
         players.ForEach((go) =>
         {
             Player player = go.GetComponent<Player>();
-            if (player.GetComponent<PlayerDeathScript>().dead)
-            {
-                player.health = player.maxHealth / 3;
-                dead = false;
-            } else
-                player.Heal((int)player.maxHealth / 5);
+
+            player.Heal((int)player.maxHealth / 3);
 
             go.SetActive(true);
             player.StartApplyPlayerProperties();
