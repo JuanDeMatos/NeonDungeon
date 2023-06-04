@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7414355768845218555}
   - component: {fileID: 7414355768845218554}
   - component: {fileID: 8311612970561599047}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: ChaserSpawner
   m_TagString: ObjectSpawner
   m_Icon: {fileID: 0}

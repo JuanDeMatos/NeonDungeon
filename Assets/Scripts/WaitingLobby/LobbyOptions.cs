@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class LobbyOptions : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI joinCodeText;
+    [SerializeField] WaitForPlayers waitForPlayers;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,16 +24,14 @@ public class LobbyOptions : MonoBehaviour
         {
             joinCodeText.transform.parent.gameObject.SetActive(false);
         }
+
+        waitForPlayers.OnAllPlayersReady += LoadLevel1;
     }
 
-    private void Update()
+    private void LoadLevel1()
     {
-        if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
-        {
-
+        if (NetworkManager.Singleton.IsServer)
             NetworkManager.Singleton.SceneManager.LoadScene("Level 1", LoadSceneMode.Single);
-
-        }
     }
 
     void MovePlayer()

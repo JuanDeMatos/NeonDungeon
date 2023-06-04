@@ -31,7 +31,6 @@ public class FloorGenerator : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
-            GameObject.FindGameObjectsWithTag("Player").ToList();
             switch (floorLevel)
             {
                 case 1:

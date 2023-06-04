@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 
 public class Teleporter : Enemy
 {
@@ -76,7 +77,7 @@ public class Teleporter : Enemy
                 }
             } while (path.status != NavMeshPathStatus.PathComplete);
 
-            agent.Warp(position);
+            GetComponent<NetworkTransform>().Teleport(position, Quaternion.identity,Vector3.one);
 
             if (detected)
             {
@@ -104,10 +105,6 @@ public class Teleporter : Enemy
                 Destroy(this.gameObject);
             }
         }
-    }
-
-    void OnCollisionStay(Collision other) {
-        Debug.Log("Turret collision");
     }
 
 }

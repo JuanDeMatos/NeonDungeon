@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class RoomDoorTriggers : MonoBehaviour
 {
-    [SerializeField] private Room room;
-    private bool active;
+    [SerializeField] protected Room room;
+    protected bool active;
 
     // Start is called before the first frame update
     void Start()
     {
         this.Invoke(() => active = true,1f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter(Collider other)

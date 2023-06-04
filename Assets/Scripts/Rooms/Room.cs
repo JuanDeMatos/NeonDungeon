@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] protected GameObject roof;
+    [SerializeField] public GameObject roof;
     [SerializeField] protected GameObject doors;
     [SerializeField] protected GameObject doorTriggers;
     public List<GameObject> enemies;
@@ -47,6 +47,9 @@ public class Room : MonoBehaviour
 
     protected virtual IEnumerator CheckEnemies()
     {
+        if (Shared.gameMode == GameMode.Coop)
+            yield break;
+
         do
         {
             enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();

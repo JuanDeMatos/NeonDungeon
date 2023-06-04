@@ -23,12 +23,14 @@ public class ItemSpawner : ObjectSpawner
                 GetShopItem();
                 GetPermanentShopItem();
                 break;
+            case ItemType.Permanent:
+                GetPermanentTreasureItem();
+                break;
         }
 
         NetworkManager.Singleton.RemoveNetworkPrefab(prefabReference.gameObject);
         NetworkManager.Singleton.AddNetworkPrefab(prefabReference.gameObject);
 
-        Debug.Log(prefabReference.gameObject.name);
 
         if (NetworkManager.Singleton && NetworkManager.Singleton.IsServer)
         {
@@ -86,6 +88,6 @@ public class ItemSpawner : ObjectSpawner
 
     public enum ItemType
     {
-       Treasure,Shop
+       Treasure,Shop,Permanent
     }
 }
