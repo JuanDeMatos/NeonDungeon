@@ -23,7 +23,8 @@ public class Enemy : NetworkBehaviour
             this.enabled = true;
             int nPlayers = FindObjectOfType<Seed>().CountPlayers();
             health *= nPlayers;
-            damage *= nPlayers;
+            damage += (FindObjectOfType<FloorGenerator>().floorLevel);
+            damage *= (nPlayers / 2);
         }
         else
         {

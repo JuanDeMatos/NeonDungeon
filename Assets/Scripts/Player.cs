@@ -26,6 +26,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private TextMeshPro usernameLabel;
     [SerializeField] private SkinnedMeshRenderer meshRenderer;
     public Color[] colors;
+    [SerializeField] private GameObject minimapCamera;
 
     // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
     private bool moving;
@@ -63,6 +64,7 @@ public class Player : NetworkBehaviour
         if (!IsOwner) { 
             gameObject.GetComponent<PlayerInput>().enabled = false;
             this.enabled = false;
+            Destroy(minimapCamera);
         } else
         {
             Debug.Log(Shared.username);
