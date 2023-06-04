@@ -119,12 +119,28 @@ public class Player : NetworkBehaviour
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        if (!IsLocalPlayer)
+            return;
+
+        movement = Vector3.zero;
         usesGravity = true;
+        if (mainCamera != null)
+            mainCamera.Follow = transform;
+        else
+            StartCoroutine(SearchCamera());
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
+        if (!IsLocalPlayer)
+            return;
+
+        movement = Vector3.zero;
         usesGravity = true;
+        if (mainCamera != null)
+            mainCamera.Follow = transform;
+        else
+            StartCoroutine(SearchCamera());
     }
 
     IEnumerator SearchCamera()
@@ -337,15 +353,41 @@ public class Player : NetworkBehaviour
 
             if (health <= 0)
             {
-                if (IsOwner)
+                if (IsLocalPlayer)
                 {
-                    mainCamera.Follow = null;
+                    GetComponent<PlayerDeathScript>().dead = true;
+                    SetDeadServerRpc();
+                    StartSpectating();
                     OnPlayerDeath();
-                    GetComponent<ClientNetworkTransform>().Teleport(Vector3.zero, Quaternion.identity, Vector3.one);
-                    Debug.Log("Jugador muere");
                 }
             }
         }
+    }
+
+    [ServerRpc]
+    void SetDeadServerRpc()
+    {
+        SetDeadClientRpc();
+    }
+
+
+    [ClientRpc]
+    void SetDeadClientRpc()
+    {
+        GetComponent<PlayerDeathScript>().dead = true;
+    }
+
+    public void StartSpectating()
+    {
+        mainCamera.Follow = null;
+        MoveToZero();
+        GetComponent<PlayerDeathScript>().DeactivatePlayerServerRpc(OwnerClientId);
+        FindObjectOfType<Spectator>().SpectateAlivePlayer();
+    }
+
+    public void MoveToZero()
+    {
+        GetComponent<ClientNetworkTransform>().Teleport(Vector3.zero, Quaternion.identity, Vector3.one);
     }
 
     public void AddItem(Item item)

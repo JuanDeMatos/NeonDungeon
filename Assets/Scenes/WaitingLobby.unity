@@ -1217,6 +1217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
+  alivePlayers: 1
   localPlayer: {fileID: 0}
 --- !u!1 &377914507
 GameObject:
@@ -1521,6 +1522,7 @@ GameObject:
   - component: {fileID: 459553027}
   - component: {fileID: 459553026}
   - component: {fileID: 459553028}
+  - component: {fileID: 459553029}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -1594,6 +1596,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f08ee958a88c44985bb30f8fcb2469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &459553029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459553025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2221e440aaec5e24c8df2120792cea80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 459553026}
 --- !u!1 &486307576
 GameObject:
   m_ObjectHideFlags: 0
@@ -3123,7 +3138,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65527
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

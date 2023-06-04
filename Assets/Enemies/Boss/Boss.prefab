@@ -192,7 +192,7 @@ MonoBehaviour:
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
-  PositionThreshold: 0.001
+  PositionThreshold: 0.01
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   InLocalSpace: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbe6f84820388944854a3cc2ce92aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3000
+  health: 10
   damage: 0
   bulletPrefab: {fileID: 8640155602805337270, guid: 3cbe10f6a1fd3e54caf3b3c08476b745, type: 3}
   exit:
@@ -236,10 +236,10 @@ MonoBehaviour:
   - {fileID: 7481006412998455830}
   agent: {fileID: 4666093086847148050}
   rb: {fileID: 372080858451246607}
-  shootSpeed: 0.1
+  shootSpeed: 0.3
   bulletSpeed: 10
-  chargeImpulse: 50
-  chaseSpeed: 30
+  chargeImpulse: 30
+  chaseSpeed: 10
 --- !u!195 &4666093086847148050
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 10
-  m_Acceleration: 50
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0

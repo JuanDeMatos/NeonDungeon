@@ -33,6 +33,7 @@ public class PlayerDeathScript : NetworkBehaviour
     {
         if (sceneName == "Level 1")
         {
+            Debug.Log("Entra en onload");
             players = GameObject.FindGameObjectsWithTag("Player").ToList();
             localPlayer = players.ConvertAll(p => p.GetComponent<Player>()).Find(p => p.IsLocalPlayer);
             localPlayer.OnPlayerDeath += LocalPlayer_OnPlayerDeath;
@@ -45,15 +46,9 @@ public class PlayerDeathScript : NetworkBehaviour
     {
         if (Shared.gameMode == GameMode.Coop)
         {
-            dead = true;
-
             if (enabled)
                 spectator.enabled = true;
-
-            if (IsServer)
-                DeactivatePlayerClientRpc(localPlayer.OwnerClientId);
-            else
-                DeactivatePlayerServerRpc(localPlayer.OwnerClientId);
+           
 
             spectator.SpectateAlivePlayer();
         }
@@ -69,13 +64,16 @@ public class PlayerDeathScript : NetworkBehaviour
 
         players.ForEach((go) =>
         {
-            if (!go.activeSelf)
+            Player player = go.GetComponent<Player>();
+            if (player.GetComponent<PlayerDeathScript>().dead)
             {
-                go.GetComponent<Player>().health = go.GetComponent<Player>().maxHealth / 3;
-                go.SetActive(true);
-                go.GetComponent<Player>().StartApplyPlayerProperties();
-            }
-                
+                player.health = player.maxHealth / 3;
+                dead = false;
+            } else
+                player.Heal((int)player.maxHealth / 5);
+
+            go.SetActive(true);
+            player.StartApplyPlayerProperties();
 
         });
         
@@ -84,7 +82,7 @@ public class PlayerDeathScript : NetworkBehaviour
     }
 
     [ServerRpc]
-    void DeactivatePlayerServerRpc(ulong ownerClientId)
+    public void DeactivatePlayerServerRpc(ulong ownerClientId)
     {
         Debug.Log("ServerRpc: " + ownerClientId);
         DeactivatePlayerClientRpc(ownerClientId);

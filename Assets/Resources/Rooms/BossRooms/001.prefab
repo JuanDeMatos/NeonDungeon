@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6310644933656780167}
     m_Modifications:
+    - target: {fileID: 372080858385118626, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 372080858451246593, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 372080858451246595, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -62,6 +70,10 @@ PrefabInstance:
     - target: {fileID: 372080858451246601, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}
       propertyPath: m_Name
       value: BossSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 372080858451246601, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1734d405000b2ce45b073f77bca1f252, type: 3}

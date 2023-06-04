@@ -15,6 +15,8 @@ public class MainMenuOptions : MonoBehaviour
     public GameObject networkManagerSingleplayer;
     public GameObject networkManagerCoop;
 
+    public bool dontUseRelay;
+
     private void Start() 
     {
         Debug.Log("Start");
@@ -32,16 +34,40 @@ public class MainMenuOptions : MonoBehaviour
 
     public void CreateCoop()
     {
+        
         Shared.gameMode = GameMode.Coop;
-        networkManagerCoop.SetActive(true);
-        relayScript.CreateRelay();
+        
+
+        if (dontUseRelay)
+        {
+            networkManagerSingleplayer.SetActive(true);
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("WaitingLobby", LoadSceneMode.Single);
+        } else
+        {
+            networkManagerCoop.SetActive(true);
+            relayScript.CreateRelay();
+        }
+        
     }
 
     public void JoinCoop()
     {
         Shared.gameMode = GameMode.Coop;
-        networkManagerCoop.SetActive(true);
-        relayScript.JoinRelay(inputJoinCode.text);
+        
+
+        if (dontUseRelay)
+        {
+            networkManagerSingleplayer.SetActive(true);
+            NetworkManager.Singleton.StartClient();
+        }
+        else
+        {
+            networkManagerCoop.SetActive(true);
+            relayScript.JoinRelay(inputJoinCode.text);
+        }
+
+        
     }
 
     public void EnableButtons()

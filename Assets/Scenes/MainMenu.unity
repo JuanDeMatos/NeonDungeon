@@ -3443,7 +3443,7 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
-    TickRate: 300
+    TickRate: 60
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
@@ -4494,7 +4494,7 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
-    TickRate: 1000
+    TickRate: 60
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
@@ -5661,6 +5661,7 @@ MonoBehaviour:
   buttons: []
   networkManagerSingleplayer: {fileID: 1059323082}
   networkManagerCoop: {fileID: 1643430820}
+  dontUseRelay: 0
 --- !u!4 &1949354044
 Transform:
   m_ObjectHideFlags: 0

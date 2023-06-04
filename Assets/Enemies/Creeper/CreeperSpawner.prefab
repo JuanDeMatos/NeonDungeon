@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2520605061243757244}
   - component: {fileID: 501645883034289993}
   - component: {fileID: -6220112307461922437}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: CreeperSpawner
   m_TagString: ObjectSpawner
   m_Icon: {fileID: 0}

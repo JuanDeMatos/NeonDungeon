@@ -24,8 +24,10 @@ public class Boss : Enemy
     public float chargeImpulse;
     public float chaseSpeed;
 
-    public delegate void DeathHandler();
-    public event DeathHandler OnDeathHandler;
+    public delegate void BossSpawnedHandler(Transform boss);
+    public static event BossSpawnedHandler OnBossSpawned;
+    public delegate void BossDeathHandler();
+    public static event BossDeathHandler OnBossDeath;
 
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
@@ -38,6 +40,7 @@ public class Boss : Enemy
                 rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
             },1f);
         }
+        OnBossSpawned(this.transform);
     }
 
     // Update is called once per frame
@@ -148,8 +151,8 @@ public class Boss : Enemy
 
             if (health <= 0)
             {
-                OnDeathHandler();
                 this.GetComponent<NetworkObject>().Despawn(true);
+                OnBossDeath();
             }
 
         }
