@@ -101,6 +101,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 311592956235953501, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 824472016191547949, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432792040026902983, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: doors
       value: 
@@ -151,7 +163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5487072286575339249, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: m_Name
-      value: 1DoorPrefab - Copy
+      value: 1DoorPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}

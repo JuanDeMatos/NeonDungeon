@@ -2,28 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomDoorTriggers : MonoBehaviour
+public class MinimapRoomTrigger : MonoBehaviour
 {
-    [SerializeField] protected Room room;
     [SerializeField] private MinimapRoom minimap;
     protected bool active;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.Invoke(() => active = true,1f);
+        this.Invoke(() => active = true, 1f);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!active)
-            return;
-
         if (!other.CompareTag("Player"))
             return;
 
-        Debug.Log("StartRoom");
-        minimap.EnteredRoom();
-        room.StartRoom();
+        this.gameObject.SetActive(false);
+        minimap.VisibleRoom();
+
     }
 }

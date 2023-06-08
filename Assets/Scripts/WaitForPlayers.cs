@@ -79,7 +79,8 @@ public class WaitForPlayers : MonoBehaviour
 
         StopAllCoroutines();
 
-        numberPlayersReady--;
+        if (numberPlayersReady > 0)
+            numberPlayersReady--;
 
         if (numberPlayersReady <= 0)
         {
