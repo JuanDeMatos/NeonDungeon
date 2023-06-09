@@ -23,14 +23,13 @@ public class Player : NetworkBehaviour
     public GameObject prefabBala;
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Animator _animator;
+    [Header("Player identification")]
     [SerializeField] private TextMeshPro usernameLabel;
     [SerializeField] private SkinnedMeshRenderer meshRenderer;
     public Color[] colors;
+    [SerializeField] private SpriteRenderer minimapDot;
     [SerializeField] private GameObject minimapCamera;
 
-    // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
-    private bool moving;
-    public Vector3 movement;
 
     [Header("Player Attributes")]
     public float maxHealth;
@@ -44,6 +43,9 @@ public class Player : NetworkBehaviour
     public float dashSpeed;
     public float dashRange;
     public List<Item> itemList;
+    // Boolean to manage dash not stopping when the dash stops and OnMove() isn't triggering
+    private bool moving;
+    public Vector3 movement;
 
     [Header("Bullet Properties")]
     public bool shooting;
@@ -57,6 +59,8 @@ public class Player : NetworkBehaviour
 
     public delegate void PlayerDeathHandler();
     public event PlayerDeathHandler OnPlayerDeath;
+
+    private HUD hud = null;
     
     public override void OnNetworkSpawn()
     {
@@ -114,6 +118,7 @@ public class Player : NetworkBehaviour
             usernameLabel.color = colors[OwnerClientId];
             meshRenderer.material.color = colors[OwnerClientId];
             usernameLabel.transform.rotation = Quaternion.Euler(60, 0, 0);
+            minimapDot.color = colors[OwnerClientId];
             yield return new WaitForEndOfFrame();
         }
 
@@ -426,5 +431,15 @@ public class Player : NetworkBehaviour
         else
             health += amount;
     }
+    void OnBigMinimap(InputValue value)
+    {
+        if (hud == null)
+        {
+            hud = FindObjectOfType<HUD>();
+        }
+
+        hud?.BigMinimap(value.Get<float>() == 1);
+    }
+
 
 }

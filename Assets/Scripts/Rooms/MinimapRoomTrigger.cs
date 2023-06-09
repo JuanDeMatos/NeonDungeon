@@ -24,8 +24,9 @@ public class MinimapRoomTrigger : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        this.gameObject.SetActive(false);
         minimap.VisibleRoom();
+        this.gameObject.SetActive(false);
+        
 
     }
 }

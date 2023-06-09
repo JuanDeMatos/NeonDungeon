@@ -208,6 +208,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 33828288557542808, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: m_Size.x
       value: 5.14
@@ -264,6 +268,10 @@ PrefabInstance:
       propertyPath: doors
       value: 
       objectReference: {fileID: 4886851241714487869}
+    - target: {fileID: 3073810864922875316, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3555748925701195132, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: room
       value: 
@@ -316,10 +324,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopRoomPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6201833004026927350, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7544959524002713042, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b46d79a3600749c4a947e72a13a703a6, type: 2}
     m_RemovedComponents:
     - {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}

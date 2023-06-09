@@ -110,6 +110,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -7460523073522491799, guid: 0c2042cfe6ed882498d692ac4d04fd68, type: 3}
+    - target: {fileID: 1893071812012923002, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2903662562312263197, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: doors
       value: 
@@ -125,6 +129,10 @@ PrefabInstance:
     - target: {fileID: 5009317544914033360, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7420949465016735032, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8612003965898715525, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: m_RootOrder

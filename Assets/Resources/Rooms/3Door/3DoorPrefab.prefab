@@ -169,6 +169,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -5791402140973754275, guid: a921c11a53b87c44cb270c8f75146ab5, type: 3}
+    - target: {fileID: 1893071812012923002, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2903662562312263197, guid: 1d6fd69e9a6a03749aa403602db3b556, type: 3}
       propertyPath: doors
       value: 
