@@ -208,10 +208,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 33828288557542808, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Size.x
+      value: 5.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Size.y
+      value: 4.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 66ea7c952d0b57b4d8a41d44e1222551, type: 3}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311592956235953501, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.b
+      value: 0.3018868
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.g
+      value: 0.25965887
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.r
+      value: 0.16917051
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.b
+      value: 0.6226415
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.g
+      value: 0.43299636
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.r
+      value: 0.2549306
+      objectReference: {fileID: 0}
+    - target: {fileID: 824472016191547949, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432792040026902983, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: doors
       value: 
       objectReference: {fileID: 4886851241714487869}
+    - target: {fileID: 3073810864922875316, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3555748925701195132, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: room
       value: 
@@ -264,6 +324,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopRoomPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6201833004026927350, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544959524002713042, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b46d79a3600749c4a947e72a13a703a6, type: 2}
     m_RemovedComponents:
     - {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}

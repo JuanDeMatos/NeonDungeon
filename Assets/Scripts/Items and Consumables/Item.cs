@@ -13,7 +13,7 @@ public class Item : NetworkBehaviour, IEquatable<Item>
     [Header("Stat Modifiers")]
     [Header("Player Attributes")]
     public int dashCharges;
-    public Stat health;
+    public Stat maxHealth;
     public Stat movementSpeed;
     public Stat invulnerableTime;
     public Stat dashSpeed;
@@ -32,7 +32,7 @@ public class Item : NetworkBehaviour, IEquatable<Item>
         else
             player.dashCharges = 1;
 
-        ApplyStat(ref player.health, health,500,1);
+        ApplyStat(ref player.maxHealth, maxHealth,500,1);
         ApplyStat(ref player.movementSpeed, movementSpeed,30,5);
         ApplyStat(ref player.invulnerableTime, invulnerableTime,5,0.5f);
         ApplyStat(ref player.dashSpeed, dashSpeed,20,3);
@@ -53,7 +53,7 @@ public class Item : NetworkBehaviour, IEquatable<Item>
         else
             player.dashCharges = 1;
 
-        ClearStat(ref player.health, health,500,1);
+        ClearStat(ref player.maxHealth, maxHealth,500,1);
         ClearStat(ref player.movementSpeed, movementSpeed,30,5);
         ClearStat(ref player.invulnerableTime, invulnerableTime,5,0.5f);
         ClearStat(ref player.dashSpeed, dashSpeed, 20,3);

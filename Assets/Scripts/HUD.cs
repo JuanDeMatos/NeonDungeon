@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
-using System;
 using Unity.Netcode;
 
 public class HUD : MonoBehaviour
@@ -41,6 +39,9 @@ public class HUD : MonoBehaviour
     [SerializeField] TextMeshProUGUI waitingText;
     [SerializeField] TextMeshProUGUI waitingTextPlayersReady;
     [SerializeField] Image waitingImage;
+
+    [Header("BigMinimap")]
+    [SerializeField] GameObject bigMinimap;
 
 
     // Start is called before the first frame update
@@ -138,6 +139,11 @@ public class HUD : MonoBehaviour
     public void HideWaitingPanel()
     {
         waitingPanel.SetActive(false);
+    }
+
+    public void BigMinimap(bool show)
+    {
+        bigMinimap.SetActive(show);
     }
 
 }

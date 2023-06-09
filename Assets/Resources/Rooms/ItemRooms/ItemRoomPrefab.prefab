@@ -147,10 +147,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 33828288557542808, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9a41cb738f0f714f81f8bc3a0a6c36e, type: 3}
+    - target: {fileID: 210391061611306817, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311592956235953501, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.b
+      value: 0.18070486
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.g
+      value: 0.31407878
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: visibleColor.r
+      value: 0.33962262
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.b
+      value: 0.16222852
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.g
+      value: 0.562098
+      objectReference: {fileID: 0}
+    - target: {fileID: 787675688972794156, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: roomEnteredColor.r
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 824472016191547949, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432792040026902983, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: doors
       value: 
       objectReference: {fileID: 7413153768676557395}
+    - target: {fileID: 3073810864922875316, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3555748925701195132, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
       propertyPath: room
       value: 
@@ -203,6 +255,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemRoomPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6201833004026927350, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544959524002713042, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057215869480631893, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 415b8fbac50904140927e9aa3aa668e4, type: 2}
     m_RemovedComponents:
     - {fileID: 1776166257781513171, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 30d80852b10755540bcc4d57c9913daa, type: 3}
