@@ -59,6 +59,8 @@ public class Player : NetworkBehaviour
 
     public delegate void PlayerDeathHandler();
     public event PlayerDeathHandler OnPlayerDeath;
+    public delegate void HitHandler();
+    public static event HitHandler OnHit;
 
     private HUD hud = null;
     
@@ -360,17 +362,18 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
-            //Debug.Log(health);
+
+            if (!IsLocalPlayer)
+                return;
+
+            OnHit();
 
             if (health <= 0)
             {
-                if (IsLocalPlayer)
-                {
-                    GetComponent<PlayerDeathScript>().dead = true;
-                    SetDeadServerRpc();
-                    StartSpectating();
-                    OnPlayerDeath();
-                }
+                GetComponent<PlayerDeathScript>().dead = true;
+                SetDeadServerRpc();
+                StartSpectating();
+                OnPlayerDeath();
             }
         }
     }

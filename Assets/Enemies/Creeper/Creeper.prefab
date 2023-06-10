@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ae866d7891af74cae9a95882517b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 75
   health: 1
   damage: 2
   agent: {fileID: 901697574841972237}

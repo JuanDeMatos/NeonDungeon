@@ -151,6 +151,7 @@ public class Boss : Enemy
 
             if (health <= 0)
             {
+                base.Death();
                 this.GetComponent<NetworkObject>().Despawn(true);
                 OnBossDeath();
             }

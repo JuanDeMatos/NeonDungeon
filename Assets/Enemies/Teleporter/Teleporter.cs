@@ -98,10 +98,12 @@ public class Teleporter : Enemy
 
         if (other.gameObject.tag == "Bullet")
         {
+            
             health -= other.gameObject.GetComponent<Bullet>().damage;
 
             if (health <= 0)
             {
+                base.Death();
                 Destroy(this.gameObject);
             }
         }

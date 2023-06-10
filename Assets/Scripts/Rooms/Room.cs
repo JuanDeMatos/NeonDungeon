@@ -13,6 +13,9 @@ public class Room : MonoBehaviour
     public List<GameObject> enemies;
     public bool ended;
 
+    public delegate void RoomEndHandler();
+    public static event RoomEndHandler OnRoomEnd;
+
     public virtual void StartRoom()
     {
         roof.SetActive(false);
@@ -29,6 +32,7 @@ public class Room : MonoBehaviour
     {
         doors.SetActive(false);
         Shared.inCombat = false;
+        OnRoomEnd();
     }
 
     protected virtual IEnumerator SpawnObjects()

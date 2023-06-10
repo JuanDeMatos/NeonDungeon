@@ -20,6 +20,9 @@ public class FloorGenerator : NetworkBehaviour
     public List<GameObject> especialRoomCandidates;
     public List<GameObject> bossRoomCandidates;
 
+    public delegate void LevelLoadedHandler();
+    public static event LevelLoadedHandler OnLevelLoaded;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +63,7 @@ public class FloorGenerator : NetworkBehaviour
         SelectShopRoom();
         SelectBossRoom();
         Invoke("BuildNavMesh", 0.5f);
-        
+        OnLevelLoaded();
     }
 
     void BuildNavMesh()
