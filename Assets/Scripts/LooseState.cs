@@ -4,8 +4,9 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
-public class LooseState : MonoBehaviour
+public class LooseState : NetworkBehaviour
 {
     public List<GameObject> players;
     public static int alivePlayers = 1;
@@ -23,9 +24,9 @@ public class LooseState : MonoBehaviour
     private void Update()
     {
         if (Input.GetKey(KeyCode.Q) && Input.GetKeyDown(KeyCode.Escape))
-            Shutdown();
-
-
+        {
+            Shutdown(false);
+        }
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -56,7 +57,7 @@ public class LooseState : MonoBehaviour
     {
         if (Shared.gameMode == GameMode.Singleplayer)
         {
-            Shutdown();
+            Shutdown(false);
         }
     }
 
@@ -64,23 +65,39 @@ public class LooseState : MonoBehaviour
     {
         while (true)
         {
+            players.RemoveAll(go => go == null);
             alivePlayers = players.ConvertAll(go => go.GetComponent<PlayerDeathScript>()).FindAll(p => !p.dead).Count;
 
             if (players.Count == 0 || alivePlayers <= 0)
             {
-                Shutdown();
+                Shutdown(false);
             }
 
             yield return new WaitForSeconds(1);
         }
     }
 
-    void Shutdown()
+    public void Shutdown(bool win)
     {
+        if (IsServer)
+            ShutdownClientRpc(win);
+        else
+        {
+            RunScore.win = win;
+            OnShutdown();
+            NetworkManager.Singleton.Shutdown();
+            Destroy(GameObject.Find("NetworkManager"));
+            SceneManager.LoadScene("GameOver");
+        }
+    }
+
+    [ClientRpc]
+    private void ShutdownClientRpc(bool win)
+    {
+        RunScore.win = win;
         OnShutdown();
         NetworkManager.Singleton.Shutdown();
         Destroy(GameObject.Find("NetworkManager"));
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("GameOver");
     }
-    
 }

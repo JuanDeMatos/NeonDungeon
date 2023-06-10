@@ -26,7 +26,19 @@ public class BossRoom : Room
         }
 
         if (NetworkManager.Singleton.IsServer)
+        {
             waitForNextLevel.OnAllPlayersReady += LoadNextLevel;
+            Boss.OnBossDeath += Boss_OnBossDeath;
+        }
+            
+    }
+
+    private void Boss_OnBossDeath()
+    {
+        if (FindObjectOfType<FloorGenerator>().floorLevel != 3)
+            return;
+
+        FindObjectOfType<LooseState>().Shutdown(true);
     }
 
     void LoadNextLevel()

@@ -26,10 +26,11 @@ public class Enemy : NetworkBehaviour
         if (IsOwner)
         {
             this.enabled = true;
-            int nPlayers = FindObjectOfType<Seed>().CountPlayers();
+            float nPlayers = FindObjectOfType<Seed>().CountPlayers();
             health *= nPlayers;
             damage += (FindObjectOfType<FloorGenerator>().floorLevel);
-            damage *= (nPlayers / 2);
+            damage *= (nPlayers / 2) < 1 ? 1 : (nPlayers / 2);
+
         }
         else
         {

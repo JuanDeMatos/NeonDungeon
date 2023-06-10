@@ -21,7 +21,7 @@ public class ScoreScript : MonoBehaviour
     private void Player_OnHit()
     {
         RunScore.hits++;
-        RunScore.score -= 500;
+        RunScore.score -= 200;
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -32,6 +32,9 @@ public class ScoreScript : MonoBehaviour
             RunScore.hits = 0;
             RunScore.score = 10000;
             started = true;
+        } else if (sceneName == "GameOver")
+        {
+            started = false;
         }
     }
 

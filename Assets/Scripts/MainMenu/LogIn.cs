@@ -11,7 +11,6 @@ using TMPro;
 public class LogIn : MonoBehaviour
 {
     [SerializeField] MainMenuOptions mainMenuOptions;
-    private string baseURL = "https://localhost:8443/unity";
     [SerializeField]
     private TMP_InputField usernameInput;
     [SerializeField]
@@ -21,14 +20,19 @@ public class LogIn : MonoBehaviour
     [SerializeField]
     private GameObject mainMenu;
     [SerializeField]
-    private GameObject loginMenu;
-    private List<Button> buttons;
-    
+    private GameObject loginMenu;    
 
     private void Start()
     {
-        UnityWebRequest.ClearCookieCache();
-        SSLHelper.OverrideCertificateChainValidation();
+        if (!Shared.logged)
+        {
+            UnityWebRequest.ClearCookieCache();
+            SSLHelper.OverrideCertificateChainValidation();
+        } else
+        {
+            loginMenu.SetActive(false);
+            mainMenu.SetActive(true);
+        }
     }
 
     public void Login()
@@ -82,7 +86,7 @@ public class LogIn : MonoBehaviour
         MyCertificateHandler certHandler = new MyCertificateHandler();
         string username = UnityWebRequest.EscapeURL(usernameInput.text);
         string password = UnityWebRequest.EscapeURL(passwordInput.text);
-        string url = baseURL + "/login?username=" + username + "&password=" + password;
+        string url = ServerProperties.BASEURL + "/login?username=" + username + "&password=" + password;
 
         Debug.Log(url);
 
@@ -118,6 +122,7 @@ public class LogIn : MonoBehaviour
             }
         }
 
+        Shared.logged = true;
         mainMenuOptions.EnableButtons();
     }
 
@@ -126,7 +131,7 @@ public class LogIn : MonoBehaviour
         MyCertificateHandler certHandler = new MyCertificateHandler();
         string username = UnityWebRequest.EscapeURL(usernameInput.text);
         string password = UnityWebRequest.EscapeURL(passwordInput.text);
-        string url = baseURL + "/register?username=" + username + "&password=" + password;
+        string url = ServerProperties.BASEURL + "/register?username=" + username + "&password=" + password;
 
         Debug.Log(url);
 
