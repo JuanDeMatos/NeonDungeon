@@ -46,7 +46,7 @@ public class WaitForPlayers : MonoBehaviour
             return;
 
         numberPlayersReady++;
-        FindObjectOfType<HUD>().SetWaitingPanel(HUDSprite, numberPlayersReady, waitingText);
+        FindObjectOfType<HUD>().ShowWaitingPanel(HUDSprite, numberPlayersReady, waitingText);
 
         if (numberPlayersReady == LooseState.alivePlayers)
         {
@@ -61,7 +61,7 @@ public class WaitForPlayers : MonoBehaviour
     {
         for (int i = playersReadyCountdown; i > 0; i--)
         {
-            hud.SetWaitingPanel(HUDSprite, numberPlayersReady, $"{countdownStartedText} in {i}...", false);
+            hud.ShowWaitingPanel(HUDSprite, numberPlayersReady, $"{countdownStartedText} in {i}...", false);
             yield return new WaitForSeconds(1);
         }
         this.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class WaitForPlayers : MonoBehaviour
             hud.HideWaitingPanel();
         } else
         {
-            hud.SetWaitingPanel(HUDSprite, numberPlayersReady, "Waiting...");
+            hud.ShowWaitingPanel(HUDSprite, numberPlayersReady, "Waiting...");
         }
     }
 }

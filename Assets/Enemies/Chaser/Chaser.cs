@@ -52,6 +52,7 @@ public class Chaser : Enemy
 
             if (health <= 0)
             {
+                base.Death();
                 GetComponent<NetworkObject>().Despawn(true);
             }
         }

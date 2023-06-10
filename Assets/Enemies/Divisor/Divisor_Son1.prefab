@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21cc878e2a91254f9cad3c0de6b7401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 15
   health: 2
   damage: 1
   ds: {fileID: 7414355768845218552}

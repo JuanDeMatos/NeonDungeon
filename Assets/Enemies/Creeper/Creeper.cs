@@ -84,6 +84,7 @@ public class Creeper : Enemy
 
             if (health <= 0)
             {
+                base.Death();
                 GetComponent<NetworkObject>().Despawn(true);
                 Invoke("DestroyTrail",trail.time);
                 

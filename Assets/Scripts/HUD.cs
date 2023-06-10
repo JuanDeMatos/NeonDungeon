@@ -35,13 +35,17 @@ public class HUD : MonoBehaviour
     [SerializeField] TextMeshProUGUI textHealth;
 
     [Header("Waiting")]
+    private bool waitingPanelActive;
     [SerializeField] GameObject waitingPanel;
     [SerializeField] TextMeshProUGUI waitingText;
     [SerializeField] TextMeshProUGUI waitingTextPlayersReady;
     [SerializeField] Image waitingImage;
 
-    [Header("BigMinimap")]
-    [SerializeField] GameObject bigMinimap;
+    [Header("Entra Info")]
+    [SerializeField] GameObject extraInfo;
+    [SerializeField] TextMeshProUGUI score;
+    [SerializeField] TextMeshProUGUI hits;
+    [SerializeField] TextMeshProUGUI time;
 
 
     // Start is called before the first frame update
@@ -54,16 +58,43 @@ public class HUD : MonoBehaviour
 
     private void HideWaitingPanel(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        waitingPanel.SetActive(false);
+        HideWaitingPanel();
     }
 
     private void Update()
     {
-        // Consumables.
+        Consumables();
+        Stats();
+        Dashes();
+        HealthBar();
+        Score();
+
+    }
+
+    private void Score()
+    {
+        score.SetText(((int)RunScore.score) + "");
+        hits.SetText(RunScore.hits + "");
+
+        int time = (int)RunScore.time;
+
+        string seconds = time % 60 + "";
+        seconds = seconds.Length < 2 ? "0" + seconds : seconds;
+
+        string minutes = time / 60 + "";
+        minutes = minutes.Length < 2 ? "0" + minutes : minutes;
+
+        this.time.SetText(minutes + ":" + seconds);
+    }
+
+    private void Consumables()
+    {
         textKeys.SetText("" + sharedInventory.keys.Value);
         textCoins.SetText("" + sharedInventory.coins.Value);
+    }
 
-        //Stats
+    private void Stats()
+    {
         textMovementSpeed.SetText(FormatFloat(localPlayer.movementSpeed));
         textInvulnerable.SetText(FormatFloat(localPlayer.invulnerableTime));
         textDashSpeed.SetText(FormatFloat(localPlayer.dashSpeed));
@@ -72,14 +103,27 @@ public class HUD : MonoBehaviour
         textShootSpeed.SetText(FormatFloat(localPlayer.shootSpeed));
         textBulletSpeed.SetText(FormatFloat(localPlayer.bulletSpeed));
         textRange.SetText(FormatFloat(localPlayer.range));
+    }
 
-        // Dashes
+    private void HealthBar()
+    {
+        int maxHealth = (int)localPlayer.maxHealth;
+        int health = (int)localPlayer.health;
+
+        textHealth.SetText(health + " / " + maxHealth);
+
+        healthBar.maxValue = maxHealth;
+        healthBar.value = health;
+    }
+
+    private void Dashes()
+    {
         float dashAcumulator = localPlayer.dashChargesAcumulator;
-        textDashes.SetText((int) dashAcumulator + "");
+        textDashes.SetText((int)dashAcumulator + "");
 
-        float h1,s1,v1,h2,s2,v2,h3,s3,v3;
+        float h1, s1, v1, h2, s2, v2, h3, s3, v3;
 
-        Color.RGBToHSV(emptyChargeColor, out h1,out s1,out v1);
+        Color.RGBToHSV(emptyChargeColor, out h1, out s1, out v1);
         Color.RGBToHSV(fullChargedColor, out h2, out s2, out v2);
         float t = dashAcumulator / localPlayer.dashCharges;
 
@@ -89,16 +133,6 @@ public class HUD : MonoBehaviour
 
         dashChargingImage.fillAmount = dashAcumulator > localPlayer.dashCharges ? 1 : dashAcumulator % 1;
         dashChargingImage.color = Color.HSVToRGB(h3, s3, v3);
-
-        // Health Bar
-        int maxHealth = (int) localPlayer.maxHealth;
-        int health = (int) localPlayer.health;
-
-        textHealth.SetText(health + " / " + maxHealth);
-
-        healthBar.maxValue = maxHealth;
-        healthBar.value = health;
-
     }
 
     private string FormatFloat(float value)
@@ -119,7 +153,7 @@ public class HUD : MonoBehaviour
         return formatted;
     }
 
-    public void SetWaitingPanel(Sprite sprite,int playersReady, string text, bool showPlayersReady = true)
+    public void ShowWaitingPanel(Sprite sprite,int playersReady, string text, bool showPlayersReady = true)
     {
         waitingImage.sprite = sprite;
         waitingText.SetText(text);
@@ -133,17 +167,20 @@ public class HUD : MonoBehaviour
             waitingTextPlayersReady.SetText("");
         }
 
+        waitingPanelActive = true;
         waitingPanel.SetActive(true);
     }
 
     public void HideWaitingPanel()
     {
+        waitingPanelActive = false;
         waitingPanel.SetActive(false);
     }
 
     public void BigMinimap(bool show)
     {
-        bigMinimap.SetActive(show);
+        extraInfo.SetActive(show);
+        waitingPanel.SetActive(waitingPanelActive && !show);
     }
 
 }

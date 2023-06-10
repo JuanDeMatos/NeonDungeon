@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 476553658667165368}
   - component: {fileID: 7170162164784951916}
   - component: {fileID: 4975994582885908704}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dff4228e882f72148ae6c8c225081945, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

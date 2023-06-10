@@ -10,9 +10,10 @@ public static class Shared
     public static string username = "Player";
     public static GameMode gameMode;
     public static bool inCombat;
+    public static bool logged;
 }
 
 public enum GameMode
 {
-    Singleplayer,Coop
+    Singleplayer,Coop,DailyRun
 }

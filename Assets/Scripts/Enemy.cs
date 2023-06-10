@@ -6,10 +6,15 @@ using UnityEngine;
 public class Enemy : NetworkBehaviour
 {
 
-    [Header("Enemy Attributes")]
+    [Header("Score")]
+    public int points;
 
+    [Header("Enemy Attributes")]
     public float health;
     public float damage;
+
+    public delegate void DeathHandler(float points);
+    public static event DeathHandler OnDeath;
 
     private void Awake()
     {
@@ -21,15 +26,21 @@ public class Enemy : NetworkBehaviour
         if (IsOwner)
         {
             this.enabled = true;
-            int nPlayers = FindObjectOfType<Seed>().CountPlayers();
+            float nPlayers = FindObjectOfType<Seed>().CountPlayers();
             health *= nPlayers;
             damage += (FindObjectOfType<FloorGenerator>().floorLevel);
-            damage *= (nPlayers / 2);
+            damage *= (nPlayers / 2) < 1 ? 1 : (nPlayers / 2);
+
         }
         else
         {
             this.enabled = false;
         }
+    }
+
+    protected void Death()
+    {
+        OnDeath(points);
     }
 
 }

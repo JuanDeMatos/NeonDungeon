@@ -83,6 +83,4 @@ public class RelayScript : NetworkBehaviour
         }
         mainMenuOptions.EnableButtons();
     }
-
-    
 }

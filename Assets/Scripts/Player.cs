@@ -59,6 +59,8 @@ public class Player : NetworkBehaviour
 
     public delegate void PlayerDeathHandler();
     public event PlayerDeathHandler OnPlayerDeath;
+    public delegate void HitHandler();
+    public static event HitHandler OnHit;
 
     private HUD hud = null;
     
@@ -79,6 +81,17 @@ public class Player : NetworkBehaviour
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
+        LooseState.OnShutdown += LooseState_OnShutdown;
+
+    }
+
+    private void LooseState_OnShutdown()
+    {
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+        NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+        NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
+        LooseState.OnShutdown -= LooseState_OnShutdown;
+        Destroy(this.gameObject);
     }
 
     private void Singleton_OnClientConnectedCallback(ulong obj)
@@ -129,29 +142,33 @@ public class Player : NetworkBehaviour
         if (!IsLocalPlayer)
             return;
 
+        usesGravity = false;
         movement = Vector3.zero;
-        usesGravity = true;
+        
         if (mainCamera != null)
             mainCamera.Follow = transform;
         else
             StartCoroutine(SearchCamera());
 
         MoveToZero();
+        usesGravity = true;
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (!IsLocalPlayer)
-            return;
-
+            return; 
+        
+        usesGravity = false;
         movement = Vector3.zero;
-        usesGravity = true;
+        
         if (mainCamera != null)
             mainCamera.Follow = transform;
         else
             StartCoroutine(SearchCamera());
 
         MoveToZero();
+        usesGravity = true;
     }
 
     IEnumerator SearchCamera()
@@ -287,7 +304,7 @@ public class Player : NetworkBehaviour
     {
         GameObject clon = Instantiate(prefabBala, salidaBala.position, Quaternion.Euler(salidaBala.eulerAngles));
 
-        clon.GetComponent<Bullet>().gravity = GRAVITY;// + range;
+        clon.GetComponent<Bullet>().gravity = GRAVITY;
         clon.GetComponent<Bullet>().damage = this.damage;
         float size = (damage + 9) / 100;
         size = size < 0.1f ? 0.1f : size;
@@ -360,17 +377,22 @@ public class Player : NetworkBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
 
             health -= enemy.damage;
-            //Debug.Log(health);
+
+            if (!IsLocalPlayer)
+                return;
+
+            OnHit();
 
             if (health <= 0)
             {
-                if (IsLocalPlayer)
-                {
-                    GetComponent<PlayerDeathScript>().dead = true;
-                    SetDeadServerRpc();
-                    StartSpectating();
-                    OnPlayerDeath();
-                }
+                GetComponent<PlayerDeathScript>().dead = true;
+                SetDeadServerRpc();
+                StartSpectating();
+
+                SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+                NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+                NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
+                OnPlayerDeath();
             }
         }
     }

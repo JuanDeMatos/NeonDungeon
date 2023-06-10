@@ -53,6 +53,7 @@ public class Divisor : Enemy
 
             if (health <= 0)
             {
+                base.Death();
                 GetComponent<NetworkObject>().Despawn(true);
 
                 if (sonEnemy != null)
