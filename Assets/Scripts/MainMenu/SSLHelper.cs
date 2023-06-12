@@ -12,7 +12,7 @@ public static class SSLHelper
 
     private static bool MyRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
     {
-        // Siempre devuelve true para aceptar el certificado sin importar si es vlido o no.
+        // Siempre devuelve true para aceptar el certificado sin importar si es valido o no.
         return true;
     }
 }

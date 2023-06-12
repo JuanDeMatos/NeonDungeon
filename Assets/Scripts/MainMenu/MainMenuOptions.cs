@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class MainMenuOptions : MonoBehaviour
 {
@@ -30,6 +31,15 @@ public class MainMenuOptions : MonoBehaviour
         networkManagerSingleplayer.SetActive(true);
         NetworkManager.Singleton.StartHost();
         NetworkManager.Singleton.SceneManager.LoadScene("WaitingLobby",LoadSceneMode.Single);
+    }
+
+    public void StartDailyRun()
+    {
+
+        Shared.gameMode = GameMode.DailyRun;
+        networkManagerSingleplayer.SetActive(true);
+        NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SceneManager.LoadScene("WaitingLobby", LoadSceneMode.Single);
     }
 
     public void CreateCoop()

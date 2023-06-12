@@ -32,6 +32,8 @@ public class FloorGenerator : NetworkBehaviour
 
     private void Update()
     {
+
+        // Testing purpose only
         if (Input.GetKeyDown(KeyCode.O) && NetworkManager.Singleton.IsServer)
         {
             switch (floorLevel)

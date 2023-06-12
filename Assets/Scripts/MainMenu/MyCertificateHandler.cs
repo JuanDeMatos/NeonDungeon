@@ -6,7 +6,7 @@ public class MyCertificateHandler : CertificateHandler
     protected override bool ValidateCertificate(byte[] certificateData)
     {
         // Aqui puedes implementar la logica para validar el certificado
-        // Retorna true si el certificado es vlido, false si no lo es
+        // Retorna true si el certificado es valido, false si no lo es
         return true;
     }
 }

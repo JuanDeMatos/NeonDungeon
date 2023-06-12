@@ -21,19 +21,6 @@ public class LogIn : MonoBehaviour
     [SerializeField]
     private GameObject loginMenu;    
 
-    private void Start()
-    {
-        if (!Shared.logged)
-        {
-            UnityWebRequest.ClearCookieCache();
-            SSLHelper.OverrideCertificateChainValidation();
-        } else
-        {
-            loginMenu.SetActive(false);
-            mainMenu.SetActive(true);
-        }
-    }
-
     public void Login()
     {
         if (usernameInput.text.Length == 0 || passwordInput.text.Length == 0)
