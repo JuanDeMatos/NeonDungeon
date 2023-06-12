@@ -15,6 +15,8 @@ public class Enemy : NetworkBehaviour
 
     public delegate void DeathHandler(float points);
     public static event DeathHandler OnDeath;
+    public delegate void DropHandler(Vector3 position);
+    public static event DropHandler OnDrop;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class Enemy : NetworkBehaviour
 
     protected void Death()
     {
+        OnDrop(transform.position);
         OnDeath(points);
     }
 

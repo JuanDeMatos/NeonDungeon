@@ -13,11 +13,15 @@ public class Room : MonoBehaviour
     public List<GameObject> enemies;
     public bool ended;
 
+    public delegate void RoomStartedHandler();
+    public static event RoomStartedHandler OnRoomStarted;
     public delegate void RoomEndHandler();
     public static event RoomEndHandler OnRoomEnd;
+    
 
     public virtual void StartRoom()
     {
+        OnRoomStarted();
         roof.SetActive(false);
         if (Shared.gameMode == GameMode.Singleplayer)
         {

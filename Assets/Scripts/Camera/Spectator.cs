@@ -5,6 +5,7 @@ using System.Linq;
 using Cinemachine;
 using System;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class Spectator : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Spectator : MonoBehaviour
     public GameObject spectatorCanvas;
     public GameObject HUDCanvas;
     public TextMeshProUGUI playerSpectating;
+    [SerializeField] GameObject nextButton;
 
     // Start is called before the first frame update
     void Start()
@@ -28,16 +30,6 @@ public class Spectator : MonoBehaviour
     void Update()
     {
         alivePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            NextPlayer();
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            PreviousPlayer();
-        }
     }
 
     public void Disable()
@@ -52,6 +44,7 @@ public class Spectator : MonoBehaviour
         this.enabled = true;
         HUDCanvas.SetActive(false);
         spectatorCanvas.SetActive(true);
+        FindObjectOfType<EventSystem>().SetSelectedGameObject(nextButton);
         this.Invoke(() => {
             GameObject objective = alivePlayers.Find(go => go.activeSelf);
             if (objective != null)
