@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> username;
     public CinemachineVirtualCamera mainCamera;
+    [SerializeField] PlayerAudio playerAudio;
 
     [Header("Physhics and Required Objects")]
     public const float GRAVITY = -9.81f;
@@ -192,6 +193,9 @@ public class Player : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseScript.paused)
+            return;
+
         if (_controller.isGrounded && _controller.velocity.y < 0)
         {
             movement.y = 0f;
@@ -234,6 +238,9 @@ public class Player : NetworkBehaviour
     }
 
     void OnMove(InputValue value) {
+
+        if (PauseScript.paused)
+            return;
         
         Vector2 v = value.Get<Vector2>();
 
@@ -259,6 +266,9 @@ public class Player : NetworkBehaviour
     
     void OnAim(InputValue value) {
 
+        if (PauseScript.paused)
+            return;
+
         Vector2 v = value.Get<Vector2>();
 
         if (v != Vector2.zero)
@@ -280,6 +290,9 @@ public class Player : NetworkBehaviour
 
     void OnAimMouse(InputValue value)
     {
+        if (PauseScript.paused)
+            return;
+
         if (Camera.main != null)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -294,8 +307,11 @@ public class Player : NetworkBehaviour
     }
 
     void OnFire(InputValue value) {
-        
-        shooting = value.Get<float>()==1;
+
+        if (PauseScript.paused)
+            return;
+
+        shooting = value.Get<float>()>0;
 
     }
 
@@ -318,6 +334,7 @@ public class Player : NetworkBehaviour
     }
 
     public void StartDash() {
+        playerAudio.PlayDash();
         dashing = true;
         vulnerable = false;
         movementSpeed *= dashSpeed;
@@ -337,12 +354,20 @@ public class Player : NetworkBehaviour
 
     void OnDash(InputValue value) {
 
+        if (PauseScript.paused)
+            return;
+
         if (dashing || dashChargesAcumulator < 1)
             return;
 
         dashChargesAcumulator--;
         StartDash();
         Invoke("StopDash", dashRange / dashSpeed);
+    }
+
+    void OnPause()
+    {
+        FindObjectOfType<PauseScript>().Pause();
     }
 
     void OnCollisionEnter(Collision other) {

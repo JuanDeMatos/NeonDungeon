@@ -51,7 +51,7 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                     ""id"": ""2d3eaae3-504c-4017-9c6f-6e7fae1dd512"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press(pressPoint=0.01,behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -80,6 +80,15 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1b16d90-b016-4adc-ae20-97255d2b9967"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -355,6 +364,39 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""BigMinimap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5515a3d6-a3c8-4199-936d-cd12273a5b23"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37c41e4e-aa3f-44f7-9377-bb39eb2a1df4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c672ca27-a36d-4b31-93d6-62952154e250"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -726,7 +768,29 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                     ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd97efe9-12f5-4fe8-a0b8-cecc7e188c61"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7c26a2d-87ff-4c87-a8e9-59d844cc693a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -734,10 +798,21 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
-                    ""path"": ""*/{Cancel}"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6134b318-0ab6-46f7-a2a7-0b7ea7e497b8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -948,6 +1023,7 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_AimMouse = m_Player.FindAction("AimMouse", throwIfNotFound: true);
         m_Player_BigMinimap = m_Player.FindAction("BigMinimap", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1027,6 +1103,7 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_AimMouse;
     private readonly InputAction m_Player_BigMinimap;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @NeonDungeon m_Wrapper;
@@ -1037,6 +1114,7 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @AimMouse => m_Wrapper.m_Player_AimMouse;
         public InputAction @BigMinimap => m_Wrapper.m_Player_BigMinimap;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1064,6 +1142,9 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
             @BigMinimap.started += instance.OnBigMinimap;
             @BigMinimap.performed += instance.OnBigMinimap;
             @BigMinimap.canceled += instance.OnBigMinimap;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1086,6 +1167,9 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
             @BigMinimap.started -= instance.OnBigMinimap;
             @BigMinimap.performed -= instance.OnBigMinimap;
             @BigMinimap.canceled -= instance.OnBigMinimap;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1274,6 +1358,7 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnAimMouse(InputAction.CallbackContext context);
         void OnBigMinimap(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

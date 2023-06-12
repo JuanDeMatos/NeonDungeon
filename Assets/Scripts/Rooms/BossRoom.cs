@@ -13,6 +13,9 @@ public class BossRoom : Room
     [SerializeField] private List<ItemSpawner> itemSpots;
     [SerializeField] private WaitForPlayers waitForNextLevel;
 
+    public delegate void BossRoomStartedHandler();
+    public static event BossRoomStartedHandler OnBossRoomStarted;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +63,7 @@ public class BossRoom : Room
 
     public override void StartRoom()
     {
+        OnBossRoomStarted();
         roof.SetActive(false);
         Shared.inCombat = true;
         doors.SetActive(true);
