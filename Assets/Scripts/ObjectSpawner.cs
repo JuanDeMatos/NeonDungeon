@@ -7,19 +7,6 @@ using UnityEngine.SceneManagement;
 public class ObjectSpawner : MonoBehaviour
 {
     public NetworkObject prefabReference;
-    /*
-    public void Awake()
-    {
-        if (NetworkManager.Singleton && NetworkManager.Singleton.IsServer)
-        {
-            SpawnNetworkObject();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    */
     public virtual void Spawn()
     {
         NetworkManager.Singleton.RemoveNetworkPrefab(prefabReference.gameObject);

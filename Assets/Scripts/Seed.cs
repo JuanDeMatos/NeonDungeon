@@ -16,9 +16,11 @@ public class Seed : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (NetworkManager.Singleton.IsServer)
-            seed.Value = (int) System.DateTime.Now.Ticks;
-            //seed.Value = 5000;
+        if (Shared.gameMode == GameMode.DailyRun)
+            seed.Value = Shared.dailyRunSeed;
+        else
+            if (NetworkManager.Singleton.IsServer)
+                seed.Value = (int) System.DateTime.Now.Ticks;
 
         treasureItems = Resources.LoadAll("Items/TreasureItems", typeof(GameObject)).Cast<GameObject>().ToList();
         shopItems = Resources.LoadAll("Items/ShopItems", typeof(GameObject)).Cast<GameObject>().ToList();

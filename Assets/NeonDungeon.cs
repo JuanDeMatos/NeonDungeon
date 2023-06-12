@@ -303,22 +303,22 @@ public partial class @NeonDungeon: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""af32929a-3b70-44cd-b9ad-f4c58a34e406"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""id"": ""a9fbacba-e481-40ca-b233-90e2db2a4c46"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a9fbacba-e481-40ca-b233-90e2db2a4c46"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""8707bc8a-9670-462c-ba3d-f2361ac00fb0"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

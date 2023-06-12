@@ -21,14 +21,6 @@ public class LooseState : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Q) && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Shutdown(false);
-        }
-    }
-
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
 
