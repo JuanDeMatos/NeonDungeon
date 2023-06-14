@@ -10,11 +10,6 @@ public class Bullet : NetworkBehaviour
     public float gravity;
     public float damage;
 
-    void Awake()
-    {
-        
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
