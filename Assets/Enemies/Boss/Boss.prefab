@@ -223,8 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 1000
-  health: 10
-  damage: 0
+  health: 1000
+  damage: 5
   bulletPrefab: {fileID: 8640155602805337270, guid: 3cbe10f6a1fd3e54caf3b3c08476b745, type: 3}
   exit:
   - {fileID: 372080858385118629}

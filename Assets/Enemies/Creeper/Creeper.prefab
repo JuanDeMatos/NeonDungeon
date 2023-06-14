@@ -241,8 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 75
-  health: 1
-  damage: 2
+  health: 10
+  damage: 3
   agent: {fileID: 901697574841972237}
   creepCollider: {fileID: 4835914619510016534, guid: 57c9d8129da4e9b49bdf630960babd43, type: 3}
   trail: {fileID: 752651465723903663, guid: 5ec5ce93d93003843a63956d2bd7aa4a, type: 3}

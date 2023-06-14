@@ -6622,7 +6622,7 @@ MonoBehaviour:
   shootSpeed: 5
   damage: 1
   bulletSpeed: 15
-  range: 1
+  range: 0
 --- !u!114 &8041002064636261118
 MonoBehaviour:
   m_ObjectHideFlags: 0

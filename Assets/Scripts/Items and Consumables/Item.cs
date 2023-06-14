@@ -43,7 +43,7 @@ public class Item : NetworkBehaviour, IEquatable<Item>
             ApplyStat(ref player.shootSpeed, shootSpeed, 100, 0.1f);
         ApplyStat(ref player.damage, damage,99999,1);
         ApplyStat(ref player.bulletSpeed, bulletSpeed,50,5);
-        ApplyStat(ref player.range, range,0,30);
+        ApplyStat(ref player.range, range, 30,0);
 
     }
     public void ClearItem(Player player)
@@ -64,7 +64,7 @@ public class Item : NetworkBehaviour, IEquatable<Item>
             ClearStat(ref player.shootSpeed, shootSpeed, 100, 0.1f);
         ClearStat(ref player.damage, damage,99999,1);
         ClearStat(ref player.bulletSpeed, bulletSpeed,50,5);
-        ClearStat(ref player.range, range,0,30);
+        ClearStat(ref player.range, range,30,0);
     }
 
     private void ApplyStat(ref float playerStat, Stat itemStat, float maxLimit, float minLimit)

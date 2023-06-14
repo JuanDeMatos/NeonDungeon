@@ -10,10 +10,14 @@ PrefabInstance:
     - target: {fileID: 1489513073392812951, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 53fb4968835b349fb81f8de35f2f5cc4, type: 2}
+      objectReference: {fileID: 2100000, guid: 1ab3b5614e76d754bafb15fb086d736b, type: 2}
     - target: {fileID: 1489513073791342448, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
-      propertyPath: movementSpeed.value
-      value: 2
+      propertyPath: range.value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489513073791342448, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
+      propertyPath: bulletSpeed.value
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 1489513073791342449, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
       propertyPath: m_RootOrder
@@ -61,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1489513073791342450, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
       propertyPath: m_Name
-      value: Speed+
+      value: Range+
       objectReference: {fileID: 0}
     - target: {fileID: 1489513073791342462, guid: 8f89de0b1c9e0f241a386e7b1011fb80, type: 3}
       propertyPath: GlobalObjectIdHash

@@ -7,33 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5694376421033906915, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.10415087
-      objectReference: {fileID: 0}
-    - target: {fileID: 5694376421033906915, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.51823723
-      objectReference: {fileID: 0}
     - target: {fileID: 5694376421033906941, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2ee14ff5b1710674fb1b0bcf9b6193e6, type: 2}
+      objectReference: {fileID: 2100000, guid: 72083cbc7ed567f44a369b21a5261c26, type: 2}
     - target: {fileID: 5694376421709121044, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
     - target: {fileID: 5694376421709121048, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
       propertyPath: m_Name
-      value: LastItem
+      value: Speed+
       objectReference: {fileID: 0}
     - target: {fileID: 5694376421709121050, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
-      propertyPath: health.value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5694376421709121050, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
-      propertyPath: maxHealth.value
-      value: 5
+      propertyPath: movementSpeed.value
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5694376421709121051, guid: c783819089b4a794c8a2f039cc8ee8e3, type: 3}
       propertyPath: m_RootOrder
