@@ -5,7 +5,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
-using QFSW.QC;
 using UnityEngine.SceneManagement;
 using Unity.Collections;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
@@ -232,7 +231,6 @@ public class Player : NetworkBehaviour
             if (shootAcumulator >= shootSpeed / 10)
             {
                 shootAcumulator = 0;
-                SpawnBulletServerRpc();
             }
         }
     }
@@ -273,12 +271,6 @@ public class Player : NetworkBehaviour
 
         if (v != Vector2.zero)
         {
-            /*
-            float rotacion = Mathf.Rad2Deg * Mathf.Asin(v.y) - 90;
-            rotacion = v.x>0?-rotacion:rotacion;
-
-            transform.eulerAngles = new Vector3(0,rotacion,0);
-            */
 
             transform.LookAt(transform.position + (new Vector3(v.x, 0, v.y) * 10));
             Debug.DrawLine(transform.position, transform.position + (new Vector3(v.x, 0, v.y) * 10));

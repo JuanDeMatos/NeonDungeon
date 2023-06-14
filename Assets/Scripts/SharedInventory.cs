@@ -1,4 +1,3 @@
-using QFSW.QC;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -37,10 +36,10 @@ public class SharedInventory : NetworkBehaviour
 
     public bool UseKeys(int amount)
     {
-        /*
+        
         if (keys.Value - amount < 0)
             return false;
-        */
+        
         if (IsServer) {
             keys.Value -= amount; 
         }
@@ -60,10 +59,10 @@ public class SharedInventory : NetworkBehaviour
 
     public bool UseCoins(int amount)
     {
-        /*
+        
         if (coins.Value - amount < 0)
             return false;
-        */
+        
         if (IsServer) { coins.Value -= amount; }
         if (OnCoinsModified != null) { OnCoinsModified(coins.Value); }
 
