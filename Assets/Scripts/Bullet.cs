@@ -34,7 +34,7 @@ public class Bullet : NetworkBehaviour
             if (!other.GetComponent<Player>().vulnerable)
                 return;
 
-        if (this.GetComponent<NetworkObject>().IsSpawned)
+        if (this.GetComponent<NetworkObject>().IsSpawned && IsServer)
             this.GetComponent<NetworkObject>().Despawn(true);
 
     }

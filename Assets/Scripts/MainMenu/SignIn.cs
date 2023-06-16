@@ -73,6 +73,7 @@ public class SignIn : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 signInMenu.SetActive(false);
+                Shared.logged = true;
                 Shared.username = username;
                 mainMenu.SetActive(true);
             }

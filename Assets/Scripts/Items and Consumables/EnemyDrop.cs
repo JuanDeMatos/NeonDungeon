@@ -12,7 +12,7 @@ public class EnemyDrop : NetworkBehaviour
 
     private void Start()
     {
-        chance = startingChance;
+        chance = startingChance + (FindObjectOfType<Seed>().CountPlayers() * 5);
         Enemy.OnDrop += Enemy_OnDrop;
     }
 
@@ -35,7 +35,7 @@ public class EnemyDrop : NetworkBehaviour
 
             if (random >= 90)
                 randomConsumable = heart.gameObject;
-            else if (random >= 50)
+            else if (random >= 70 - (FindObjectOfType<Seed>().CountPlayers() * 2.5f))
                 randomConsumable = key.gameObject;
             else
                 randomConsumable = coin.gameObject;

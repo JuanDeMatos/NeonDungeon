@@ -17,6 +17,21 @@ public class GameSettings : MonoBehaviour
         Sound();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+            else
+            {
+                //Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height, FullScreenMode.FullScreenWindow);
+            }
+                
+        }
+    }
+
     private void Quality()
     {
         int quality = PlayerPrefs.GetInt("QualityIndex", 2);

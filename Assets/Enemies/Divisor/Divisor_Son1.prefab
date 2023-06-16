@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 15
-  health: 5
+  health: 3
   damage: 2
   ds: {fileID: 7414355768845218552}
   agent: {fileID: 7414355768845218553}

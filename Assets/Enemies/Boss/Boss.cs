@@ -53,8 +53,6 @@ public class Boss : Enemy
         players.Sort((j1, j2) => (int)(Vector3.Distance(j1.transform.position, transform.position) - Vector3.Distance(j2.transform.position, transform.position)));
         closestPlayer = players.First();
         
-        
-
         timeAcumulator += Time.deltaTime;
 
         if (timeAcumulator >= nextAttackTimer)

@@ -13,6 +13,16 @@ public class ControllerDisplayChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        switch (Shared.controller)
+        {
+            case Controller.KeyboardAndMouse:
+                image.sprite = keyboard;
+                break;
+            case Controller.Gamepad:
+                image.sprite = gamepad;
+                break;
+        }
+
         InputUser.onChange += InputUser_onChange;
     }
 
@@ -25,9 +35,11 @@ public class ControllerDisplayChange : MonoBehaviour
     {
         if (arg1.controlScheme.ToString().Contains("Keyboard"))
         {
+            Shared.controller = Controller.KeyboardAndMouse;
             image.sprite = keyboard;
         } else
         {
+            Shared.controller = Controller.Gamepad;
             image.sprite = gamepad;
         }
     }
