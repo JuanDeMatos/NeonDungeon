@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7673945275823997232, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7785699123441857197, guid: 44b212aa54f4cad4c8254dc049b66b09, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -181,6 +185,10 @@ PrefabInstance:
     - target: {fileID: 7414355768845218558, guid: 2ba112a6dae64cd4fa5843aacc638150, type: 3}
       propertyPath: m_Name
       value: TeleporterSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414355768845218558, guid: 2ba112a6dae64cd4fa5843aacc638150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ba112a6dae64cd4fa5843aacc638150, type: 3}

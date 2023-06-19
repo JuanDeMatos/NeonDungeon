@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 75
-  health: 2
+  health: 5
   damage: 2
   bulletPrefab: {fileID: 8640155602805337270, guid: 3cbe10f6a1fd3e54caf3b3c08476b745, type: 3}
   bulletSpeed: 10

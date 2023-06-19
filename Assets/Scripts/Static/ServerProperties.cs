@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class ServerProperties
 {
-    public const string BASEURL = "https://localhost:8443/unity";
+    public const string BASEURL = "https://neondungeon.ddns.net:8443/unity";
 
 }
