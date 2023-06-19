@@ -25,7 +25,6 @@ public class GameSettings : MonoBehaviour
                 Screen.fullScreenMode = FullScreenMode.Windowed;
             else
             {
-                //Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
                 Screen.SetResolution(Screen.currentResolution.width,Screen.currentResolution.height, FullScreenMode.FullScreenWindow);
             }
                 

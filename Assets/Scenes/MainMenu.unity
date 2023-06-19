@@ -12837,7 +12837,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1949354043}
         m_TargetAssemblyTypeName: MainMenuOptions, Assembly-CSharp
-        m_MethodName: StartSinglePlayer
+        m_MethodName: StartDailyRun
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
